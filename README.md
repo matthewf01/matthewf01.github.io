@@ -1,3 +1,3 @@
 # matthewf01.github.io
 
-https://matthewf01.github.io/lavocab
+https://matthewf01.github.io/la-vocab
