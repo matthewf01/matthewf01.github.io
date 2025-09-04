@@ -40,6 +40,16 @@
                 height: 70px;
                 font-size: 0.75rem;
             }
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            .title {
+                font-size: 1.5rem;
+            }
+            .menu-item {
+                font-size: 0.875rem;
+                padding: 0.5rem 1rem;
+            }
         }
         
         .card:active {
@@ -128,10 +138,10 @@
 </head>
 <body class="p-4">
     <div class="flex flex-col items-center w-full min-h-screen">
-        <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-2 text-center">Anleigh's Vocab Match Game</h1>
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-2 text-center title">Anleigh's Vocab Match Game</h1>
         <p class="text-gray-600 mb-6 text-center">Drag the words to their matching definitions.</p>
 
-        <div class="flex justify-center items-center space-x-4 mb-8">
+        <div class="flex flex-wrap justify-center items-center space-x-4 mb-8">
             <h2 class="text-xl font-bold">Word Banks</h2>
             <button class="menu-item px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition-colors" data-bank="week2">
                 Week 2
@@ -141,12 +151,12 @@
             </button>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
-            <div id="words-container" class="space-y-4 grid grid-cols-2 gap-4">
-                <h2 class="text-xl font-semibold text-center mb-2 col-span-2">Words</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl grid-container">
+            <div id="words-container" class="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <h2 class="text-xl font-semibold text-center mb-2 col-span-1 md:col-span-2">Words</h2>
             </div>
-            <div id="definitions-container" class="space-y-4 grid grid-cols-2 gap-4">
-                <h2 class="text-xl font-semibold text-center mb-2 col-span-2">Definitions</h2>
+            <div id="definitions-container" class="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <h2 class="text-xl font-semibold text-center mb-2 col-span-1 md:col-span-2">Definitions</h2>
             </div>
         </div>
 
@@ -163,7 +173,7 @@
     </div>
     
     <div class="absolute bottom-2 text-xs text-gray-400">
-        Build: 250904.5
+        Build: 250904.6
     </div>
 
     <script>
@@ -328,11 +338,21 @@
             draggedCard = originalCard.cloneNode(true);
             draggedCard.classList.add('dragging');
             document.body.appendChild(draggedCard);
+            
+            // Adjust for touch input to center the card under the finger
+            if (e.type.includes('touch')) {
+                const rect = originalCard.getBoundingClientRect();
+                const offsetX = startX - rect.left;
+                const offsetY = startY - rect.top;
+                draggedCard.style.left = `${startX - offsetX}px`;
+                draggedCard.style.top = `${startY - offsetY}px`;
+            } else {
+                const initialX = startX - originalCard.offsetWidth / 2;
+                const initialY = startY - originalCard.offsetHeight / 2;
+                draggedCard.style.left = `${initialX}px`;
+                draggedCard.style.top = `${initialY}px`;
+            }
 
-            const initialX = startX - originalCard.offsetWidth / 2;
-            const initialY = startY - originalCard.offsetHeight / 2;
-            draggedCard.style.left = `${initialX}px`;
-            draggedCard.style.top = `${initialY}px`;
 
             function onMove(e) {
                 let moveX, moveY;
@@ -391,8 +411,8 @@
             shuffle(words);
             shuffle(definitions);
 
-            wordsContainer.innerHTML = '<h2 class="text-xl font-semibold text-center mb-2 col-span-2">Words</h2>';
-            definitionsContainer.innerHTML = '<h2 class="text-xl font-semibold text-center mb-2 col-span-2">Definitions</h2>';
+            wordsContainer.innerHTML = '<h2 class="text-xl font-semibold text-center mb-2 col-span-1 md:col-span-2">Words</h2>';
+            definitionsContainer.innerHTML = '<h2 class="text-xl font-semibold text-center mb-2 col-span-1 md:col-span-2">Definitions</h2>';
 
             words.forEach(card => {
                 const cardElement = createCardElement(card);
