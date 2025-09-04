@@ -1,0 +1,580 @@
+<!-- Chosen Palette: Pastel Harmony (Pink, Blue, Green accents) -->
+<!-- Application Structure Plan: The application is designed as a single-view game interface. The primary user flow is: 1. Select Subject (optional, defaults provided). 2. Select Word Bank. 3. Play the matching game. This structure was chosen for its directness and simplicity, allowing the user to immediately engage with the core activity. A floating menu for selections keeps the main game area uncluttered. Large word banks are automatically batched into sets of 12 to prevent cognitive overload and create a sense of progress through stages. -->
+<!-- Visualization & Content Choices: Report Info: Vocabulary words and definitions. -> Goal: Test user knowledge. -> Viz/Presentation Method: Interactive drag-and-drop cards. -> Interaction: Drag word card to definition card. -> Justification: This kinesthetic interaction is more engaging than simple clicking and effectively simulates the physical act of matching cards. -> Library/Method: Vanilla JavaScript for all logic and DOM manipulation. | Report Info: Game progress. -> Goal: Inform user of their performance. -> Viz/Presentation Method: Dynamic text counters (Score, Matched). -> Interaction: Counters update in real-time based on user actions. -> Justification: Provides immediate feedback, which is crucial for learning and engagement. | Report Info: Large vocabulary lists. -> Goal: Make large lists manageable. -> Viz/Presentation Method: UI displays cards in batches of 12. -> Interaction: Board automatically refreshes with the next batch upon completion of the current one. -> Justification: Prevents overwhelming the user and chunks the learning task into achievable goals. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Match</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to right, #ff9a9e 0%, #fad0c4 25%, #ada7ff 50%, #a1c4fd 75%, #b2fab4 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background 0.5s ease-in-out;
+        }
+
+        #menu-panel {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        @media (min-width: 768px) {
+            .card-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .card-grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        @media (min-width: 1280px) {
+           .card-grid {
+             grid-template-columns: repeat(3, 1fr);
+           }
+        }
+
+        .card {
+            min-height: 100px;
+            border-radius: 0.75rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: grab;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, height 0.2s ease-in-out, opacity 0.2s ease-in-out;
+            touch-action: none; 
+            position: relative;
+        }
+
+        .card.word { background-color: #fce7f3; color: #831843; } 
+        .card.definition { background-color: #e0f2fe; color: #075985; } 
+        
+        .card:active {
+            cursor: grabbing;
+        }
+        
+        .dragging-clone {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1000;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            background-color: #dcfce7;
+            color: #14532d;
+        }
+
+        .dragging-original {
+            opacity: 0.4;
+        }
+
+        .incorrect-match {
+            animation: shake 0.5s, flash-red 0.5s;
+        }
+
+        @keyframes flash-red {
+            50% { background-color: #fee2e2; }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .fade-out {
+            animation: fadeOut 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: scale(0.8);
+                visibility: hidden;
+            }
+        }
+        
+        .menu-item.selected {
+            font-weight: 700;
+            color: #000000;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        #menu-toggle-icon {
+            transition: transform 0.3s ease-in-out;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="fixed top-4 left-4 z-50">
+        <button id="menu-toggle" class="bg-white/70 backdrop-blur-md shadow-md rounded-lg px-4 py-2 font-semibold text-gray-800 hover:bg-white transition-colors flex items-center space-x-2">
+            <span>Menu</span>
+            <svg id="menu-toggle-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+        </button>
+        <div id="menu-panel" class="hidden absolute top-full mt-2 w-64 p-4 rounded-lg origin-top-left">
+             <div class="space-y-6">
+                <div>
+                    <h2 class="text-lg font-bold text-gray-800 mb-2">Subjects</h2>
+                    <div id="subject-menu" class="flex flex-col space-y-1"></div>
+                </div>
+                <div>
+                     <h2 class="text-lg font-bold text-gray-800 mb-2">Word Banks</h2>
+                     <div id="word-bank-menu" class="flex flex-col space-y-1"></div>
+                </div>
+             </div>
+        </div>
+    </div>
+
+    <button id="theme-toggle" class="fixed bottom-4 left-4 z-50 bg-white/70 backdrop-blur-md shadow-md rounded-lg px-3 py-2 text-2xl hover:bg-white transition-colors">
+        <span>🐱</span>
+    </button>
+
+    <main class="w-full flex flex-col items-center p-4 md:p-8">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-2 text-center">Anleigh's Vocab Match Game</h1>
+        <p class="text-gray-600 mb-4 text-center">Drag the words to their matching definitions.</p>
+        <div id="game-context-indicator" class="text-center mb-6 text-xl font-semibold text-gray-800 bg-white/50 rounded-lg py-2 px-4"></div>
+        
+        <div class="card-container">
+            <div id="words-column">
+                <h2 class="text-xl font-semibold text-center mb-4">Words</h2>
+                <div id="words-container" class="card-grid">
+                </div>
+            </div>
+            <div id="definitions-column">
+                <h2 class="text-xl font-semibold text-center mb-4">Definitions</h2>
+                <div id="definitions-container" class="card-grid">
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center text-gray-700">
+            <div class="text-lg">
+                Matched: <span id="matched-pairs-counter" class="font-bold text-xl">0</span> / <span id="total-pairs-counter" class="font-bold text-xl">0</span>
+            </div>
+            <div class="text-lg mt-2">
+                Score: <span id="score-counter" class="font-bold text-xl">0</span>
+            </div>
+        </div>
+
+        <button id="reset-button" class="mt-6 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors transform hover:scale-105">
+            Reset Game
+        </button>
+    </main>
+    
+    <div class="fixed bottom-2 right-4 text-xs text-gray-500">
+        Build: 250904.13
+    </div>
+
+    <script>
+        const subjects = {
+            "Science": {
+                "Force + Motion": [
+                    { id: '1', text: "attract", type: "word" }, { id: '1', text: "to pull toward (verb)", type: "definition" },
+                    { id: '2', text: "balanced", type: "word" }, { id: '2', text: "in a state in which equal and opposite forces cancel each other out (adjective)", type: "definition" },
+                    { id: '3', text: "chemical energy", type: "word" }, { id: '3', text: "energy made by a change in a substance or a combination of substances (noun)", type: "definition" },
+                    { id: '4', text: "direction", type: "word" }, { id: '4', text: "the way or course toward which something moves or faces (noun)", type: "definition" },
+                    { id: '5', text: "distance", type: "word" }, { id: '5', text: "the amount of space between things (noun)", type: "definition" },
+                    { id: '6', text: "electricity", type: "word" }, { id: '6', text: "energy created by moving charged particles (noun)", type: "definition" },
+                    { id: '7', text: "electromagnetism", type: "word" }, { id: '7', text: "the combined force of electricity and magnetism (noun)", type: "definition" },
+                    { id: '8', text: "energy", type: "word" }, { id: '8', text: "the power to do work, make a change, or move objects (noun)", type: "definition" },
+                    { id: '9', text: "energy transfer", type: "word" }, { id: '9', text: "the movement of energy from one object to another or the change of energy from one form to another (noun)", type: "definition" },
+                    { id: '10', text: "force", type: "word" }, { id: '10', text: "a push or pull on an object (noun)", type: "definition" },
+                    { id: '11', text: "friction", type: "word" }, { id: '11', text: "a force that works against motion (noun)", type: "definition" },
+                    { id: '12', text: "gravity", type: "word" }, { id: '12', text: "a force that pulls objects toward each other (noun)", type: "definition" },
+                    { id: '13', text: "heat energy", type: "word" }, { id: '13', text: "energy created by the movement of particles in a substance; also called thermal energy (noun)", type: "definition" },
+                    { id: '14', text: "inertia", type: "word" }, { id: '14', text: "the tendency of an object to stay in motion or to stay at rest (noun)", type: "definition" },
+                    { id: '15', text: "kinetic energy", type: "word" }, { id: '15', text: "the energy of motion (noun)", type: "definition" },
+                    { id: '16', text: "light energy", type: "word" }, { id: '16', text: "energy that can be seen (noun)", type: "definition" },
+                    { id: '17', text: "magnet", type: "word" }, { id: '17', text: "an object with a force that can attract and repel certain metals (noun)", type: "definition" },
+                    { id: '18', text: "magnetic field", type: "word" }, { id: '18', text: "the area around a magnet where its force can be felt (noun)", type: "definition" },
+                    { id: '19', text: "magnetism", type: "word" }, { id: '19', text: "a force that pushes and pulls on certain metals (noun)", type: "definition" },
+                    { id: '20', text: "mass", type: "word" }, { id: '20', text: "the amount of matter in an object (noun)", type: "definition" },
+                    { id: '21', text: "matter", type: "word" }, { id: '21', text: "anything that has mass and takes up space (noun)", type: "definition" },
+                    { id: '22', text: "mechanical energy", type: "word" }, { id: '22', text: "energy an object has because of its motion or position (noun)", type: "definition" },
+                    { id: '23', text: "motion", type: "word" }, { id: '23', text: "a change in position (noun)", type: "definition" },
+                    { id: '24', text: "poles", type: "word" }, { id: '24', text: "the ends of a magnet (noun)", type: "definition" },
+                    { id: '25', text: "position", type: "word" }, { id: '25', text: "the location of an object (noun)", type: "definition" },
+                    { id: '26', text: "potential energy", type: "word" }, { id: '26', text: "stored energy (noun)", type: "definition" },
+                    { id: '27', text: "pull", type: "word" }, { id: '27', text: "to move something closer (verb)", type: "definition" },
+                    { id: '28', text: "push", type: "word" }, { id: '28', text: "to move something away (verb)", type: "definition" },
+                    { id: '29', text: "repel", type: "word" }, { id: '29', text: "to push away (verb)", type: "definition" },
+                    { id: '30', text: "resistance", type: "word" }, { id: '30', text: "a force that works against an electrical current (noun)", type: "definition" },
+                    { id: '31', text: "sound energy", type: "word" }, { id: '31', text: "energy that can be heard (noun)", type: "definition" },
+                    { id: '32', text: "speed", type: "word" }, { id: '32', text: "the measure of an object's change in position over time (noun)", type: "definition" },
+                    { id: '33', text: "unbalanced", type: "word" }, { id: '33', text: "in a state in which forces are unequal and cause a change in motion (adjective)", type: "definition" },
+                    { id: '34', text: "velocity", type: "word" }, { id: '34', text: "the speed and direction of an object (noun)", type: "definition" },
+                    { id: '35', text: "work", type: "word" }, { id: '35', text: "the use of a force to move an object (noun)", type: "definition" }
+                ]
+            },
+            "Language Arts": {
+                "Week 2": [
+                    { id: '1', text: "fiction", type: "word" }, { id: '1', text: "writing that is not based on fact", type: "definition" },
+                    { id: '2', text: "nonfiction", type: "word" }, { id: '2', text: "writing that is factual", type: "definition" },
+                    { id: '3', text: "biography", type: "word" }, { id: '3', text: "A story of a person's life written by another person", type: "definition" },
+                    { id: '4', text: "autobiography", type: "word" }, { id: '4', text: "The story of a person's life written by that person", type: "definition" },
+                    { id: '5', text: "science fiction", type: "word" }, { id: '5', text: "Writing that tells about imaginary events that involve science or technology", type: "definition" },
+                    { id: '6', text: "historical fiction", type: "word" }, { id: '6', text: "A novel that involves real events, facts, or people in history, but is not true", type: "definition" },
+                    { id: '7', text: "memoir", type: "word" }, { id: '7', text: "An account of the author's personal experiences", type: "definition" },
+                    { id: '8', text: "climax", type: "word" }, { id: '8', text: "The most exciting moment of the story; turning point", type: "definition" },
+                    { id: '9', text: "resolution", type: "word" }, { id: '9', text: "The end of the story where the conflict is usually resolved", type: "definition" },
+                    { id: '10', text: "theme", type: "word" }, { id: '10', text: "The central idea or belief in the story", type: "definition" }
+                ],
+                "Week 1": [
+                    { id: '1', text: "author", type: "word" }, { id: '1', text: "The writer of a book, article or report.", type: "definition" },
+                    { id: '2', text: "illustrator", type: "word" }, { id: '2', text: "The person who draws the pictures for the book; the artist.", type: "definition" },
+                    { id: '3', text: "characters", type: "word" }, { id: '3', text: "The people or animals in the story.", type: "definition" },
+                    { id: '4', text: "story setting", type: "word" }, { id: '4', text: "The time and place of the story.", type: "definition" },
+                    { id: '5', text: "plot", type: "word" }, { id: '5', text: "The main events that happen during the story.", type: "definition" },
+                    { id: '6', text: "conflict / problem", type: "word" }, { id: '6', text: "The major struggle or problem that arises in the story.", type: "definition" },
+                    { id: '7', text: "protagonist", type: "word" }, { id: '7', text: "The main person in the story, often a good or heroic character.", type: "definition" },
+                    { id: '8', text: "antagonist", type: "word" }, { id: '8', text: "A character or force in conflict with the main character.", type: "definition" },
+                    { id: '9', text: "chronological order", type: "word" }, { id: '9', text: "In order of time.", type: "definition" },
+                    { id: '10', text: "flashback", type: "word" }, { id: '10', text: "To remember something from the past.", type: "definition" }
+                ]
+            }
+        };
+
+        const themes = [
+            'linear-gradient(to right, #ff9a9e 0%, #fad0c4 25%, #ada7ff 50%, #a1c4fd 75%, #b2fab4 100%)',
+            'linear-gradient(to right, #a18cd1 0%, #fbc2eb 100%)',
+            'linear-gradient(to right, #84fab0 0%, #8fd3f4 100%)',
+            'linear-gradient(to right, #ff7e5f, #feb47b)',
+        ];
+        const themeEmojis = ['🐱', '🐶', '🐸', '🦊'];
+        let currentThemeIndex = 0;
+
+        let fullVocabulary = [];
+        let currentVocabulary = [];
+        let currentBatchIndex = 0;
+        const BATCH_SIZE = 12;
+        
+        let matchedPairsInBatch = 0;
+        let totalMatchedPairs = 0;
+        let score = 0;
+        
+        let draggedElement = null;
+        let draggedElementClone = null;
+
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuToggleIcon = document.getElementById('menu-toggle-icon');
+        const menuPanel = document.getElementById('menu-panel');
+        const themeToggle = document.getElementById('theme-toggle');
+        const subjectMenu = document.getElementById('subject-menu');
+        const wordBankMenu = document.getElementById('word-bank-menu');
+        const gameContextIndicator = document.getElementById('game-context-indicator');
+        const wordsContainer = document.getElementById('words-container');
+        const definitionsContainer = document.getElementById('definitions-container');
+        const matchedPairsCounter = document.getElementById('matched-pairs-counter');
+        const totalPairsCounter = document.getElementById('total-pairs-counter');
+        const scoreCounter = document.getElementById('score-counter');
+        const resetButton = document.getElementById('reset-button');
+
+        function fireConfetti() {
+            confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
+        }
+
+        function shuffle(array) {
+            let shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function createCardElement(card) {
+            const cardDiv = document.createElement('div');
+            cardDiv.className = `card ${card.type}`;
+            cardDiv.textContent = card.text;
+            cardDiv.dataset.id = card.id;
+            cardDiv.dataset.type = card.type;
+            return cardDiv;
+        }
+
+        function updateCounters() {
+            matchedPairsCounter.textContent = totalMatchedPairs;
+            scoreCounter.textContent = score;
+            totalPairsCounter.textContent = fullVocabulary ? fullVocabulary.length / 2 : 0;
+        }
+        
+        function showFinalMessage() {
+            const totalPossible = fullVocabulary.length / 2;
+            const percentage = totalPossible > 0 ? ((score / totalPossible) * 100).toFixed(0) : 0;
+            
+            setTimeout(() => {
+                const messageBox = document.createElement('div');
+                messageBox.className = 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-lg shadow-2xl border-2 border-green-500 text-center z-50';
+                messageBox.innerHTML = `<p class="text-2xl font-bold mb-4">Congratulations! 🎉</p><p class="text-lg">You matched all the pairs.</p><p class="mt-4 text-lg">Your final score is <strong>${score}</strong> out of ${totalPossible} (<strong>${percentage}%</strong>).</p>`;
+                document.body.appendChild(messageBox);
+                
+                setTimeout(() => messageBox.remove(), 5000);
+            }, 500);
+        }
+
+        function checkMatch(dragged, dropped) {
+            const isMatch = dragged.dataset.id === dropped.dataset.id && dragged.dataset.type !== dropped.dataset.type;
+            
+            if (isMatch) {
+                dragged.classList.add('fade-out');
+                dropped.classList.add('fade-out');
+                
+                matchedPairsInBatch++;
+                totalMatchedPairs++;
+                score++;
+                fireConfetti();
+                updateCounters();
+
+                if (matchedPairsInBatch === currentVocabulary.length / 2) {
+                    if (totalMatchedPairs === fullVocabulary.length / 2) {
+                        showFinalMessage();
+                    } else {
+                        setTimeout(loadNextBatch, 1000);
+                    }
+                }
+            } else {
+                dragged.classList.add('incorrect-match');
+                dropped.classList.add('incorrect-match');
+                score--;
+                setTimeout(() => {
+                    dragged.classList.remove('incorrect-match');
+                    dropped.classList.remove('incorrect-match');
+                }, 500);
+                updateCounters();
+            }
+        }
+        
+        function handlePointerStart(e) {
+            const targetCard = e.target.closest('.card');
+            if (!targetCard || targetCard.classList.contains('fade-out')) return;
+
+            e.preventDefault();
+            draggedElement = targetCard;
+            
+            draggedElementClone = draggedElement.cloneNode(true);
+            draggedElementClone.classList.remove('word', 'definition');
+            draggedElementClone.classList.add('dragging-clone');
+            
+            const originalRect = draggedElement.getBoundingClientRect();
+            draggedElementClone.style.width = `${originalRect.width}px`;
+            draggedElementClone.style.height = `${originalRect.height}px`;
+
+            document.body.appendChild(draggedElementClone);
+            
+            draggedElement.classList.add('dragging-original');
+            
+            const pos = e.touches ? e.touches[0] : e;
+            moveClone(pos.pageX, pos.pageY);
+            
+            document.addEventListener('pointermove', handlePointerMove);
+            document.addEventListener('pointerup', handlePointerEnd, { once: true });
+        }
+        
+        function moveClone(x, y) {
+            if (!draggedElementClone) return;
+            draggedElementClone.style.left = `${x - draggedElementClone.offsetWidth / 2}px`;
+            draggedElementClone.style.top = `${y - draggedElementClone.offsetHeight / 2}px`;
+        }
+
+        function handlePointerMove(e) {
+            e.preventDefault();
+            const pos = e.touches ? e.touches[0] : e;
+            moveClone(pos.pageX, pos.pageY);
+        }
+
+        function handlePointerEnd(e) {
+            if (!draggedElement) return;
+
+            draggedElementClone.remove();
+            draggedElementClone = null;
+
+            const pos = e.changedTouches ? e.changedTouches[0] : e;
+            const dropTarget = document.elementFromPoint(pos.clientX, pos.clientY)?.closest('.card');
+
+            if (dropTarget && dropTarget !== draggedElement && !dropTarget.classList.contains('fade-out')) {
+                checkMatch(draggedElement, dropTarget);
+            }
+            
+            draggedElement.classList.remove('dragging-original');
+            draggedElement = null;
+        }
+
+        function synchronizeCardHeights() {
+            const allCards = document.querySelectorAll('.card-grid .card');
+            if (allCards.length === 0) return;
+
+            allCards.forEach(card => card.style.height = 'auto');
+
+            requestAnimationFrame(() => {
+                let maxHeight = 0;
+                allCards.forEach(card => {
+                    if (card.offsetHeight > maxHeight) {
+                        maxHeight = card.offsetHeight;
+                    }
+                });
+                const finalHeight = Math.max(100, maxHeight);
+                allCards.forEach(card => card.style.height = `${finalHeight}px`);
+            });
+        }
+
+        function loadNextBatch() {
+            matchedPairsInBatch = 0;
+
+            const startIndex = currentBatchIndex * BATCH_SIZE * 2;
+            const endIndex = startIndex + (BATCH_SIZE * 2);
+            currentVocabulary = fullVocabulary.slice(startIndex, endIndex);
+
+            wordsContainer.innerHTML = '';
+            definitionsContainer.innerHTML = '';
+
+            const words = shuffle(currentVocabulary.filter(item => item.type === 'word'));
+            const definitions = shuffle(currentVocabulary.filter(item => item.type === 'definition'));
+
+            words.forEach(card => wordsContainer.appendChild(createCardElement(card)));
+            definitions.forEach(card => definitionsContainer.appendChild(createCardElement(card)));
+
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('pointerdown', handlePointerStart);
+            });
+            
+            requestAnimationFrame(synchronizeCardHeights);
+            currentBatchIndex++;
+        }
+
+        function initializeGame(subjectName, bankName) {
+            fullVocabulary = subjects[subjectName][bankName];
+            gameContextIndicator.innerHTML = `${subjectName} <span class="mx-2 opacity-70">🏫</span> ${bankName}`;
+            
+            currentBatchIndex = 0;
+            totalMatchedPairs = 0;
+            score = 0;
+            
+            updateCounters();
+            loadNextBatch();
+        }
+
+        function renderWordBankMenu(subjectName) {
+            wordBankMenu.innerHTML = '';
+            const wordBanks = Object.keys(subjects[subjectName]);
+
+            wordBanks.forEach((bankName, index) => {
+                const button = document.createElement('button');
+                button.className = 'menu-item w-full text-left px-3 py-2 rounded-lg bg-gray-50/50 hover:bg-gray-50/90 transition-colors';
+                button.textContent = bankName;
+                button.dataset.bank = bankName;
+                button.dataset.subject = subjectName;
+
+                if (index === 0) button.classList.add('selected');
+
+                button.addEventListener('click', () => {
+                    document.querySelectorAll('#word-bank-menu .menu-item').forEach(btn => btn.classList.remove('selected'));
+                    button.classList.add('selected');
+                    initializeGame(subjectName, bankName);
+                });
+
+                wordBankMenu.appendChild(button);
+            });
+
+            if (wordBanks.length > 0) {
+                initializeGame(subjectName, wordBanks[0]);
+            }
+        }
+        
+        function renderSubjectMenu() {
+            subjectMenu.innerHTML = '';
+            const subjectNames = Object.keys(subjects);
+
+            subjectNames.forEach((subjectName, index) => {
+                const button = document.createElement('button');
+                button.className = 'menu-item w-full text-left px-3 py-2 rounded-lg bg-gray-50/50 hover:bg-gray-50/90 transition-colors';
+                button.textContent = subjectName;
+                button.dataset.subject = subjectName;
+
+                if (index === 0) button.classList.add('selected');
+
+                button.addEventListener('click', () => {
+                    document.querySelectorAll('#subject-menu .menu-item').forEach(btn => btn.classList.remove('selected'));
+                    button.classList.add('selected');
+                    renderWordBankMenu(subjectName);
+                });
+
+                subjectMenu.appendChild(button);
+            });
+        }
+
+        function init() {
+            resetButton.addEventListener('click', () => {
+                const selectedSubject = document.querySelector('#subject-menu .menu-item.selected').dataset.subject;
+                const selectedBank = document.querySelector('#word-bank-menu .menu-item.selected').dataset.bank;
+                initializeGame(selectedSubject, selectedBank);
+            });
+
+            menuToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isHidden = menuPanel.classList.toggle('hidden');
+                menuPanel.style.opacity = isHidden ? '0' : '1';
+                menuPanel.style.transform = isHidden ? 'scale(0.95)' : 'scale(1)';
+                menuToggleIcon.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
+            });
+            
+            themeToggle.addEventListener('click', () => {
+                currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+                document.body.style.background = themes[currentThemeIndex];
+                themeToggle.querySelector('span').textContent = themeEmojis[currentThemeIndex];
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!menuPanel.contains(e.target) && !menuToggle.contains(e.target) && !menuPanel.classList.contains('hidden')) {
+                    menuPanel.classList.add('hidden');
+                    menuPanel.style.opacity = '0';
+                    menuPanel.style.transform = 'scale(0.95)';
+                    menuToggleIcon.style.transform = 'rotate(0deg)';
+                }
+            });
+
+            renderSubjectMenu();
+            const initialSubject = Object.keys(subjects)[0];
+            const wordBanksForInitialSubject = Object.keys(subjects[initialSubject]);
+            renderWordBankMenu(initialSubject);
+            if (wordBanksForInitialSubject.length > 0) {
+                const initialBank = wordBanksForInitialSubject[0];
+                document.querySelector(`#word-bank-menu [data-bank="${initialBank}"]`).classList.add('selected');
+                initializeGame(initialSubject, initialBank);
+            }
+        }
+        
+        init();
+    </script>
+</body>
+</html>
+
