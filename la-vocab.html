@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anleigh's Vocab Match Game</title>
+    <title>LA - Word Match</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.js"></script>
     <style>
@@ -15,6 +15,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            user-select: none;
         }
 
         .card {
@@ -27,10 +28,18 @@
             padding: 0.75rem;
             font-size: 0.875rem;
             font-weight: 600;
-            cursor: grab;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease-in-out;
+            cursor: grab;
             touch-action: none;
+            user-select: none;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                height: 70px;
+                font-size: 0.75rem;
+            }
         }
         
         .card:active {
@@ -98,6 +107,23 @@
         .fade-out {
             animation: fadeOut 0.5s forwards;
         }
+        
+        .dragging {
+            transform: scale(1.1);
+            z-index: 1000;
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .outline-green {
+            box-shadow: 0 0 0 4px #22c55e;
+            transition: box-shadow 0.2s ease-in-out;
+        }
+
+        .hidden-card {
+            opacity: 0;
+        }
+
     </style>
 </head>
 <body class="p-4">
@@ -137,7 +163,7 @@
     </div>
     
     <div class="absolute bottom-2 text-xs text-gray-400">
-        Build: 250903.1
+        Build: 250904.5
     </div>
 
     <script>
@@ -168,19 +194,19 @@
                 { id: '1', text: "fiction", type: "word" },
                 { id: '1', text: "writing that is not based on fact", type: "definition" },
                 { id: '2', text: "nonfiction", type: "word" },
-                { id: '2', text: "writing that is factual", type: "definition" },
+                { id: '2', text: "writing that is factual", "type": "definition" },
                 { id: '3', text: "biography", type: "word" },
-                { id: '3', text: "A story of a person's life written by another person", type: "definition" },
+                { id: '3', text: "A story of a person's life written by another person", "type": "definition" },
                 { id: '4', text: "autobiography", type: "word" },
-                { id: '4', text: "The story of a person's life written by that person", type: "definition" },
+                { id: '4', text: "The story of a person's life written by that person", "type": "definition" },
                 { id: '5', text: "science fiction", type: "word" },
-                { id: '5', text: "Writing that tells about imaginary events that involve science or technology", type: "definition" },
+                { id: '5', text: "Writing that tells about imaginary events that involve science or technology", "type": "definition" },
                 { id: '6', text: "historical fiction", type: "word" },
-                { id: '6', text: "A novel that involves real events, facts, or people in history, but is not true", type: "definition" },
+                { id: '6', text: "A novel that involves real events, facts, or people in history, but is not true", "type": "definition" },
                 { id: '7', text: "memoir", type: "word" },
-                { id: '7', text: "An account of the author's personal experiences", type: "definition" },
+                { id: '7', text: "An account of the author's personal experiences", "type": "definition" },
                 { id: '8', text: "climax", type: "word" },
-                { id: '8', text: "The most exciting moment of the story; turning point", type: "definition" },
+                { id: '8', text: "The most exciting moment of the story; turning point", "type": "definition" },
                 { id: '9', "text": "resolution", "type": "word" },
                 { id: '9', "text": "The end of the story where the conflict is usually resolved", "type": "definition" },
                 { id: '10', "text": "theme", "type": "word" },
@@ -194,6 +220,7 @@
         let matchedPairs = 0;
         let score = 0;
         let draggedCard = null;
+        let originalCard = null;
 
         const wordsContainer = document.getElementById('words-container');
         const definitionsContainer = document.getElementById('definitions-container');
@@ -201,7 +228,7 @@
         const scoreCounter = document.getElementById('score-counter');
         const resetButton = document.getElementById('reset-button');
         const menuItems = document.querySelectorAll('.menu-item');
-
+        
         function fireConfetti() {
             confetti({
                 particleCount: 100,
@@ -228,7 +255,6 @@
             cardDiv.textContent = card.text;
             cardDiv.dataset.id = card.id;
             cardDiv.dataset.type = card.type;
-            cardDiv.draggable = true;
             return cardDiv;
         }
 
@@ -256,11 +282,11 @@
             const droppedCardType = droppedElement.dataset.type;
             
             if (draggedCardId === droppedCardId && draggedCardType !== droppedCardType) {
-                draggedElement.classList.add('matched-card', 'fade-out');
+                originalCard.classList.add('matched-card', 'fade-out');
                 droppedElement.classList.add('matched-card', 'fade-out');
                 
                 setTimeout(() => {
-                    draggedElement.remove();
+                    originalCard.remove();
                     droppedElement.remove();
                 }, 500);
 
@@ -270,95 +296,92 @@
                 fireConfetti();
             } else {
                 droppedElement.classList.add('incorrect-drop');
-                draggedElement.classList.add('incorrect-drag');
+                originalCard.classList.add('incorrect-drag');
 
                 score--;
                 updateCounter();
 
                 setTimeout(() => {
                     droppedElement.classList.remove('incorrect-drop');
-                    draggedElement.classList.remove('incorrect-drag');
+                    originalCard.classList.remove('incorrect-drag');
                 }, 500);
             }
         }
-
-        function handleDragStart(e) {
-            e.dataTransfer.setData("text/plain", e.target.dataset.id);
-            e.dataTransfer.setData("cardType", e.target.dataset.type);
-            setTimeout(() => {
-                e.target.classList.add('fade-out');
-            }, 0);
-        }
         
-        function handleDragOver(e) {
+        function startDrag(e) {
             e.preventDefault();
-            const droppedCard = e.target.closest('.card');
-            if (droppedCard && droppedCard.dataset.type !== e.dataTransfer.getData('cardType')) {
-                droppedCard.classList.add('drag-over');
-            }
-        }
-        
-        function handleDragLeave(e) {
-            const droppedCard = e.target.closest('.card');
-            if (droppedCard) {
-                droppedCard.classList.remove('drag-over');
-            }
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-            const draggedCardElement = document.querySelector(`.card.fade-out`);
-            const droppedCardElement = e.target.closest('.card');
             
-            if (!draggedCardElement || !droppedCardElement) return;
-
-            droppedCardElement.classList.remove('drag-over');
-
-            checkMatch(draggedCardElement, droppedCardElement);
-            
-            draggedCardElement.classList.remove('fade-out');
-        }
-
-        function handleTouchStart(e) {
-            const touchedElement = e.target.closest('.card');
-            if (!touchedElement) return;
-            
-            e.preventDefault();
-            draggedCard = touchedElement;
-            draggedCard.style.position = 'absolute';
-            draggedCard.style.zIndex = '1000';
-            draggedCard.classList.add('fade-out');
-            
-            const touch = e.touches[0];
-            draggedCard.style.left = `${touch.pageX - draggedCard.offsetWidth / 2}px`;
-            draggedCard.style.top = `${touch.pageY - draggedCard.offsetHeight / 2}px`;
-        }
-        
-        function handleTouchMove(e) {
-            if (!draggedCard) return;
-            e.preventDefault();
-            const touch = e.touches[0];
-            draggedCard.style.left = `${touch.pageX - draggedCard.offsetWidth / 2}px`;
-            draggedCard.style.top = `${touch.pageY - draggedCard.offsetHeight / 2}px`;
-        }
-
-        function handleTouchEnd(e) {
-            if (!draggedCard) return;
-
-            const x = e.changedTouches[0].pageX;
-            const y = e.changedTouches[0].pageY;
-            
-            const droppedCardElement = document.elementFromPoint(x, y);
-
-            if (droppedCardElement && droppedCardElement.closest('.card')) {
-                const dropTarget = droppedCardElement.closest('.card');
-                checkMatch(draggedCard, dropTarget);
+            let startX, startY;
+            if (e.type.includes('mouse')) {
+                startX = e.clientX;
+                startY = e.clientY;
+            } else {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
             }
             
-            draggedCard.style.position = '';
-            draggedCard.style.zIndex = '';
-            draggedCard.classList.remove('fade-out');
-            draggedCard = null;
+            originalCard = e.target.closest('.card');
+            if (!originalCard) return;
+
+            originalCard.classList.add('outline-green');
+            
+            draggedCard = originalCard.cloneNode(true);
+            draggedCard.classList.add('dragging');
+            document.body.appendChild(draggedCard);
+
+            const initialX = startX - originalCard.offsetWidth / 2;
+            const initialY = startY - originalCard.offsetHeight / 2;
+            draggedCard.style.left = `${initialX}px`;
+            draggedCard.style.top = `${initialY}px`;
+
+            function onMove(e) {
+                let moveX, moveY;
+                if (e.type.includes('mouse')) {
+                    moveX = e.clientX;
+                    moveY = e.clientY;
+                } else {
+                    moveX = e.touches[0].clientX;
+                    moveY = e.touches[0].clientY;
+                }
+                const newX = moveX - draggedCard.offsetWidth / 2;
+                const newY = moveY - draggedCard.offsetHeight / 2;
+                draggedCard.style.left = `${newX}px`;
+                draggedCard.style.top = `${newY}px`;
+            }
+
+            function onEnd(e) {
+                let endX, endY;
+                if (e.type.includes('mouse')) {
+                    endX = e.clientX;
+                    endY = e.clientY;
+                } else {
+                    endX = e.changedTouches[0].clientX;
+                    endY = e.changedTouches[0].clientY;
+                }
+
+                draggedCard.remove();
+                draggedCard = null;
+
+                const droppedElement = document.elementFromPoint(endX, endY);
+                const dropTarget = droppedElement ? droppedElement.closest('.card') : null;
+
+                if (dropTarget) {
+                    checkMatch(originalCard, dropTarget);
+                } else {
+                    originalCard.classList.remove('outline-green');
+                }
+
+                originalCard = null;
+                document.removeEventListener('mousemove', onMove);
+                document.removeEventListener('mouseup', onEnd);
+                document.removeEventListener('touchmove', onMove);
+                document.removeEventListener('touchend', onEnd);
+            }
+
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onEnd);
+            document.addEventListener('touchmove', onMove);
+            document.addEventListener('touchend', onEnd);
         }
 
         function initializeGame() {
@@ -371,26 +394,22 @@
             wordsContainer.innerHTML = '<h2 class="text-xl font-semibold text-center mb-2 col-span-2">Words</h2>';
             definitionsContainer.innerHTML = '<h2 class="text-xl font-semibold text-center mb-2 col-span-2">Definitions</h2>';
 
-            words.forEach(card => wordsContainer.appendChild(createCardElement(card)));
-            definitions.forEach(card => definitionsContainer.appendChild(createCardElement(card)));
-
+            words.forEach(card => {
+                const cardElement = createCardElement(card);
+                cardElement.addEventListener('mousedown', startDrag);
+                cardElement.addEventListener('touchstart', startDrag);
+                wordsContainer.appendChild(cardElement);
+            });
+            definitions.forEach(card => {
+                const cardElement = createCardElement(card);
+                cardElement.addEventListener('mousedown', startDrag);
+                cardElement.addEventListener('touchstart', startDrag);
+                definitionsContainer.appendChild(cardElement);
+            });
+            
             matchedPairs = 0;
             score = 0;
             updateCounter();
-            
-            document.querySelectorAll('.card').forEach(card => {
-                card.addEventListener('dragstart', handleDragStart);
-            });
-
-            document.querySelectorAll('.card').forEach(card => {
-                card.addEventListener('dragover', handleDragOver);
-                card.addEventListener('dragleave', handleDragLeave);
-                card.addEventListener('drop', handleDrop);
-            });
-            
-            document.body.addEventListener('touchstart', handleTouchStart);
-            document.body.addEventListener('touchmove', handleTouchMove);
-            document.body.addEventListener('touchend', handleTouchEnd);
         }
 
         // Event listener for reset button
