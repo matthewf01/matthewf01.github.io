@@ -189,6 +189,7 @@
         let definitions = [];
         let matchedPairs = 0;
         let score = 0;
+        let draggedCard = null;
 
         const wordsContainer = document.getElementById('words-container');
         const definitionsContainer = document.getElementById('definitions-container');
@@ -243,6 +244,39 @@
                 }, 5000);
             }
         }
+        
+        function checkMatch(draggedElement, droppedElement) {
+            const draggedCardId = draggedElement.dataset.id;
+            const draggedCardType = draggedElement.dataset.type;
+            const droppedCardId = droppedElement.dataset.id;
+            const droppedCardType = droppedElement.dataset.type;
+            
+            if (draggedCardId === droppedCardId && draggedCardType !== droppedCardType) {
+                draggedElement.classList.add('matched-card', 'fade-out');
+                droppedElement.classList.add('matched-card', 'fade-out');
+                
+                setTimeout(() => {
+                    draggedElement.remove();
+                    droppedElement.remove();
+                }, 500);
+
+                matchedPairs++;
+                score++;
+                updateCounter();
+                fireConfetti();
+            } else {
+                droppedElement.classList.add('incorrect-drop');
+                draggedElement.classList.add('incorrect-drag');
+
+                score--;
+                updateCounter();
+
+                setTimeout(() => {
+                    droppedElement.classList.remove('incorrect-drop');
+                    draggedElement.classList.remove('incorrect-drag');
+                }, 500);
+            }
+        }
 
         function handleDragStart(e) {
             e.dataTransfer.setData("text/plain", e.target.dataset.id);
@@ -251,7 +285,7 @@
                 e.target.classList.add('fade-out');
             }, 0);
         }
-
+        
         function handleDragOver(e) {
             e.preventDefault();
             const droppedCard = e.target.closest('.card');
@@ -259,7 +293,7 @@
                 droppedCard.classList.add('drag-over');
             }
         }
-
+        
         function handleDragLeave(e) {
             const droppedCard = e.target.closest('.card');
             if (droppedCard) {
@@ -269,53 +303,58 @@
 
         function handleDrop(e) {
             e.preventDefault();
+            const draggedCardElement = document.querySelector(`.card.fade-out`);
             const droppedCardElement = e.target.closest('.card');
-            if (!droppedCardElement) return;
+            
+            if (!draggedCardElement || !droppedCardElement) return;
 
             droppedCardElement.classList.remove('drag-over');
-            const draggedCardId = e.dataTransfer.getData("text/plain");
-            const draggedCardType = e.dataTransfer.getData("cardType");
+
+            checkMatch(draggedCardElement, droppedCardElement);
             
-            const droppedCardId = droppedCardElement.dataset.id;
-            const droppedCardType = droppedCardElement.dataset.type;
+            draggedCardElement.classList.remove('fade-out');
+        }
 
-            // Ensure we are dropping a word on a definition and their IDs match
-            if (draggedCardId === droppedCardId && draggedCardType !== droppedCardType) {
-                // Find and remove the original dragged card from the DOM
-                const draggedCardElement = document.querySelector(`.card[data-id="${draggedCardId}"][data-type="${draggedCardType}"]`);
-                if (draggedCardElement) {
-                    draggedCardElement.classList.add('matched-card');
-                    setTimeout(() => draggedCardElement.remove(), 500);
-                }
+        function handleTouchStart(e) {
+            const touchedElement = e.target.closest('.card');
+            if (!touchedElement) return;
+            
+            e.preventDefault();
+            draggedCard = touchedElement;
+            draggedCard.style.position = 'absolute';
+            draggedCard.style.zIndex = '1000';
+            draggedCard.classList.add('fade-out');
+            
+            const touch = e.touches[0];
+            draggedCard.style.left = `${touch.pageX - draggedCard.offsetWidth / 2}px`;
+            draggedCard.style.top = `${touch.pageY - draggedCard.offsetHeight / 2}px`;
+        }
+        
+        function handleTouchMove(e) {
+            if (!draggedCard) return;
+            e.preventDefault();
+            const touch = e.touches[0];
+            draggedCard.style.left = `${touch.pageX - draggedCard.offsetWidth / 2}px`;
+            draggedCard.style.top = `${touch.pageY - draggedCard.offsetHeight / 2}px`;
+        }
 
-                // Update the dropped card to indicate a match
-                droppedCardElement.classList.add('matched-card');
-                setTimeout(() => droppedCardElement.remove(), 500);
+        function handleTouchEnd(e) {
+            if (!draggedCard) return;
 
-                matchedPairs++;
-                score++;
-                updateCounter();
-                fireConfetti(); // Fire confetti for a correct match
-            } else {
-                // If it's not a match, add the incorrect class and then remove it
-                droppedCardElement.classList.add('incorrect-drop');
-                
-                const draggedCardElement = document.querySelector(`.card.fade-out`);
-                if (draggedCardElement) {
-                    draggedCardElement.classList.add('incorrect-drag');
-                    draggedCardElement.classList.remove('fade-out');
-                }
+            const x = e.changedTouches[0].pageX;
+            const y = e.changedTouches[0].pageY;
+            
+            const droppedCardElement = document.elementFromPoint(x, y);
 
-                score--;
-                updateCounter();
-
-                setTimeout(() => {
-                    droppedCardElement.classList.remove('incorrect-drop');
-                    if (draggedCardElement) {
-                        draggedCardElement.classList.remove('incorrect-drag');
-                    }
-                }, 500);
+            if (droppedCardElement && droppedCardElement.closest('.card')) {
+                const dropTarget = droppedCardElement.closest('.card');
+                checkMatch(draggedCard, dropTarget);
             }
+            
+            draggedCard.style.position = '';
+            draggedCard.style.zIndex = '';
+            draggedCard.classList.remove('fade-out');
+            draggedCard = null;
         }
 
         function initializeGame() {
@@ -344,6 +383,10 @@
                 card.addEventListener('dragleave', handleDragLeave);
                 card.addEventListener('drop', handleDrop);
             });
+            
+            document.body.addEventListener('touchstart', handleTouchStart);
+            document.body.addEventListener('touchmove', handleTouchMove);
+            document.body.addEventListener('touchend', handleTouchEnd);
         }
 
         // Event listener for reset button
