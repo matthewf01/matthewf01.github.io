@@ -10,6 +10,7 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
+            background-image: linear-gradient(to right, #ff9a9e, #fad0c4, #fbc2eb, #a6c0fe, #a9c5ff);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -19,7 +20,8 @@
         }
 
         .card {
-            height: 90px;
+            width: 200px;
+            height: 100px; /* Changed from min-height to a fixed height */
             border-radius: 0.75rem;
             display: flex;
             justify-content: center;
@@ -37,12 +39,9 @@
 
         @media (max-width: 768px) {
             .card {
-                height: 70px;
+                width: 150px;
+                height: 90px;
                 font-size: 0.75rem;
-            }
-            .grid-container {
-                grid-template-columns: 1fr;
-                gap: 1rem;
             }
             .title {
                 font-size: 1.5rem;
@@ -126,15 +125,16 @@
             pointer-events: none;
         }
 
-        .outline-green {
-            box-shadow: 0 0 0 4px #22c55e;
-            transition: box-shadow 0.2s ease-in-out;
-        }
-
         .hidden-card {
             opacity: 0;
         }
 
+        .card-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
     </style>
 </head>
 <body class="p-4">
@@ -152,12 +152,14 @@
             </button>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl grid-container">
-            <div id="words-container" class="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <h2 class="text-xl font-semibold text-center mb-2 col-span-1 md:col-span-2">Words</h2>
+        <div class="flex flex-col md:flex-row gap-8 w-full max-w-4xl">
+            <div class="flex-grow flex flex-col items-center">
+                <h2 class="text-xl font-semibold text-center mb-2">Words</h2>
+                <div id="words-container" class="card-grid w-full"></div>
             </div>
-            <div id="definitions-container" class="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <h2 class="text-xl font-semibold text-center mb-2 col-span-1 md:col-span-2">Definitions</h2>
+            <div class="flex-grow flex flex-col items-center">
+                <h2 class="text-xl font-semibold text-center mb-2">Definitions</h2>
+                <div id="definitions-container" class="card-grid w-full"></div>
             </div>
         </div>
 
@@ -174,7 +176,7 @@
     </div>
     
     <div class="absolute bottom-2 text-xs text-gray-400">
-        Build: 250904.7
+        Build: 250904.18
     </div>
 
     <script>
@@ -225,7 +227,7 @@
             ]
         };
 
-        let currentVocabulary = vocabBanks.week1;
+        let currentVocabulary = vocabBanks.week2;
         let words = [];
         let definitions = [];
         let matchedPairs = 0;
@@ -333,8 +335,6 @@
             
             originalCard = e.target.closest('.card');
             if (!originalCard) return;
-
-            originalCard.classList.add('outline-green');
             
             draggedCard = originalCard.cloneNode(true);
             draggedCard.classList.add('dragging');
@@ -412,8 +412,8 @@
             shuffle(words);
             shuffle(definitions);
 
-            wordsContainer.innerHTML = '<h2 class="text-xl font-semibold text-center mb-2 col-span-1 md:col-span-2">Words</h2>';
-            definitionsContainer.innerHTML = '<h2 class="text-xl font-semibold text-center mb-2 col-span-1 md:col-span-2">Definitions</h2>';
+            wordsContainer.innerHTML = '';
+            definitionsContainer.innerHTML = '';
 
             words.forEach(card => {
                 const cardElement = createCardElement(card);
@@ -439,6 +439,8 @@
         // Event listeners for menu items
         menuItems.forEach(item => {
             item.addEventListener('click', () => {
+                menuItems.forEach(btn => btn.classList.remove('bg-blue-500', 'text-white', 'font-bold', 'text-black'));
+                item.classList.add('font-bold', 'text-black');
                 const vocabBank = item.dataset.bank;
                 currentVocabulary = vocabBanks[vocabBank];
                 initializeGame();
@@ -448,6 +450,7 @@
         // Initial game setup with a default vocabulary bank
         currentVocabulary = vocabBanks.week2;
         initializeGame();
+        document.querySelector('[data-bank="week2"]').classList.add('font-bold', 'text-black');
     </script>
 </body>
 </html>
