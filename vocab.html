@@ -128,6 +128,10 @@
         #menu-toggle-icon {
             transition: transform 0.3s ease-in-out;
         }
+        
+        #reward-toast {
+            transition: opacity 0.5s, transform 0.5s;
+        }
 
     </style>
 </head>
@@ -153,9 +157,21 @@
         </div>
     </div>
 
-    <button id="theme-toggle" class="fixed bottom-4 left-4 z-50 bg-white/70 backdrop-blur-md shadow-md rounded-lg px-3 py-2 text-2xl hover:bg-white transition-colors">
-        <span>🐱</span>
-    </button>
+    <div class="fixed bottom-4 left-4 z-50 flex space-x-2">
+        <button id="theme-toggle" class="bg-white/70 backdrop-blur-md shadow-md rounded-lg px-3 py-2 text-2xl hover:bg-white transition-colors">
+            <span>🐱</span>
+        </button>
+        <button id="sound-toggle" class="bg-white/70 backdrop-blur-md shadow-md rounded-lg px-3 py-2 text-2xl hover:bg-white transition-colors">
+            <span>🔊</span>
+        </button>
+        <button id="reward-toggle" class="bg-white/70 backdrop-blur-md shadow-md rounded-lg px-3 py-2 text-2xl hover:bg-white transition-colors">
+            <span>🏆</span>
+        </button>
+    </div>
+
+    <div id="reward-toast" class="fixed bottom-20 left-4 z-50 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg opacity-0 transform translate-y-2">
+        Reward: Confetti Shower
+    </div>
 
     <main class="w-full flex flex-col items-center p-4 md:p-8">
         <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-2 text-center">Anleigh's Vocab Match Game</h1>
@@ -190,7 +206,7 @@
     </main>
     
     <div class="fixed bottom-2 right-4 text-xs text-gray-500">
-        MF Version: 250905.10
+        MF Version: 250905.27
     </div>
 
     <script>
@@ -261,6 +277,14 @@
                     { id: '9', text: "chronological order", type: "word" }, { id: '9', text: "In order of time.", type: "definition" },
                     { id: '10', text: "flashback", type: "word" }, { id: '10', text: "To remember something from the past.", type: "definition" }
                 ]
+            },
+            "Test": {
+                emoji: "🧪",
+                "Test Word Bank": [
+                    { id: '1', text: "A", type: "word" }, { id: '1', text: "Matching Definition A", type: "definition" },
+                    { id: '2', text: "B", type: "word" }, { id: '2', text: "Matching Definition B", type: "definition" },
+                    { id: '3', text: "C", type: "word" }, { id: '3', text: "Matching Definition C", type: "definition" }
+                ]
             }
         };
 
@@ -272,6 +296,9 @@
         ];
         const themeEmojis = ['🐱', '🐶', '🐸', '🦊'];
         let currentThemeIndex = 0;
+
+        const rewardEffects = ['Confetti Shower', 'Shooting Stars', 'Fireworks Burst'];
+        let currentRewardEffect = 0;
 
         let highScores = {};
         let fullVocabulary = [];
@@ -286,10 +313,17 @@
         let draggedElement = null;
         let draggedElementClone = null;
 
+        let audioCtx;
+        let isSoundEnabled = true;
+        let isDealing = false;
+
         const menuToggle = document.getElementById('menu-toggle');
         const menuToggleIcon = document.getElementById('menu-toggle-icon');
         const menuPanel = document.getElementById('menu-panel');
         const themeToggle = document.getElementById('theme-toggle');
+        const soundToggle = document.getElementById('sound-toggle');
+        const rewardToggle = document.getElementById('reward-toggle');
+        const rewardToast = document.getElementById('reward-toast');
         const subjectMenu = document.getElementById('subject-menu');
         const wordBankMenu = document.getElementById('word-bank-menu');
         const gameContextIndicator = document.getElementById('game-context-indicator');
@@ -300,8 +334,137 @@
         const scoreCounter = document.getElementById('score-counter');
         const resetButton = document.getElementById('reset-button');
 
-        function fireConfetti() {
-            confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+        
+        function playSound(type) {
+            if (!isSoundEnabled || !audioCtx) return;
+
+            if (type === 'correct') {
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.3);
+                
+                oscillator.start(audioCtx.currentTime);
+                oscillator.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'incorrect') {
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                oscillator.type = 'square';
+                oscillator.frequency.setValueAtTime(120, audioCtx.currentTime);
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.2);
+                
+                oscillator.start(audioCtx.currentTime);
+                oscillator.stop(audioCtx.currentTime + 0.2);
+            } else if (type === 'fanfare') {
+                 const notes = [523.25, 659.25, 783.99, 1046.50];
+                 notes.forEach((note, i) => {
+                    const oscillator = audioCtx.createOscillator();
+                    const gainNode = audioCtx.createGain();
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+
+                    oscillator.type = 'sine';
+                    oscillator.frequency.setValueAtTime(note, audioCtx.currentTime + i * 0.1);
+                    gainNode.gain.setValueAtTime(0.08, audioCtx.currentTime + i * 0.1);
+                    gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + i * 0.1 + 0.1);
+                    
+                    oscillator.start(audioCtx.currentTime + i * 0.1);
+                    oscillator.stop(audioCtx.currentTime + i * 0.1 + 0.1);
+                 });
+            }
+        }
+        
+        function playRewardEffect() {
+            playSound('fanfare');
+            
+            confetti({
+                particleCount: 250,
+                spread: 120,
+                origin: { y: 0.6 },
+                colors: ['#26ccff', '#a25afd', '#ff5e7e', '#88ff5a', '#fcff42', '#ffa62d', '#ff36ff']
+            });
+
+            const effectName = rewardEffects[currentRewardEffect];
+            const multiColors = ['#26ccff', '#a25afd', '#ff5e7e', '#88ff5a', '#fcff42', '#ffa62d', '#ff36ff'];
+
+            if (effectName === 'Confetti Shower') {
+                const duration = 2500;
+                const end = Date.now() + duration;
+                (function frame() {
+                    confetti({
+                        particleCount: 10,
+                        angle: 60,
+                        spread: 80,
+                        origin: { x: -0.1 },
+                        colors: multiColors
+                    });
+                    confetti({
+                        particleCount: 10,
+                        angle: 120,
+                        spread: 80,
+                        origin: { x: 1.1 },
+                        colors: multiColors
+                    });
+                    if (Date.now() < end) {
+                        requestAnimationFrame(frame);
+                    }
+                }());
+            } else if (effectName === 'Shooting Stars') {
+                const duration = 2500;
+                const end = Date.now() + duration;
+                const defaults = {
+                    spread: 360,
+                    ticks: 100,
+                    gravity: 0,
+                    decay: 0.96,
+                    startVelocity: 20,
+                    shapes: ['star'],
+                    colors: ['#FFFFFF', '#FFE400', '#FFD000', '#FFFA00']
+                };
+                let interval = setInterval(function() {
+                    if (Date.now() > end) {
+                        return clearInterval(interval);
+                    }
+                    confetti({
+                        ...defaults,
+                        particleCount: 8,
+                        origin: { x: Math.random() }
+                    });
+                }, 150);
+            } else if (effectName === 'Fireworks Burst') {
+                const duration = 2500;
+                const end = Date.now() + duration;
+                const colors = ['#ffca3a', '#ff595e', '#8ac926', '#1982c4', '#6a4c93'];
+                (function frame() {
+                    if (Date.now() > end) return;
+                    confetti({
+                        startVelocity: 30,
+                        spread: 360,
+                        ticks: 60,
+                        origin: { x: Math.random(), y: Math.random() * 0.4 + 0.4 },
+                        colors: colors,
+                        particleCount: 50,
+                        zIndex: 0
+                    });
+                    if (Date.now() < end) {
+                        requestAnimationFrame(frame);
+                    }
+                }());
+            }
         }
 
         function shuffle(array) {
@@ -329,6 +492,7 @@
         }
         
         function showFinalMessage() {
+            playRewardEffect();
             const totalPossible = fullVocabulary.length / 2;
             const percentage = totalPossible > 0 ? Math.round((score / totalPossible) * 100) : 0;
             
@@ -352,13 +516,20 @@
                 document.body.appendChild(messageBox);
                 
                 setTimeout(() => messageBox.remove(), 5000);
-            }, 500);
+            }, 1500);
         }
 
         function checkMatch(dragged, dropped) {
             const isMatch = dragged.dataset.id === dropped.dataset.id && dragged.dataset.type !== dropped.dataset.type;
             
             if (isMatch) {
+                playSound('correct');
+                confetti({
+                    particleCount: 50,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    scalar: 0.8
+                });
                 dragged.classList.add('fade-out');
                 dropped.classList.add('fade-out');
                 
@@ -370,7 +541,6 @@
                 matchedPairsInBatch++;
                 totalMatchedPairs++;
                 score++;
-                fireConfetti();
                 updateCounters();
 
                 if (matchedPairsInBatch === currentVocabulary.length / 2) {
@@ -381,6 +551,7 @@
                     }
                 }
             } else {
+                playSound('incorrect');
                 dragged.classList.add('incorrect-match');
                 dropped.classList.add('incorrect-match');
                 score--;
@@ -393,6 +564,7 @@
         }
         
         function handlePointerStart(e) {
+            if (isDealing) return;
             const targetCard = e.target.closest('.card');
             if (!targetCard || targetCard.classList.contains('fade-out') || targetCard.style.visibility === 'hidden') return;
 
@@ -466,6 +638,7 @@
         }
 
         function loadNextBatch() {
+            isDealing = true;
             matchedPairsInBatch = 0;
 
             const startIndex = currentBatchIndex * BATCH_SIZE * 2;
@@ -490,6 +663,7 @@
                 allNewCards.push(el);
             });
             
+            const animations = [];
             requestAnimationFrame(() => {
                 synchronizeCardHeights();
                 allNewCards.forEach((card, index) => {
@@ -502,10 +676,14 @@
                         delay: index * 40,
                         fill: 'forwards'
                     });
-                    animation.finished.then(() => {
+                    animation.onfinish = () => {
                         card.style.opacity = '1';
                         card.style.transform = '';
-                    });
+                    };
+                    animations.push(animation.finished);
+                });
+                Promise.all(animations).then(() => {
+                    isDealing = false;
                 });
             });
 
@@ -568,16 +746,16 @@
         
         function renderSubjectMenu() {
             subjectMenu.innerHTML = '';
-            const subjectNames = Object.keys(subjects);
+            let subjectNames = Object.keys(subjects);
+            const testSubject = "Test";
+            subjectNames = subjectNames.filter(s => s !== testSubject).concat(testSubject);
 
-            subjectNames.forEach((subjectName, index) => {
+            subjectNames.forEach((subjectName) => {
                 const button = document.createElement('button');
                 const subject = subjects[subjectName];
                 button.className = 'menu-item w-full text-left px-3 py-2 rounded-lg bg-gray-50/50 hover:bg-gray-50/90 transition-colors';
                 button.innerHTML = `<span class="mr-2">${subject.emoji}</span> ${subjectName}`;
                 button.dataset.subject = subjectName;
-
-                if (index === 0) button.classList.add('selected');
 
                 button.addEventListener('click', () => {
                     document.querySelectorAll('#subject-menu .menu-item').forEach(btn => btn.classList.remove('selected'));
@@ -587,6 +765,17 @@
 
                 subjectMenu.appendChild(button);
             });
+            document.querySelector('#subject-menu .menu-item').classList.add('selected');
+        }
+
+        function showRewardToast() {
+            rewardToast.textContent = `Reward: ${rewardEffects[currentRewardEffect]}`;
+            rewardToast.style.opacity = '1';
+            rewardToast.style.transform = 'translateY(0)';
+            setTimeout(() => {
+                rewardToast.style.opacity = '0';
+                rewardToast.style.transform = 'translateY(0.5rem)';
+            }, 2000);
         }
 
         function init() {
@@ -598,10 +787,22 @@
                     document.body.style.background = themes[currentThemeIndex];
                     themeToggle.querySelector('span').textContent = themeEmojis[currentThemeIndex];
                 }
+                const savedSoundPref = localStorage.getItem('vocabGameSound');
+                if (savedSoundPref !== null) {
+                    isSoundEnabled = savedSoundPref === 'true';
+                    soundToggle.querySelector('span').textContent = isSoundEnabled ? '🔊' : '🔈';
+                }
+                const savedRewardEffect = localStorage.getItem('vocabGameReward');
+                if (savedRewardEffect !== null) {
+                    currentRewardEffect = parseInt(savedRewardEffect, 10);
+                }
             } catch (e) {
                 console.error("Could not load from localStorage", e);
                 highScores = {};
             }
+            
+            document.body.addEventListener('click', initAudio, { once: true });
+            document.body.addEventListener('pointerdown', initAudio, { once: true });
 
 
             resetButton.addEventListener('click', () => {
@@ -625,6 +826,18 @@
                 localStorage.setItem('vocabGameTheme', currentThemeIndex);
             });
 
+            soundToggle.addEventListener('click', () => {
+                isSoundEnabled = !isSoundEnabled;
+                soundToggle.querySelector('span').textContent = isSoundEnabled ? '🔊' : '🔈';
+                localStorage.setItem('vocabGameSound', isSoundEnabled);
+            });
+            
+            rewardToggle.addEventListener('click', () => {
+                currentRewardEffect = (currentRewardEffect + 1) % rewardEffects.length;
+                localStorage.setItem('vocabGameReward', currentRewardEffect);
+                showRewardToast();
+            });
+
             document.addEventListener('click', (e) => {
                 if (!menuPanel.contains(e.target) && !menuToggle.contains(e.target) && !menuPanel.classList.contains('hidden')) {
                     menuPanel.classList.add('hidden');
@@ -635,7 +848,7 @@
             });
 
             renderSubjectMenu();
-            const initialSubject = Object.keys(subjects)[0];
+            const initialSubject = document.querySelector('#subject-menu .menu-item.selected').dataset.subject;
             const wordBanksForInitialSubject = Object.keys(subjects[initialSubject]).filter(key => key !== 'emoji');
             renderWordBankMenu(initialSubject);
             if (wordBanksForInitialSubject.length > 0) {
