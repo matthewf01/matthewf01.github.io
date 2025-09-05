@@ -23,6 +23,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             transition: background 0.5s ease-in-out;
+            overflow-x: hidden;
         }
 
         #menu-panel {
@@ -71,9 +72,10 @@
             font-weight: 600;
             cursor: grab;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, height 0.2s ease-in-out, opacity 0.2s ease-in-out;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, height 0.2s ease-in-out, opacity 0.3s ease-in-out;
             touch-action: none; 
             position: relative;
+            opacity: 0;
         }
 
         .card.word { background-color: #fce7f3; color: #831843; } 
@@ -90,10 +92,12 @@
             box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
             background-color: #dcfce7;
             color: #14532d;
+            transition: none;
+            opacity: 1;
         }
 
         .dragging-original {
-            opacity: 0.4;
+            opacity: 0.4 !important;
         }
 
         .incorrect-match {
@@ -111,15 +115,8 @@
         }
 
         .fade-out {
-            animation: fadeOut 0.5s ease-out forwards;
-        }
-
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                transform: scale(0.8);
-                visibility: hidden;
-            }
+            opacity: 0;
+            transform: scale(0.8);
         }
         
         .menu-item.selected {
@@ -178,7 +175,7 @@
             </div>
         </div>
 
-        <div class="mt-8 text-center text-gray-700">
+        <div id="score-area" class="mt-8 text-center text-gray-700">
             <div class="text-lg">
                 Matched: <span id="matched-pairs-counter" class="font-bold text-xl">0</span> / <span id="total-pairs-counter" class="font-bold text-xl">0</span>
             </div>
@@ -193,7 +190,7 @@
     </main>
     
     <div class="fixed bottom-2 right-4 text-xs text-gray-500">
-        MF Version: 250905.4
+        MF Version: 250905.8
     </div>
 
     <script>
@@ -351,6 +348,11 @@
                 dragged.classList.add('fade-out');
                 dropped.classList.add('fade-out');
                 
+                setTimeout(() => {
+                    dragged.style.visibility = 'hidden';
+                    dropped.style.visibility = 'hidden';
+                }, 300);
+
                 matchedPairsInBatch++;
                 totalMatchedPairs++;
                 score++;
@@ -378,7 +380,7 @@
         
         function handlePointerStart(e) {
             const targetCard = e.target.closest('.card');
-            if (!targetCard || targetCard.classList.contains('fade-out')) return;
+            if (!targetCard || targetCard.classList.contains('fade-out') || targetCard.style.visibility === 'hidden') return;
 
             e.preventDefault();
             draggedElement = targetCard;
@@ -462,14 +464,37 @@
             const words = shuffle(currentVocabulary.filter(item => item.type === 'word'));
             const definitions = shuffle(currentVocabulary.filter(item => item.type === 'definition'));
 
-            words.forEach(card => wordsContainer.appendChild(createCardElement(card)));
-            definitions.forEach(card => definitionsContainer.appendChild(createCardElement(card)));
+            const allNewCards = [];
+            words.forEach(cardData => {
+                const el = createCardElement(cardData);
+                wordsContainer.appendChild(el);
+                allNewCards.push(el);
+            });
+            definitions.forEach(cardData => {
+                const el = createCardElement(cardData);
+                definitionsContainer.appendChild(el);
+                allNewCards.push(el);
+            });
+            
+            requestAnimationFrame(() => {
+                synchronizeCardHeights();
+                allNewCards.forEach((card, index) => {
+                    card.animate([
+                        { opacity: 0, transform: 'translateY(20px) scale(0.95)' },
+                        { opacity: 1, transform: 'translateY(0) scale(1)' }
+                    ], {
+                        duration: 500,
+                        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                        delay: index * 40,
+                        fill: 'forwards'
+                    });
+                });
+            });
 
             document.querySelectorAll('.card').forEach(card => {
                 card.addEventListener('pointerdown', handlePointerStart);
             });
             
-            requestAnimationFrame(synchronizeCardHeights);
             currentBatchIndex++;
         }
 
