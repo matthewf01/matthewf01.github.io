@@ -190,7 +190,7 @@
     </main>
     
     <div class="fixed bottom-2 right-4 text-xs text-gray-500">
-        MF Version: 250905.8
+        MF Version: 250905.10
     </div>
 
     <script>
@@ -273,6 +273,7 @@
         const themeEmojis = ['🐱', '🐶', '🐸', '🦊'];
         let currentThemeIndex = 0;
 
+        let highScores = {};
         let fullVocabulary = [];
         let currentVocabulary = [];
         let currentBatchIndex = 0;
@@ -329,8 +330,21 @@
         
         function showFinalMessage() {
             const totalPossible = fullVocabulary.length / 2;
-            const percentage = totalPossible > 0 ? ((score / totalPossible) * 100).toFixed(0) : 0;
+            const percentage = totalPossible > 0 ? Math.round((score / totalPossible) * 100) : 0;
             
+            const selectedSubject = document.querySelector('#subject-menu .menu-item.selected').dataset.subject;
+            const selectedBank = document.querySelector('#word-bank-menu .menu-item.selected').dataset.bank;
+
+            if (!highScores[selectedSubject]) {
+                highScores[selectedSubject] = {};
+            }
+            const currentHighScore = highScores[selectedSubject][selectedBank] || 0;
+            if (percentage > currentHighScore) {
+                highScores[selectedSubject][selectedBank] = percentage;
+                localStorage.setItem('vocabGameHighScores', JSON.stringify(highScores));
+                renderWordBankMenu(selectedSubject, true);
+            }
+
             setTimeout(() => {
                 const messageBox = document.createElement('div');
                 messageBox.className = 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-lg shadow-2xl border-2 border-green-500 text-center z-50';
@@ -479,7 +493,7 @@
             requestAnimationFrame(() => {
                 synchronizeCardHeights();
                 allNewCards.forEach((card, index) => {
-                    card.animate([
+                    const animation = card.animate([
                         { opacity: 0, transform: 'translateY(20px) scale(0.95)' },
                         { opacity: 1, transform: 'translateY(0) scale(1)' }
                     ], {
@@ -487,6 +501,10 @@
                         easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
                         delay: index * 40,
                         fill: 'forwards'
+                    });
+                    animation.finished.then(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = '';
                     });
                 });
             });
@@ -511,18 +529,28 @@
             loadNextBatch();
         }
 
-        function renderWordBankMenu(subjectName) {
+        function renderWordBankMenu(subjectName, keepSelection = false) {
+            const selectedBank = keepSelection ? document.querySelector('#word-bank-menu .menu-item.selected')?.dataset.bank : null;
             wordBankMenu.innerHTML = '';
             const wordBanks = Object.keys(subjects[subjectName]).filter(key => key !== 'emoji');
 
-            wordBanks.forEach((bankName, index) => {
+            let bankToSelect = selectedBank || wordBanks[0];
+
+            wordBanks.forEach((bankName) => {
                 const button = document.createElement('button');
-                button.className = 'menu-item w-full text-left px-3 py-2 rounded-lg bg-gray-50/50 hover:bg-gray-50/90 transition-colors';
-                button.textContent = bankName;
+                button.className = 'menu-item w-full text-left px-3 py-2 rounded-lg bg-gray-50/50 hover:bg-gray-50/90 transition-colors flex justify-between items-center';
+                
+                const highScore = highScores[subjectName]?.[bankName] || 0;
+                let highScoreDisplay = '';
+                if (highScore > 0) {
+                    highScoreDisplay = `<span class="text-xs text-blue-600 font-semibold ml-auto">🏆 ${highScore}%</span>`;
+                }
+
+                button.innerHTML = `<span>${bankName}</span> ${highScoreDisplay}`;
                 button.dataset.bank = bankName;
                 button.dataset.subject = subjectName;
 
-                if (index === 0) button.classList.add('selected');
+                if (bankName === bankToSelect) button.classList.add('selected');
 
                 button.addEventListener('click', () => {
                     document.querySelectorAll('#word-bank-menu .menu-item').forEach(btn => btn.classList.remove('selected'));
@@ -533,8 +561,8 @@
                 wordBankMenu.appendChild(button);
             });
 
-            if (wordBanks.length > 0) {
-                initializeGame(subjectName, wordBanks[0]);
+            if (!keepSelection && wordBanks.length > 0) {
+                initializeGame(subjectName, bankToSelect);
             }
         }
         
@@ -562,6 +590,20 @@
         }
 
         function init() {
+            try {
+                highScores = JSON.parse(localStorage.getItem('vocabGameHighScores')) || {};
+                const savedThemeIndex = localStorage.getItem('vocabGameTheme');
+                if (savedThemeIndex !== null) {
+                    currentThemeIndex = parseInt(savedThemeIndex, 10);
+                    document.body.style.background = themes[currentThemeIndex];
+                    themeToggle.querySelector('span').textContent = themeEmojis[currentThemeIndex];
+                }
+            } catch (e) {
+                console.error("Could not load from localStorage", e);
+                highScores = {};
+            }
+
+
             resetButton.addEventListener('click', () => {
                 const selectedSubject = document.querySelector('#subject-menu .menu-item.selected').dataset.subject;
                 const selectedBank = document.querySelector('#word-bank-menu .menu-item.selected').dataset.bank;
@@ -580,6 +622,7 @@
                 currentThemeIndex = (currentThemeIndex + 1) % themes.length;
                 document.body.style.background = themes[currentThemeIndex];
                 themeToggle.querySelector('span').textContent = themeEmojis[currentThemeIndex];
+                localStorage.setItem('vocabGameTheme', currentThemeIndex);
             });
 
             document.addEventListener('click', (e) => {
