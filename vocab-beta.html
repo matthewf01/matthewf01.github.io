@@ -133,6 +133,21 @@
             transition: opacity 0.5s, transform 0.5s;
         }
 
+        .speech-button {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+        .speech-button:hover {
+            opacity: 1;
+        }
+
     </style>
 </head>
 <body class="p-4 md:p-6">
@@ -205,6 +220,9 @@
         <button id="reward-toggle" class="bg-white/70 backdrop-blur-md shadow-md rounded-lg px-3 py-2 text-2xl hover:bg-white transition-colors">
             <span>🏆</span>
         </button>
+        <button id="speech-toggle" class="bg-white/70 backdrop-blur-md shadow-md rounded-lg px-3 py-2 text-2xl hover:bg-white transition-colors">
+            <span>🗣️</span>
+        </button>
     </div>
 
     <div id="reward-toast" class="fixed bottom-20 left-4 z-50 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg opacity-0 transform translate-y-2">
@@ -212,7 +230,7 @@
     </div>
     
     <div class="fixed bottom-2 right-4 text-xs text-gray-500">
-        MF Version: 250905.36
+        MF Version: 250905.39
     </div>
 
     <script>
@@ -321,6 +339,7 @@
 
         let audioCtx;
         let isSoundEnabled = true;
+        let isSpeechEnabled = true;
         let isDealing = false;
 
         const menuToggle = document.getElementById('menu-toggle');
@@ -329,6 +348,7 @@
         const themeToggle = document.getElementById('theme-toggle');
         const soundToggle = document.getElementById('sound-toggle');
         const rewardToggle = document.getElementById('reward-toggle');
+        const speechToggle = document.getElementById('speech-toggle');
         const rewardToast = document.getElementById('reward-toast');
         const subjectMenu = document.getElementById('subject-menu');
         const wordBankMenu = document.getElementById('word-bank-menu');
@@ -481,12 +501,35 @@
             return shuffled;
         }
 
+        function speakText(text) {
+            if (!isSpeechEnabled || !window.speechSynthesis) return;
+            const utterance = new SpeechSynthesisUtterance(text);
+            window.speechSynthesis.speak(utterance);
+        }
+
         function createCardElement(card) {
             const cardDiv = document.createElement('div');
             cardDiv.className = `card ${card.type}`;
-            cardDiv.textContent = card.text;
+            
+            const textSpan = document.createElement('span');
+            textSpan.textContent = card.text;
+            cardDiv.appendChild(textSpan);
+            
             cardDiv.dataset.id = card.id;
             cardDiv.dataset.type = card.type;
+
+            if (card.type === 'word') {
+                const speechButton = document.createElement('button');
+                speechButton.className = 'speech-button';
+                speechButton.innerHTML = '🔊';
+                speechButton.style.display = isSpeechEnabled ? 'block' : 'none';
+                speechButton.onclick = (e) => {
+                    e.stopPropagation();
+                    speakText(card.text);
+                };
+                cardDiv.appendChild(speechButton);
+            }
+
             return cardDiv;
         }
 
@@ -797,6 +840,11 @@
                     isSoundEnabled = savedSoundPref === 'true';
                     soundToggle.querySelector('span').textContent = isSoundEnabled ? '🔊' : '🔈';
                 }
+                 const savedSpeechPref = localStorage.getItem('vocabGameSpeech');
+                if (savedSpeechPref !== null) {
+                    isSpeechEnabled = savedSpeechPref === 'true';
+                    speechToggle.querySelector('span').textContent = isSpeechEnabled ? '🗣️' : '🤫';
+                }
                 const savedRewardEffect = localStorage.getItem('vocabGameReward');
                 if (savedRewardEffect !== null) {
                     currentRewardEffect = parseInt(savedRewardEffect, 10);
@@ -841,6 +889,15 @@
                 currentRewardEffect = (currentRewardEffect + 1) % rewardEffects.length;
                 localStorage.setItem('vocabGameReward', currentRewardEffect);
                 showRewardToast();
+            });
+            
+            speechToggle.addEventListener('click', () => {
+                isSpeechEnabled = !isSpeechEnabled;
+                speechToggle.querySelector('span').textContent = isSpeechEnabled ? '🗣️' : '🤫';
+                localStorage.setItem('vocabGameSpeech', isSpeechEnabled);
+                const currentSubject = document.querySelector('#subject-menu .menu-item.selected').dataset.subject;
+                const currentBank = document.querySelector('#word-bank-menu .menu-item.selected').dataset.bank;
+                initializeGame(currentSubject, currentBank);
             });
 
             document.addEventListener('click', (e) => {
