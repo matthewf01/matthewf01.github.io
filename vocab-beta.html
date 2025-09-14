@@ -26,11 +26,14 @@
             overflow-x: hidden;
         }
 
-        #menu-panel {
+        #menu-panel, #new-game-modal-content {
             background-color: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
             border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        
+        #menu-panel {
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
@@ -209,6 +212,24 @@
             </div>
         </div>
     </main>
+    
+    <div id="try-again-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-lg shadow-2xl text-center">
+            <p class="text-2xl font-bold mb-4">Nice try!</p>
+            <p class="text-lg mb-6">Would you like to play this word bank again?</p>
+            <button id="try-again-button" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors">
+                Try Again
+            </button>
+        </div>
+    </div>
+
+    <div id="new-game-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div id="new-game-modal-content" class="p-4 rounded-lg max-w-md w-full">
+            <h2 class="text-2xl font-bold text-center mb-4 text-gray-800">Perfect Score! 💯</h2>
+            <p class="text-center mb-4 text-gray-700">Would you like to try a different game?</p>
+            <div id="new-game-menu-container" class="max-h-56 overflow-y-auto"></div>
+        </div>
+    </div>
 
     <div class="fixed bottom-4 left-4 z-50 flex space-x-2">
         <button id="theme-toggle" class="bg-white/70 backdrop-blur-md shadow-md rounded-lg px-3 py-2 text-2xl hover:bg-white transition-colors">
@@ -230,7 +251,7 @@
     </div>
     
     <div class="fixed bottom-2 right-4 text-xs text-gray-500">
-        MF Version: 250905.39
+        MF Version: 250914.1
     </div>
 
     <script>
@@ -277,6 +298,19 @@
             },
             "Language Arts": {
                 emoji: "📚",
+                "Week 3": [
+                    { id: '1', text: "glimpse", type: "word" }, { id: '1', text: "a quick look", type: "definition" },
+                    { id: '2', text: "jovial", type: "word" }, { id: '2', text: "cheerful, friendly, happy", type: "definition" },
+                    { id: '3', text: "singular", type: "word" }, { id: '3', text: "one of a kind, unusual or remarkable", type: "definition" },
+                    { id: '4', text: "genuine", type: "word" }, { id: '4', text: "honest, real, truthful", type: "definition" },
+                    { id: '5', text: "preferable", type: "word" }, { id: '5', text: "to like better than something else", type: "definition" },
+                    { id: '6', text: "insistent", type: "word" }, { id: '6', text: "firm or demanding", type: "definition" },
+                    { id: '7', text: "loathe", type: "word" }, { id: '7', text: "to dislike greatly", type: "definition" },
+                    { id: '8', text: "ordeal", type: "word" }, { id: '8', text: "a difficult or painful experience", type: "definition" },
+                    { id: '9', text: "cease", type: "word" }, { id: '9', text: "to stop", type: "definition" },
+                    { id: '10', text: "prevailed", type: "word" }, { id: '10', text: "conquered, won or overcame", type: "definition" },
+                    { id: '11', text: "outlaw", type: "word" }, { id: '11', text: "A person who has broken the law; criminal.", type: "definition" }
+                ],
                 "Week 2": [
                     { id: '1', text: "fiction", type: "word" }, { id: '1', text: "writing that is not based on fact", type: "definition" },
                     { id: '2', text: "nonfiction", type: "word" }, { id: '2', text: "writing that is factual", type: "definition" },
@@ -359,6 +393,10 @@
         const totalPairsCounter = document.getElementById('total-pairs-counter');
         const scoreCounter = document.getElementById('score-counter');
         const resetButton = document.getElementById('reset-button');
+        const tryAgainModal = document.getElementById('try-again-modal');
+        const tryAgainButton = document.getElementById('try-again-button');
+        const newGameModal = document.getElementById('new-game-modal');
+        const newGameMenuContainer = document.getElementById('new-game-menu-container');
 
         function initAudio() {
             if (!audioCtx) {
@@ -563,7 +601,50 @@
                 messageBox.innerHTML = `<p class="text-2xl font-bold mb-4">Congratulations! 🎉</p><p class="text-lg">You matched all the pairs.</p><p class="mt-4 text-lg">Your final score is <strong>${score}</strong> out of ${totalPossible} (<strong>${percentage}%</strong>).</p>`;
                 document.body.appendChild(messageBox);
                 
-                setTimeout(() => messageBox.remove(), 5000);
+                setTimeout(() => {
+                    messageBox.remove();
+                    if (percentage === 100) {
+                        newGameMenuContainer.innerHTML = '';
+                        const menuClone = menuPanel.querySelector('.space-y-6').cloneNode(true);
+                        newGameMenuContainer.appendChild(menuClone);
+                        newGameModal.classList.remove('hidden');
+                        
+                        newGameMenuContainer.querySelectorAll('.menu-item').forEach(button => {
+                            button.addEventListener('click', () => {
+                                const subject = button.dataset.subject;
+                                const bank = button.dataset.bank;
+                                if (subject && bank) {
+                                    initializeGame(subject, bank);
+                                    newGameModal.classList.add('hidden');
+                                } else if (subject) {
+                                    // This logic is for subject buttons, it should re-render the word banks
+                                    const clonedSubjectButtons = newGameMenuContainer.querySelectorAll('#subject-menu .menu-item');
+                                    clonedSubjectButtons.forEach(btn => btn.classList.remove('selected'));
+                                    button.classList.add('selected');
+
+                                    const clonedWordBankMenu = newGameMenuContainer.querySelector('#word-bank-menu');
+                                    clonedWordBankMenu.innerHTML = '';
+                                    const wordBanks = Object.keys(subjects[subject]).filter(key => key !== 'emoji');
+                                    wordBanks.forEach(bankName => {
+                                        const bankButton = document.createElement('button');
+                                        bankButton.className = 'menu-item w-full text-left px-3 py-2 rounded-lg bg-gray-50/50 hover:bg-gray-50/90 transition-colors';
+                                        bankButton.textContent = bankName;
+                                        bankButton.dataset.subject = subject;
+                                        bankButton.dataset.bank = bankName;
+                                        bankButton.addEventListener('click', () => {
+                                            initializeGame(subject, bankName);
+                                            newGameModal.classList.add('hidden');
+                                        });
+                                        clonedWordBankMenu.appendChild(bankButton);
+                                    });
+                                }
+                            });
+                        });
+
+                    } else {
+                        tryAgainModal.classList.remove('hidden');
+                    }
+                }, 5000);
             }, 1500);
         }
 
@@ -862,6 +943,19 @@
                 const selectedSubject = document.querySelector('#subject-menu .menu-item.selected').dataset.subject;
                 const selectedBank = document.querySelector('#word-bank-menu .menu-item.selected').dataset.bank;
                 initializeGame(selectedSubject, selectedBank);
+            });
+
+            tryAgainButton.addEventListener('click', () => {
+                const selectedSubject = document.querySelector('#subject-menu .menu-item.selected').dataset.subject;
+                const selectedBank = document.querySelector('#word-bank-menu .menu-item.selected').dataset.bank;
+                initializeGame(selectedSubject, selectedBank);
+                tryAgainModal.classList.add('hidden');
+            });
+            
+            newGameModal.addEventListener('click', (e) => {
+                if(e.target === newGameModal) {
+                    newGameModal.classList.add('hidden');
+                }
             });
 
             menuToggle.addEventListener('click', (e) => {
