@@ -3,13 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unit 3 Quiz Game</title>
+    <title>SS - Review Game</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        html {
+            height: 100%;
+        }
         body {
             font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, 
+                rgba(255, 182, 193, 0.2), 
+                rgba(255, 218, 185, 0.2), 
+                rgba(255, 255, 224, 0.2), 
+                rgba(173, 216, 230, 0.2), 
+                rgba(221, 160, 221, 0.2)
+            );
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
         }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .flash-correct {
             animation: flash-green 0.7s;
         }
@@ -17,22 +36,59 @@
             animation: flash-red 0.7s;
         }
         @keyframes flash-green {
-            from { background-color: #22c55e; }
+            from { background-color: #4ade80; } /* Lighter green */
         }
         @keyframes flash-red {
-            from { background-color: #ef4444; }
+            from { background-color: #f87171; } /* Lighter red */
+        }
+
+        #study-guide-content {
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, opacity 0.5s ease-out, margin-top 0.5s ease-out, padding-top 0.5s ease-out;
+            max-height: 0;
+            opacity: 0;
+            margin-top: 0;
+            padding-top: 0;
+            border-width: 0;
+        }
+        #study-guide-content.expanded {
+            max-height: 1500px; /* A large enough value to not clip content */
+            opacity: 1;
+            margin-top: 1.5rem; /* 6 */
+            padding-top: 1.5rem; /* 6 */
+            border-width: 2px 0 0 0; /* border-t-2 */
+        }
+        #next-btn, #start-btn {
+            background-size: 200% auto;
+            transition: background-position 0.4s ease-in-out;
+        }
+        #next-btn:hover, #start-btn:hover {
+            background-position: right center;
+        }
+        #start-btn {
+            background-image: linear-gradient(to right, #ef4444, #f97316, #eab308, #84cc16, #22c55e, #14b8a6, #06b6d4, #3b82f6, #8b5cf6, #d946ef);
+        }
+        #confetti-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
         }
     </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
 
-    <div id="game-container" class="w-full max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-6 md:p-8">
-
+    <div id="game-container" class="w-full max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-6 md:p-8 relative">
+        <canvas id="confetti-canvas"></canvas>
         <!-- Start Screen -->
         <div id="start-screen" class="text-center">
-            <h1 class="text-3xl md:text-4xl font-bold text-purple-600 mb-4">Unit 3: Judicial & Local Government Quiz</h1>
-            <p class="text-gray-600 mb-8">Let's see what you know about Georgia's courts and local governments!</p>
-            <button id="start-btn" class="w-full bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-6 rounded-lg text-lg transition duration-300 transform hover:scale-105">
+            <h1 class="text-3xl md:text-4xl font-bold text-purple-600 mb-4">Anleigh's Unit 3: Judicial & Local Government Review Game</h1>
+            <p class="text-gray-600 mb-2">A quiz to review your notes for Unit 3.</p>
+            <p class="text-sm text-gray-500 mb-8">Answer the questions to test your knowledge. If you get one wrong, don't worry! It will show up again later in the quiz for another try.</p>
+            <button id="start-btn" class="w-full text-white font-bold py-3 px-6 rounded-lg text-lg transform hover:scale-105">
                 Start the Quiz!
             </button>
         </div>
@@ -57,12 +113,12 @@
             </div>
             <div id="feedback" class="mt-6 text-center font-bold text-lg"></div>
 
-            <button id="next-btn" class="w-full mt-6 bg-gray-300 text-gray-700 font-bold py-3 px-6 rounded-lg hidden transition duration-300">
+            <button id="next-btn" class="w-full mt-6 bg-gradient-to-r from-pink-700 via-purple-700 to-blue-700 text-white font-bold py-3 px-6 rounded-lg hidden">
                 Next Question
             </button>
             
             <!-- Study Guide Content -->
-            <div id="study-guide-content" class="hidden mt-6 border-t-2 pt-6">
+            <div id="study-guide-content" class="pt-6 border-t-2">
                  <h2 class="text-2xl font-bold text-purple-600 text-center mb-4">Unit 3 Study Guide</h2>
                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Column 1: Judicial Branch -->
@@ -151,9 +207,13 @@
              <p id="final-score" class="text-6xl font-extrabold text-green-500 mb-8"></p>
              <button id="restart-btn" class="w-full bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-6 rounded-lg text-lg transition duration-300 transform hover:scale-105">
                 Play Again
-             </button>
+                 </button>
         </div>
     </div>
+    
+    <footer class="text-center text-gray-500 text-xs mt-4">
+        Build: 250922.3
+    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -175,6 +235,10 @@
             const answerButtonsEl = document.getElementById('answer-buttons');
             const feedbackEl = document.getElementById('feedback');
             const finalScoreEl = document.getElementById('final-score');
+            
+            const confettiCanvas = document.getElementById('confetti-canvas');
+            const confettiCtx = confettiCanvas.getContext('2d');
+            let confettiPieces = [];
 
             // Questions with highlight terms for the study guide
             const questions = [
@@ -238,15 +302,18 @@
                 questionReferenceEl.innerText = question.reference;
                 questionTextEl.innerText = question.question;
 
-                const allAnswersShort = question.answers.every(answer => answer.text.length < 25);
+                // Shuffle answers for the current question
+                const shuffledAnswers = [...question.answers].sort(() => Math.random() - 0.5);
+
+                const allAnswersShort = shuffledAnswers.every(answer => answer.text.length < 25);
                 if (allAnswersShort) {
                     answerButtonsEl.classList.add('md:grid-cols-3');
                 }
 
-                question.answers.forEach(answer => {
+                shuffledAnswers.forEach(answer => {
                     const button = document.createElement('button');
                     button.innerText = answer.text;
-                    button.classList.add('bg-white', 'hover:bg-purple-100', 'text-gray-800', 'font-semibold', 'py-3', 'px-5', 'rounded-lg', 'border', 'border-gray-300', 'transition', 'duration-200', 'text-left', 'w-full');
+                    button.classList.add('bg-white', 'hover:bg-blue-100', 'text-gray-800', 'font-semibold', 'py-3', 'px-5', 'rounded-lg', 'border', 'border-gray-300', 'transition', 'duration-200', 'text-left', 'w-full');
                     if (answer.correct) {
                         button.dataset.correct = answer.correct;
                     }
@@ -261,10 +328,10 @@
                 
                 const highlightedSpan = studyGuideContent.querySelector('span.bg-yellow-200');
                 if (highlightedSpan) {
-                    highlightedSpan.outerHTML = highlightedSpan.innerHTML;
+                    studyGuideContent.innerHTML = studyGuideContent.innerHTML.replace(/<span class="bg-yellow-200 rounded font-bold px-1">/g, '').replace(/<\/span>/g, '');
                 }
                 
-                studyGuideContent.classList.add('hidden');
+                studyGuideContent.classList.remove('expanded');
                 answerButtonsEl.classList.remove('md:grid-cols-3');
                 while (answerButtonsEl.firstChild) {
                     answerButtonsEl.removeChild(answerButtonsEl.firstChild);
@@ -273,65 +340,127 @@
 
             function selectAnswer(e) {
                 const selectedBtn = e.target;
-                const correct = selectedBtn.dataset.correct === 'true';
-                
-                Array.from(answerButtonsEl.children).forEach(button => {
-                    button.disabled = true;
-                });
+                const isCorrect = selectedBtn.dataset.correct === 'true';
 
-                if (correct) {
+                if (isCorrect) {
                     score++;
                     scoreEl.innerText = score;
-                    feedbackEl.innerText = "Correct! You're a star!";
+                    feedbackEl.innerText = 'Correct! 🎉';
                     feedbackEl.classList.remove('text-red-500');
                     feedbackEl.classList.add('text-green-500');
-                    selectedBtn.classList.add('flash-correct', 'bg-green-100', 'border-green-500');
+                    triggerConfetti();
                 } else {
-                    feedbackEl.innerText = "Not quite! We'll try this one again later.";
+                    feedbackEl.innerText = 'Incorrect! We\'ll try this one again later.';
                     feedbackEl.classList.remove('text-green-500');
                     feedbackEl.classList.add('text-red-500');
-                    selectedBtn.classList.add('flash-incorrect', 'bg-red-100', 'border-red-500');
-                    shuffledQuestions.push(shuffledQuestions[currentQuestionIndex]);
+                    shuffledQuestions.push(shuffledQuestions[currentQuestionIndex]); // Add to the end
                 }
 
+                totalQuestionsEl.innerText = shuffledQuestions.length; // Update total count
+
                 Array.from(answerButtonsEl.children).forEach(button => {
-                    if (button.dataset.correct === 'true') {
-                        button.classList.add('bg-green-100', 'border-green-500');
+                    button.disabled = true;
+                    button.classList.remove('hover:bg-blue-100');
+                    if (button.dataset.correct) {
+                        button.classList.remove('text-gray-800');
+                        button.classList.add('flash-correct', 'bg-green-400', 'text-black', 'font-bold');
+                    } else if (!isCorrect) {
+                        button.classList.add('flash-incorrect', 'bg-red-400', 'text-white');
                     }
                 });
 
+                nextBtn.classList.remove('hidden');
+
                 // Expand study guide and highlight the answer
-                studyGuideContent.classList.remove('hidden');
+                studyGuideContent.classList.add('expanded');
                 const currentQuestion = shuffledQuestions[currentQuestionIndex];
                 const highlightTerm = currentQuestion.highlightTerm;
 
                 if (highlightTerm) {
-                    const regex = new RegExp(`(${highlightTerm})`, 'gi');
+                    const escapedTerm = highlightTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    const regex = new RegExp(`(${escapedTerm})`, 'gi');
                     studyGuideContent.innerHTML = studyGuideContent.innerHTML.replace(regex, `<span class="bg-yellow-200 rounded font-bold px-1">$1</span>`);
                 }
 
-                nextBtn.classList.remove('hidden', 'bg-gray-300', 'text-gray-700');
-                nextBtn.classList.add('bg-purple-500', 'hover:bg-purple-600', 'text-white');
+                currentQuestionIndex++;
             }
 
             function showEndScreen() {
                 quizScreen.classList.add('hidden');
                 endScreen.classList.remove('hidden');
-                const originalQuestionCount = questions.length;
-                finalScoreEl.innerText = `${score} / ${originalQuestionCount}`;
+                const totalOriginalQuestions = questions.length;
+                const percentage = totalOriginalQuestions > 0 ? Math.round((score / totalOriginalQuestions) * 100) : 0;
+                finalScoreEl.innerText = `${score} / ${totalOriginalQuestions}`;
             }
 
+            // --- Confetti Logic ---
+            function triggerConfetti() {
+                const rect = confettiCanvas.parentElement.getBoundingClientRect();
+                confettiCanvas.width = rect.width;
+                confettiCanvas.height = rect.height;
+                
+                confettiPieces = [];
+                for (let i = 0; i < 100; i++) {
+                    confettiPieces.push(createConfettiPiece());
+                }
+                animateConfetti();
+            }
+
+            function createConfettiPiece() {
+                const colors = ['#ef4444', '#f97316', '#eab308', '#84cc16', '#22c55e', '#14b8a6', '#3b82f6', '#8b5cf6', '#d946ef'];
+                const x = confettiCanvas.width / 2;
+                const y = confettiCanvas.height / 2;
+                return {
+                    x: x,
+                    y: y,
+                    size: Math.random() * 8 + 5,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    vx: (Math.random() - 0.5) * 10,
+                    vy: (Math.random() - 0.7) * 12,
+                    gravity: 0.3,
+                    opacity: 1,
+                    angle: Math.random() * Math.PI * 2,
+                    spin: (Math.random() - 0.5) * 0.2
+                };
+            }
+
+            function animateConfetti() {
+                confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                let activePieces = false;
+
+                confettiPieces.forEach(piece => {
+                    if (piece.opacity > 0) {
+                        activePieces = true;
+                        piece.vy += piece.gravity;
+                        piece.x += piece.vx;
+                        piece.y += piece.vy;
+                        piece.angle += piece.spin;
+                        piece.opacity -= 0.01;
+
+                        confettiCtx.save();
+                        confettiCtx.globalAlpha = piece.opacity;
+                        confettiCtx.translate(piece.x, piece.y);
+                        confettiCtx.rotate(piece.angle);
+                        confettiCtx.fillStyle = piece.color;
+                        confettiCtx.fillRect(-piece.size / 2, -piece.size / 2, piece.size, piece.size);
+                        confettiCtx.restore();
+                    }
+                });
+
+                if (activePieces) {
+                    requestAnimationFrame(animateConfetti);
+                } else {
+                    confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                }
+            }
+
+
             startBtn.addEventListener('click', startGame);
-            nextBtn.addEventListener('click', () => {
-                currentQuestionIndex++;
-                setNextQuestion();
-            });
+            nextBtn.addEventListener('click', setNextQuestion);
             restartBtn.addEventListener('click', startGame);
-
             infoBtn.addEventListener('click', () => {
-                studyGuideContent.classList.toggle('hidden');
+                studyGuideContent.classList.toggle('expanded');
             });
-
         });
     </script>
 </body>
