@@ -105,7 +105,10 @@
             </div>
             <div class="bg-gray-50 p-4 rounded-lg mb-6">
                 <p id="question-reference" class="text-xs text-gray-500 mb-2 font-medium uppercase"></p>
-                <h2 id="question-text" class="text-xl md:text-2xl font-semibold text-gray-800"></h2>
+                <div id="question-container" class="flex items-center justify-between gap-2">
+                    <h2 id="question-text" class="text-xl md:text-2xl font-semibold text-gray-800 flex-grow"></h2>
+                    <!-- Speaker button for question will be inserted here -->
+                </div>
             </div>
             <div id="answer-buttons" class="grid grid-cols-1 gap-4">
                 <!-- Answer buttons will be generated here -->
@@ -139,7 +142,7 @@
                             <ol class="list-decimal list-inside mt-1 pl-2">
                                 <li>Arrest</li>
                                 <li>Booking</li>
-                                <li>Hearing (formal word is Indicting)</li>
+                                <li>Charging (formal word is Indicting)</li>
                                 <li>Trial</li>
                                 <li>Sentencing</li>
                                 <li>Appeal (if a fair trial is questioned)</li>
@@ -217,7 +220,7 @@
             <svg id="sound-on-icon" class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
             <svg id="sound-off-icon" class="w-5 h-5 text-gray-700 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2 2m2-2l2 2"></path></svg>
         </button>
-        <span>Build: 250922.6</span>
+        <span>Build: 250922.11</span>
     </footer>
 
     <!-- Audio Elements -->
@@ -241,7 +244,7 @@
             const questionNumberEl = document.getElementById('question-number');
             const totalQuestionsEl = document.getElementById('total-questions');
             const scoreEl = document.getElementById('score');
-            const questionTextEl = document.getElementById('question-text');
+            const questionContainer = document.getElementById('question-container');
             const questionReferenceEl = document.getElementById('question-reference');
             const answerButtonsEl = document.getElementById('answer-buttons');
             const feedbackEl = document.getElementById('feedback');
@@ -259,6 +262,7 @@
             let score = 0;
             let soundsEnabled = true;
             let confettiPieces = [];
+            let advanceTimeout = null;
             const correctEmojis = ['🎉', '🥳', '🤩', '👍', '💯', '✨', '🚀', '⭐', '🏆'];
 
             // --- Questions Data ---
@@ -266,7 +270,7 @@
                 { question: "What is the highest court in Georgia's judicial branch?", reference: "Study Guide Section: AKS 46", answers: [{ text: "Superior Court", correct: false }, { text: "Georgia's Supreme Court", correct: true }, { text: "Court of Appeals", correct: false }], highlightTerm: "Georgia's Supreme Court" },
                 { question: "What is the main role of the Georgia Supreme Court regarding laws and actions?", reference: "Study Guide Section: AKS 46", answers: [{ text: "To create new laws", correct: false }, { text: "To determine if they are constitutional", correct: true }, { text: "To enforce the laws", correct: false }], highlightTerm: "constitutional" },
                 { question: "For how long is the term for a Georgia Supreme Court justice?", reference: "Study Guide Section: AKS 46", answers: [{ text: "4 years", correct: false }, { text: "6-year term", correct: true }, { text: "For life", correct: false }], highlightTerm: "6-year term" },
-                { question: "What is the formal word for the 'hearing' step in the adult justice process where an indictment happens?", reference: "Study Guide Section: AKS 46", answers: [{ text: "Booking", correct: false }, { text: "Arraignment", correct: false }, { text: "Indicting", correct: true }], highlightTerm: "Indicting" },
+                { question: "What is the formal word for the 'charging' step in the adult justice process where an indictment happens?", reference: "Study Guide Section: AKS 46", answers: [{ text: "Booking", correct: false }, { text: "Arraignment", correct: false }, { text: "Indicting", correct: true }], highlightTerm: "Indicting" },
                 { question: "Criminal law deals with both felonies and...", reference: "Study Guide Section: AKS 46", answers: [{ text: "Misdemeanors", correct: true }, { text: "Lawsuits", correct: false }, { text: "Disputes", correct: false }], highlightTerm: "misdemeanors" },
                 { question: "An adult can appeal their case after a trial if they believe what?", reference: "Study Guide Section: AKS 46", answers: [{ text: "The sentence was too long", correct: false }, { text: "They did not have a fair trial", correct: true }, { text: "They found a new witness", correct: false }], highlightTerm: "fair trial is questioned" },
                 { question: "What type of law deals with actions that are considered crimes, like theft?", reference: "Study Guide Section: AKS 46", answers: [{ text: "Civil law", correct: false }, { text: "Criminal law", correct: true }, { text: "Family law", correct: false }], highlightTerm: "Criminal:" },
@@ -289,7 +293,15 @@
                 { question: "What is the purpose of a county government?", reference: "Study Guide Section: AKS 48", answers: [{ text: "To only provide police and fire services", correct: false }, { text: "To carry out state programs and conduct state courts", correct: true }, { text: "To create new state laws", correct: false }], highlightTerm: "carries out state programs" },
                 { question: "MARTA and school systems are examples of what kind of government?", reference: "Study Guide Section: AKS 48", answers: [{ text: "County government", correct: false }, { text: "City government", correct: false }, { text: "Special-purpose government", correct: true }], highlightTerm: "Special-Purpose:" },
                 { question: "How do local governments get money to provide services?", reference: "Study Guide Section: AKS 48", answers: [{ text: "From sales taxes and property taxes", correct: true }, { text: "By asking the federal government for money", correct: false }, { text: "From donations only", correct: false }], highlightTerm: "Sales Taxes" },
-                { question: "A tax based on the value of a house, car, or other property is called what?", reference: "Study Guide Section: AKS 48", answers: [{ text: "SPLOST", correct: false }, { text: "Ad Valorem Tax", correct: true }, { text: "User Fee", correct: false }], highlightTerm: "Ad Valorem (Property) Taxes" }
+                { question: "A tax based on the value of a house, car, or other property is called what?", reference: "Study Guide Section: AKS 48", answers: [{ text: "SPLOST", correct: false }, { text: "Ad Valorem Tax", correct: true }, { text: "User Fee", correct: false }], highlightTerm: "Ad Valorem (Property) Taxes" },
+                // --- NEW VARIED QUESTIONS ---
+                { question: "If a 15-year-old is caught shoplifting, this act is considered ________ because it would also be a crime for an adult.", reference: "Study Guide Section: AKS 47", answers: [{ text: "An Unruly Act", correct: false }, { text: "A Delinquent Act", correct: true }, { text: "A Civil Offense", correct: false }], highlightTerm: "Delinquent:" },
+                { question: "Your local public school board, which only manages schools, is an example of what kind of government?", reference: "Study Guide Section: AKS 48", answers: [{ text: "Municipality", correct: false }, { text: "County", correct: false }, { text: "Special-Purpose", correct: true }], highlightTerm: "Special-Purpose:" },
+                { question: "Which step in the adult criminal justice process comes right after Arrest?", reference: "Study Guide Section: AKS 46", answers: [{ text: "Trial", correct: false }, { text: "Booking", correct: true }, { text: "Appeal", correct: false }], highlightTerm: "Booking" },
+                { question: "A lawsuit between two neighbors over a fallen tree would be handled by which type of law?", reference: "Study Guide Section: AKS 46", answers: [{ text: "Criminal Law", correct: false }, { text: "Juvenile Law", correct: false }, { text: "Civil Law", correct: true }], highlightTerm: "Civil:" },
+                { question: "Instead of a jury, who determines guilt in a juvenile case?", reference: "Study Guide Section: AKS 47", answers: [{ text: "A panel of lawyers", correct: false }, { text: "The judge", correct: true }, { text: "The parents", correct: false }], highlightTerm: "No Juries" },
+                { question: "A tax that is based on the value of property, like a home, is known as...", reference: "Study Guide Section: AKS 48", answers: [{ text: "An Ad Valorem tax", correct: true }, { text: "A Sales Tax", correct: false }, { text: "A User Fee", correct: false }], highlightTerm: "Ad Valorem (Property) Taxes" },
+                { question: "Which government body is created by a Municipal Charter and provides services like fire protection?", reference: "Study Guide Section: AKS 48", answers: [{ text: "County", correct: false }, { text: "City", correct: true }, { text: "Special-Purpose District", correct: false }], highlightTerm: "City (Municipality)" }
             ];
 
             // --- Cookie Helper Functions ---
@@ -320,7 +332,7 @@
                 endScreen.classList.add('hidden');
                 quizScreen.classList.remove('hidden');
 
-                shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
+                shuffledQuestions = JSON.parse(JSON.stringify(questions)).sort(() => Math.random() - 0.5);
                 currentQuestionIndex = 0;
                 score = 0;
                 scoreEl.innerText = score;
@@ -336,13 +348,23 @@
                     showEndScreen();
                 }
             }
-
+            
             function showQuestion(question) {
                 questionNumberEl.innerText = currentQuestionIndex + 1;
                 totalQuestionsEl.innerText = shuffledQuestions.length;
                 questionReferenceEl.innerText = question.reference;
-                questionTextEl.innerText = question.question;
 
+                // --- Update Question Display with Speaker ---
+                questionContainer.innerHTML = ''; // Clear previous content
+                const questionTextEl = document.createElement('h2');
+                questionTextEl.innerText = question.question;
+                questionTextEl.classList.add('text-xl', 'md:text-2xl', 'font-semibold', 'text-gray-800', 'flex-grow');
+                const questionSpeakerBtn = createSpeakerButton(question.question);
+                questionContainer.appendChild(questionTextEl);
+                questionContainer.appendChild(questionSpeakerBtn);
+
+
+                // --- Update Answer Buttons with Speakers ---
                 const shuffledAnswers = [...question.answers].sort(() => Math.random() - 0.5);
                 const allAnswersShort = shuffledAnswers.every(answer => answer.text.length < 25);
                 if (allAnswersShort) {
@@ -351,8 +373,17 @@
 
                 shuffledAnswers.forEach(answer => {
                     const button = document.createElement('button');
-                    button.innerText = answer.text;
-                    button.classList.add('bg-white', 'hover:bg-blue-100', 'text-gray-800', 'font-semibold', 'py-3', 'px-5', 'rounded-lg', 'border', 'border-gray-300', 'transition', 'duration-200', 'text-left', 'w-full');
+                    button.classList.add('bg-white', 'hover:bg-blue-100', 'text-gray-800', 'font-semibold', 'py-3', 'px-5', 'rounded-lg', 'border', 'border-gray-300', 'transition', 'duration-200', 'w-full', 'flex', 'items-center', 'justify-between');
+
+                    const answerTextSpan = document.createElement('span');
+                    answerTextSpan.innerText = answer.text;
+                    answerTextSpan.classList.add('text-left');
+
+                    const answerSpeakerBtn = createSpeakerButton(answer.text);
+                    
+                    button.appendChild(answerTextSpan);
+                    button.appendChild(answerSpeakerBtn);
+
                     if (answer.correct) {
                         button.dataset.correct = answer.correct;
                     }
@@ -361,7 +392,12 @@
                 });
             }
 
+
             function resetState() {
+                if (advanceTimeout) {
+                    clearTimeout(advanceTimeout);
+                    advanceTimeout = null;
+                }
                 nextBtn.classList.add('hidden');
                 feedbackEl.innerText = '';
                 const highlightedSpan = studyGuideContent.querySelector('span.bg-yellow-200');
@@ -376,24 +412,31 @@
             }
 
             function selectAnswer(e) {
-                const selectedBtn = e.target;
+                // This makes sure we are targeting the main button, not the span or svg inside it
+                const selectedBtn = e.currentTarget;
                 const isCorrect = selectedBtn.dataset.correct === 'true';
+                const currentQuestion = shuffledQuestions[currentQuestionIndex];
 
                 if (isCorrect) {
                     if(soundsEnabled) correctSound.play();
-                    score++;
-                    scoreEl.innerText = score;
+                    if (!currentQuestion.isRetry) {
+                        score++;
+                        scoreEl.innerText = score;
+                    }
                     const randomEmoji = correctEmojis[Math.floor(Math.random() * correctEmojis.length)];
                     feedbackEl.innerText = `Correct! ${randomEmoji}`;
                     feedbackEl.classList.remove('text-red-500');
                     feedbackEl.classList.add('text-green-500');
                     triggerConfetti();
+                    advanceTimeout = setTimeout(setNextQuestion, 3000); // Auto-advance
                 } else {
                     if(soundsEnabled) incorrectSound.play();
                     feedbackEl.innerText = 'Incorrect! We\'ll try this one again later.';
                     feedbackEl.classList.remove('text-green-500');
                     feedbackEl.classList.add('text-red-500');
-                    shuffledQuestions.push(shuffledQuestions[currentQuestionIndex]);
+                    currentQuestion.isRetry = true;
+                    shuffledQuestions.push(currentQuestion);
+                    nextBtn.classList.remove('hidden'); // Show button for manual advance
                 }
 
                 totalQuestionsEl.innerText = shuffledQuestions.length;
@@ -408,10 +451,8 @@
                         button.classList.add('flash-incorrect', 'bg-red-400', 'text-white');
                     }
                 });
-
-                nextBtn.classList.remove('hidden');
+                
                 studyGuideContent.classList.add('expanded');
-                const currentQuestion = shuffledQuestions[currentQuestionIndex];
                 const highlightTerm = currentQuestion.highlightTerm;
 
                 if (highlightTerm) {
@@ -445,6 +486,26 @@
                         endMessageEl.innerText = `Good job! Your high score is still ${highScore}. Try again to beat it! 💪`;
                     }
                 }
+            }
+            
+            // --- Text-to-Speech Functions ---
+             function speakText(text) {
+                if ('speechSynthesis' in window && soundsEnabled) {
+                    window.speechSynthesis.cancel(); // Stop any previous speech
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    window.speechSynthesis.speak(utterance);
+                }
+            }
+
+            function createSpeakerButton(textToSpeak) {
+                const button = document.createElement('button');
+                button.classList.add('p-2', 'rounded-full', 'hover:bg-gray-200', 'transition-colors', 'duration-200', 'flex-shrink-0');
+                button.innerHTML = `<svg class="w-6 h-6 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>`;
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent answer selection when clicking speaker
+                    speakText(textToSpeak);
+                });
+                return button;
             }
 
             // --- Visual & Audio Effects ---
@@ -547,6 +608,9 @@
                     soundOnIcon.classList.toggle('hidden');
                     soundOffIcon.classList.toggle('hidden');
                     setCookie('soundEnabled', soundsEnabled, 365);
+                    if (!soundsEnabled) {
+                        window.speechSynthesis.cancel();
+                    }
                 });
             }
 
