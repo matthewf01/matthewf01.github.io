@@ -14,16 +14,10 @@
             font-family: 'Inter', sans-serif;
             background-color: #f0f0f0;
             background-image:
-                radial-gradient(at 0% 0%, hsla(200, 80%, 90%, 1) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, hsla(340, 80%, 90%, 1) 0px, transparent 50%),
-                radial-gradient(at 0% 100%, hsla(100, 80%, 90%, 1) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, hsla(290, 80%, 90%, 1) 0px, transparent 50%);
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+                radial-gradient(at 0% 0%, hsla(200, 95%, 85%, 1) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(340, 95%, 85%, 1) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, hsla(100, 95%, 85%, 1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, hsla(290, 95%, 85%, 1) 0px, transparent 50%);
         }
 
         .flash-correct {
@@ -55,11 +49,11 @@
             padding-top: 1.5rem; /* 6 */
             border-width: 2px 0 0 0; /* border-t-2 */
         }
-        #next-btn, #start-btn {
+        #next-btn, #start-btn, #resume-quiz-btn {
             background-size: 200% auto;
             transition: background-position 0.4s ease-in-out;
         }
-        #next-btn:hover, #start-btn:hover {
+        #next-btn:hover, #start-btn:hover, #resume-quiz-btn:hover {
             background-position: right center;
         }
         #start-btn {
@@ -74,16 +68,30 @@
             pointer-events: none;
             z-index: 100;
         }
+        #game-container {
+             background-color: rgba(255, 255, 255, 0.6);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+        #break-canvas {
+            touch-action: none;
+            cursor: pointer;
+        }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-4">
+<body class="flex flex-col items-center justify-center p-4">
 
-    <div id="game-container" class="w-full max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-6 md:p-8 relative">
+    <div class="w-full max-w-4xl mx-auto bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-3 text-center mb-4">
+        <h1 class="text-2xl font-bold text-purple-600">Unit 3: Judicial & Local Government</h1>
+    </div>
+
+    <div id="game-container" class="w-full max-w-4xl mx-auto rounded-2xl shadow-lg p-6 md:p-8 relative">
         <canvas id="confetti-canvas"></canvas>
         
         <!-- Start Screen -->
         <div id="start-screen" class="text-center">
-            <h1 class="text-3xl md:text-4xl font-bold text-purple-600 mb-4">Anleigh's Unit 3: Judicial & Local Government Review Game</h1>
+            <h1 class="text-3xl md:text-4xl font-bold text-purple-600 mb-2">Anleigh's SS Review Game</h1>
+            <p class="text-xl text-gray-700 mb-6">Unit 3: Judicial & Local Government</p>
             <p class="text-gray-600 mb-2">A quiz to review your notes for Unit 3.</p>
             <p class="text-sm text-gray-500 mb-8">Answer the questions to test your knowledge. If you get one wrong, don't worry! It will show up again later in the quiz for another try.</p>
             <p id="high-score-display" class="text-gray-500 mb-8 hidden">Last High Score: <span id="high-score-value" class="font-bold">0</span></p>
@@ -201,6 +209,18 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Brain Break Screen -->
+        <div id="brain-break-screen" class="hidden text-center">
+            <h2 class="text-3xl font-bold text-pink-500 mb-2">Brain Break!</h2>
+            <p id="break-instructions" class="text-gray-600 mb-4">Relax for a moment.</p>
+            <canvas id="break-canvas" class="bg-black rounded-lg shadow-inner border-2 border-gray-200 mx-auto" width="500" height="300"></canvas>
+            <p id="timer-display" class="text-lg text-gray-700 my-4 font-semibold"></p>
+            <button id="resume-quiz-btn" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg text-lg">
+                Continue Quiz!
+            </button>
+        </div>
+
 
         <!-- End Screen -->
         <div id="end-screen" class="hidden text-center">
@@ -220,7 +240,7 @@
             <svg id="sound-on-icon" class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
             <svg id="sound-off-icon" class="w-5 h-5 text-gray-700 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2 2m2-2l2 2"></path></svg>
         </button>
-        <span>Build: 250922.11</span>
+        <span>MF Build: 250922.16</span>
     </footer>
 
     <!-- Audio Elements -->
@@ -233,6 +253,11 @@
             const startScreen = document.getElementById('start-screen');
             const quizScreen = document.getElementById('quiz-screen');
             const endScreen = document.getElementById('end-screen');
+            const brainBreakScreen = document.getElementById('brain-break-screen');
+            const breakCanvas = document.getElementById('break-canvas');
+            const breakInstructions = document.getElementById('break-instructions');
+            const timerDisplay = document.getElementById('timer-display');
+            const resumeQuizBtn = document.getElementById('resume-quiz-btn');
             const studyGuideContent = document.getElementById('study-guide-content');
             const startBtn = document.getElementById('start-btn');
             const nextBtn = document.getElementById('next-btn');
@@ -260,10 +285,15 @@
             // --- Game State Variables ---
             let shuffledQuestions, currentQuestionIndex;
             let score = 0;
+            let questionsSinceBreak = 0;
+            let brainBreakCounter = 0;
             let soundsEnabled = true;
             let confettiPieces = [];
             let advanceTimeout = null;
+            let breakTimerInterval = null;
+            let animationFrameId;
             const correctEmojis = ['🎉', '🥳', '🤩', '👍', '💯', '✨', '🚀', '⭐', '🏆'];
+            let currentBreakListeners = [];
 
             // --- Questions Data ---
             const questions = [
@@ -293,15 +323,7 @@
                 { question: "What is the purpose of a county government?", reference: "Study Guide Section: AKS 48", answers: [{ text: "To only provide police and fire services", correct: false }, { text: "To carry out state programs and conduct state courts", correct: true }, { text: "To create new state laws", correct: false }], highlightTerm: "carries out state programs" },
                 { question: "MARTA and school systems are examples of what kind of government?", reference: "Study Guide Section: AKS 48", answers: [{ text: "County government", correct: false }, { text: "City government", correct: false }, { text: "Special-purpose government", correct: true }], highlightTerm: "Special-Purpose:" },
                 { question: "How do local governments get money to provide services?", reference: "Study Guide Section: AKS 48", answers: [{ text: "From sales taxes and property taxes", correct: true }, { text: "By asking the federal government for money", correct: false }, { text: "From donations only", correct: false }], highlightTerm: "Sales Taxes" },
-                { question: "A tax based on the value of a house, car, or other property is called what?", reference: "Study Guide Section: AKS 48", answers: [{ text: "SPLOST", correct: false }, { text: "Ad Valorem Tax", correct: true }, { text: "User Fee", correct: false }], highlightTerm: "Ad Valorem (Property) Taxes" },
-                // --- NEW VARIED QUESTIONS ---
-                { question: "If a 15-year-old is caught shoplifting, this act is considered ________ because it would also be a crime for an adult.", reference: "Study Guide Section: AKS 47", answers: [{ text: "An Unruly Act", correct: false }, { text: "A Delinquent Act", correct: true }, { text: "A Civil Offense", correct: false }], highlightTerm: "Delinquent:" },
-                { question: "Your local public school board, which only manages schools, is an example of what kind of government?", reference: "Study Guide Section: AKS 48", answers: [{ text: "Municipality", correct: false }, { text: "County", correct: false }, { text: "Special-Purpose", correct: true }], highlightTerm: "Special-Purpose:" },
-                { question: "Which step in the adult criminal justice process comes right after Arrest?", reference: "Study Guide Section: AKS 46", answers: [{ text: "Trial", correct: false }, { text: "Booking", correct: true }, { text: "Appeal", correct: false }], highlightTerm: "Booking" },
-                { question: "A lawsuit between two neighbors over a fallen tree would be handled by which type of law?", reference: "Study Guide Section: AKS 46", answers: [{ text: "Criminal Law", correct: false }, { text: "Juvenile Law", correct: false }, { text: "Civil Law", correct: true }], highlightTerm: "Civil:" },
-                { question: "Instead of a jury, who determines guilt in a juvenile case?", reference: "Study Guide Section: AKS 47", answers: [{ text: "A panel of lawyers", correct: false }, { text: "The judge", correct: true }, { text: "The parents", correct: false }], highlightTerm: "No Juries" },
-                { question: "A tax that is based on the value of property, like a home, is known as...", reference: "Study Guide Section: AKS 48", answers: [{ text: "An Ad Valorem tax", correct: true }, { text: "A Sales Tax", correct: false }, { text: "A User Fee", correct: false }], highlightTerm: "Ad Valorem (Property) Taxes" },
-                { question: "Which government body is created by a Municipal Charter and provides services like fire protection?", reference: "Study Guide Section: AKS 48", answers: [{ text: "County", correct: false }, { text: "City", correct: true }, { text: "Special-Purpose District", correct: false }], highlightTerm: "City (Municipality)" }
+                { question: "A tax based on the value of a house, car, or other property is called what?", reference: "Study Guide Section: AKS 48", answers: [{ text: "SPLOST", correct: false }, { text: "Ad Valorem Tax", correct: true }, { text: "User Fee", correct: false }], highlightTerm: "Ad Valorem (Property) Taxes" }
             ];
 
             // --- Cookie Helper Functions ---
@@ -335,8 +357,62 @@
                 shuffledQuestions = JSON.parse(JSON.stringify(questions)).sort(() => Math.random() - 0.5);
                 currentQuestionIndex = 0;
                 score = 0;
+                questionsSinceBreak = 0;
+                brainBreakCounter = 0;
                 scoreEl.innerText = score;
                 totalQuestionsEl.innerText = shuffledQuestions.length;
+                setNextQuestion();
+            }
+
+            function prepareNextStep() {
+                if (questionsSinceBreak > 0 && questionsSinceBreak % 6 === 0 && currentQuestionIndex < shuffledQuestions.length) {
+                    showArtBreak();
+                } else {
+                    setNextQuestion();
+                }
+            }
+            
+            function showArtBreak() {
+                quizScreen.classList.add('hidden');
+                brainBreakScreen.classList.remove('hidden');
+                
+                const breakType = brainBreakCounter % 3; 
+                cleanupBreakAnimation(); 
+
+                switch(breakType) {
+                    case 0:
+                        setupBouncingBalls();
+                        break;
+                    case 1:
+                        setupStarfield();
+                        break;
+                    case 2:
+                        setupFollower();
+                        break;
+                }
+                brainBreakCounter++;
+                
+                let timeLeft = 30;
+                timerDisplay.textContent = `Time left: ${timeLeft}s`;
+                breakTimerInterval = setInterval(() => {
+                    timeLeft--;
+                    timerDisplay.textContent = `Time left: ${timeLeft}s`;
+                    if (timeLeft <= 0) {
+                        resumeQuiz();
+                    }
+                }, 1000);
+            }
+            
+            function resumeQuiz() {
+                if(breakTimerInterval) clearInterval(breakTimerInterval);
+                if(animationFrameId) cancelAnimationFrame(animationFrameId);
+                breakTimerInterval = null;
+                animationFrameId = null;
+                
+                cleanupBreakAnimation();
+
+                brainBreakScreen.classList.add('hidden');
+                quizScreen.classList.remove('hidden');
                 setNextQuestion();
             }
 
@@ -354,8 +430,7 @@
                 totalQuestionsEl.innerText = shuffledQuestions.length;
                 questionReferenceEl.innerText = question.reference;
 
-                // --- Update Question Display with Speaker ---
-                questionContainer.innerHTML = ''; // Clear previous content
+                questionContainer.innerHTML = ''; 
                 const questionTextEl = document.createElement('h2');
                 questionTextEl.innerText = question.question;
                 questionTextEl.classList.add('text-xl', 'md:text-2xl', 'font-semibold', 'text-gray-800', 'flex-grow');
@@ -363,8 +438,6 @@
                 questionContainer.appendChild(questionTextEl);
                 questionContainer.appendChild(questionSpeakerBtn);
 
-
-                // --- Update Answer Buttons with Speakers ---
                 const shuffledAnswers = [...question.answers].sort(() => Math.random() - 0.5);
                 const allAnswersShort = shuffledAnswers.every(answer => answer.text.length < 25);
                 if (allAnswersShort) {
@@ -412,10 +485,11 @@
             }
 
             function selectAnswer(e) {
-                // This makes sure we are targeting the main button, not the span or svg inside it
                 const selectedBtn = e.currentTarget;
                 const isCorrect = selectedBtn.dataset.correct === 'true';
                 const currentQuestion = shuffledQuestions[currentQuestionIndex];
+
+                questionsSinceBreak++;
 
                 if (isCorrect) {
                     if(soundsEnabled) correctSound.play();
@@ -428,7 +502,7 @@
                     feedbackEl.classList.remove('text-red-500');
                     feedbackEl.classList.add('text-green-500');
                     triggerConfetti();
-                    advanceTimeout = setTimeout(setNextQuestion, 3000); // Auto-advance
+                    advanceTimeout = setTimeout(prepareNextStep, 3000); 
                 } else {
                     if(soundsEnabled) incorrectSound.play();
                     feedbackEl.innerText = 'Incorrect! We\'ll try this one again later.';
@@ -436,7 +510,7 @@
                     feedbackEl.classList.add('text-red-500');
                     currentQuestion.isRetry = true;
                     shuffledQuestions.push(currentQuestion);
-                    nextBtn.classList.remove('hidden'); // Show button for manual advance
+                    nextBtn.classList.remove('hidden'); 
                 }
 
                 totalQuestionsEl.innerText = shuffledQuestions.length;
@@ -491,7 +565,7 @@
             // --- Text-to-Speech Functions ---
              function speakText(text) {
                 if ('speechSynthesis' in window && soundsEnabled) {
-                    window.speechSynthesis.cancel(); // Stop any previous speech
+                    window.speechSynthesis.cancel(); 
                     const utterance = new SpeechSynthesisUtterance(text);
                     window.speechSynthesis.speak(utterance);
                 }
@@ -502,10 +576,146 @@
                 button.classList.add('p-2', 'rounded-full', 'hover:bg-gray-200', 'transition-colors', 'duration-200', 'flex-shrink-0');
                 button.innerHTML = `<svg class="w-6 h-6 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>`;
                 button.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Prevent answer selection when clicking speaker
+                    e.stopPropagation(); 
                     speakText(textToSpeak);
                 });
                 return button;
+            }
+            
+            // --- Brain Break Animation Functions ---
+            function cleanupBreakAnimation() {
+                currentBreakListeners.forEach(({ event, handler }) => {
+                    breakCanvas.removeEventListener(event, handler);
+                });
+                currentBreakListeners = [];
+                breakCanvas.style.cursor = 'default';
+                breakCanvas.style.backgroundColor = 'white';
+            }
+
+            function addBreakListener(event, handler) {
+                breakCanvas.addEventListener(event, handler);
+                currentBreakListeners.push({ event, handler });
+            }
+            
+            function setupBouncingBalls() {
+                breakInstructions.textContent = "Relax for a moment.";
+                breakCanvas.style.cursor = 'default';
+                breakCanvas.style.backgroundColor = 'white';
+                const breakCtx = breakCanvas.getContext('2d');
+                let balls = [];
+                const colors = ['#ef4444', '#f97316', '#eab308', '#84cc16', '#22c55e', '#14b8a6', '#3b82f6', '#8b5cf6', '#d946ef'];
+                for(let i = 0; i < 20; i++) {
+                    balls.push({
+                        x: Math.random() * breakCanvas.width, y: Math.random() * breakCanvas.height,
+                        vx: (Math.random() - 0.5) * 4, vy: (Math.random() - 0.5) * 4,
+                        radius: Math.random() * 10 + 10, color: colors[Math.floor(Math.random() * colors.length)]
+                    });
+                }
+                function animate() {
+                    animationFrameId = requestAnimationFrame(animate);
+                    breakCtx.clearRect(0, 0, breakCanvas.width, breakCanvas.height);
+                    balls.forEach(ball => {
+                        ball.x += ball.vx; ball.y += ball.vy;
+                        if(ball.y + ball.vy > breakCanvas.height || ball.y + ball.vy < 0) ball.vy = -ball.vy;
+                        if(ball.x + ball.vx > breakCanvas.width || ball.x + ball.vx < 0) ball.vx = -ball.vx;
+                        breakCtx.beginPath();
+                        breakCtx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2, false);
+                        breakCtx.fillStyle = ball.color;
+                        breakCtx.fill();
+                        breakCtx.closePath();
+                    });
+                }
+                animate();
+            }
+
+            function setupStarfield() {
+                breakInstructions.textContent = "Move your mouse or finger to fly through space!";
+                breakCanvas.style.cursor = 'crosshair';
+                breakCanvas.style.backgroundColor = 'black';
+                const breakCtx = breakCanvas.getContext('2d');
+                const numStars = 500;
+                let stars = [];
+                let speed = 2.5;
+                let centerX = breakCanvas.width / 2;
+                let centerY = breakCanvas.height / 2;
+
+                for (let i = 0; i < numStars; i++) {
+                    stars[i] = {
+                        x: (Math.random() - 0.5) * breakCanvas.width,
+                        y: (Math.random() - 0.5) * breakCanvas.height,
+                        z: Math.random() * breakCanvas.width
+                    };
+                }
+
+                const starfieldHandler = (e) => {
+                    const rect = breakCanvas.getBoundingClientRect();
+                    centerX = (e.clientX || e.touches[0].clientX) - rect.left;
+                    centerY = (e.clientY || e.touches[0].clientY) - rect.top;
+                };
+
+                addBreakListener('mousemove', starfieldHandler);
+                addBreakListener('touchmove', (e) => { e.preventDefault(); starfieldHandler(e); });
+
+                function animate() {
+                    animationFrameId = requestAnimationFrame(animate);
+                    breakCtx.fillStyle = "rgba(0, 0, 0, 0.2)";
+                    breakCtx.fillRect(0, 0, breakCanvas.width, breakCanvas.height);
+                    
+                    for (let star of stars) {
+                        star.z -= speed;
+                        if (star.z <= 0) {
+                            star.x = (Math.random() - 0.5) * breakCanvas.width;
+                            star.y = (Math.random() - 0.5) * breakCanvas.height;
+                            star.z = breakCanvas.width;
+                        }
+
+                        const k = 128 / star.z;
+                        const px = star.x * k + centerX;
+                        const py = star.y * k + centerY;
+
+                        if (px >= 0 && px <= breakCanvas.width && py >= 0 && py <= breakCanvas.height) {
+                            const size = (1 - star.z / breakCanvas.width) * 5;
+                            breakCtx.beginPath();
+                            breakCtx.arc(px, py, size, 0, Math.PI * 2);
+                            breakCtx.fillStyle = 'white';
+                            breakCtx.fill();
+                        }
+                    }
+                }
+                animate();
+            }
+
+            function setupFollower() {
+                breakInstructions.textContent = "Move your mouse or finger!";
+                breakCanvas.style.cursor = 'crosshair';
+                breakCanvas.style.backgroundColor = 'white';
+                const breakCtx = breakCanvas.getContext('2d');
+                let trail = [];
+                let hue = 0;
+                const followerHandler = (e) => {
+                    const rect = breakCanvas.getBoundingClientRect();
+                    const x = (e.clientX || e.touches[0].clientX) - rect.left;
+                    const y = (e.clientY || e.touches[0].clientY) - rect.top;
+                    hue = (hue + 3) % 360;
+                    trail.push({ x, y, size: 15, opacity: 1, color: `hsl(${hue}, 80%, 60%)`});
+                    if(trail.length > 50) trail.shift();
+                };
+                addBreakListener('mousemove', followerHandler);
+                addBreakListener('touchmove', (e) => { e.preventDefault(); followerHandler(e); });
+
+                function animate() {
+                    animationFrameId = requestAnimationFrame(animate);
+                    breakCtx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                    breakCtx.fillRect(0, 0, breakCanvas.width, breakCanvas.height);
+                    trail.forEach(p => {
+                        p.size *= 0.97;
+                        breakCtx.beginPath();
+                        breakCtx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
+                        breakCtx.fillStyle = p.color;
+                        breakCtx.fill();
+                    });
+                }
+                animate();
             }
 
             // --- Visual & Audio Effects ---
@@ -600,9 +810,12 @@
                 generateAndSetAudio();
                 
                 startBtn.addEventListener('click', startGame);
-                nextBtn.addEventListener('click', setNextQuestion);
+                nextBtn.addEventListener('click', prepareNextStep);
+                resumeQuizBtn.addEventListener('click', resumeQuiz);
                 restartBtn.addEventListener('click', startGame);
-                infoBtn.addEventListener('click', () => studyGuideContent.classList.toggle('expanded'));
+                infoBtn.addEventListener('click', () => {
+                    studyGuideContent.classList.toggle('expanded');
+                });
                 soundToggleBtn.addEventListener('click', () => {
                     soundsEnabled = !soundsEnabled;
                     soundOnIcon.classList.toggle('hidden');
