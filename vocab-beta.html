@@ -251,7 +251,7 @@
     </div>
     
     <div class="fixed bottom-2 right-4 text-xs text-gray-500">
-        MF Version: 250914.1
+        MF Version: 250914.3
     </div>
 
     <script>
@@ -298,6 +298,19 @@
             },
             "Language Arts": {
                 emoji: "📚",
+                "Week 4": [
+                    { id: '1', text: "gentle", type: "word" }, { id: '1', text: "to be calm, kind and considerate in your actions", type: "definition" },
+                    { id: '2', text: "polite", type: "word" }, { id: '2', text: "showing good manners and respect for others", type: "definition" },
+                    { id: '3', text: "repair", type: "word" }, { id: '3', text: "to fix or mend something", type: "definition" },
+                    { id: '4', text: "greedy", type: "word" }, { id: '4', text: "wanting more than you need", type: "definition" },
+                    { id: '5', text: "appreciate", type: "word" }, { id: '5', text: "to be grateful for something", type: "definition" },
+                    { id: '6', text: "anxious", type: "word" }, { id: '6', text: "to experience worry and nervousness", type: "definition" },
+                    { id: '7', text: "comfort", type: "word" }, { id: '7', text: "to make someone feel better", type: "definition" },
+                    { id: '8', text: "wept", type: "word" }, { id: '8', text: "to cry (past tense)", type: "definition" },
+                    { id: '9', text: "despair", type: "word" }, { id: '9', text: "the complete loss of hope", type: "definition" },
+                    { id: '10', text: "companion", type: "word" }, { id: '10', text: "a friend or someone who goes along with you", type: "definition" },
+                    { id: '11', text: "cautious", type: "word" }, { id: '11', text: "to be careful", type: "definition" }
+                ],
                 "Week 3": [
                     { id: '1', text: "glimpse", type: "word" }, { id: '1', text: "a quick look", type: "definition" },
                     { id: '2', text: "jovial", type: "word" }, { id: '2', text: "cheerful, friendly, happy", type: "definition" },
@@ -556,7 +569,7 @@
             cardDiv.dataset.id = card.id;
             cardDiv.dataset.type = card.type;
 
-            if (card.type === 'word') {
+            if (card.type === 'word' || card.type === 'definition') {
                 const speechButton = document.createElement('button');
                 speechButton.className = 'speech-button';
                 speechButton.innerHTML = '🔊';
@@ -839,7 +852,8 @@
         function renderWordBankMenu(subjectName, keepSelection = false) {
             const selectedBank = keepSelection ? document.querySelector('#word-bank-menu .menu-item.selected')?.dataset.bank : null;
             wordBankMenu.innerHTML = '';
-            const wordBanks = Object.keys(subjects[subjectName]).filter(key => key !== 'emoji');
+            let wordBanks = Object.keys(subjects[subjectName]).filter(key => key !== 'emoji');
+            wordBanks.sort().reverse();
 
             let bankToSelect = selectedBank || wordBanks[0];
 
