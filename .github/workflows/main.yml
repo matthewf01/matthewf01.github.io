@@ -48,12 +48,15 @@ jobs:
                     filename=$(basename "$file")
                     page_title=""
 
-                    # 1. Try to get title from the first <h1> tag
-                    page_title=$(grep -m 1 -oP '(?<=<h1[^>]*>).*(?=</h1>)' "$file" | head -n 1)
+                    # Read the entire file content, remove newlines, and then search
+                    file_content=$(cat "$file" | tr -d '\r\n')
+
+                    # 1. Try to get title from the first <h1> tag (case-insensitive)
+                    page_title=$(echo "$file_content" | grep -i -m 1 -oP '(?<=<h1[^>]*>).*(?=</h1>)')
                     
-                    # 2. If no <h1>, try to get title from the <title> tag
+                    # 2. If no <h1>, try to get title from the <title> tag (case-insensitive)
                     if [ -z "$page_title" ]; then
-                        page_title=$(grep -oP '(?<=<title>).*(?=</title>)' "$file" | head -n 1)
+                        page_title=$(echo "$file_content" | grep -i -m 1 -oP '(?<=<title[^>]*>).*(?=</title>)')
                     fi
                     
                     # 3. If still no title, fall back to the formatted filename
@@ -88,5 +91,5 @@ jobs:
     - name: Commit and push if changed
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        commit_message: "docs: update index.html with new styling and h1 logic"
+        commit_message: "docs: update index.html with robust h1/title logic"
         file_pattern: index.html
