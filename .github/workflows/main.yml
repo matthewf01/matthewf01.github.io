@@ -8,8 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    # Add this permissions block
     permissions:
       contents: write
 
@@ -19,43 +17,65 @@ jobs:
 
     - name: Generate index.html
       run: |
-        # Start the HTML file with a header and some CSS for styling
+        # Start the HTML file with updated title and gradient background CSS
         echo '<!DOCTYPE html>' > index.html
         echo '<html lang="en">' >> index.html
         echo '<head>' >> index.html
         echo '  <meta charset="UTF-8">' >> index.html
         echo '  <meta name="viewport" content="width=device-width, initial-scale=1.0">' >> index.html
-        echo '  <title>Page Index</title>' >> index.html
+        echo '  <title>matthewf01 Github Coding Projects</title>' >> index.html
         echo '  <style>' >> index.html
-        echo '    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 2rem auto; padding: 0 1rem; }' >> index.html
-        echo '    h1 { color: #111; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem; }' >> index.html
-        echo '    ul { list-style-type: none; padding: 0; }' >> index.html
+        echo '    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 2rem; background: linear-gradient(to bottom, #e6f7ff, #ffffff); min-height: 100vh; }' >> index.html
+        echo '    h1, h2 { color: #111; }' >> index.html
+        echo '    h1 { border-bottom: 2px solid #dde; padding-bottom: 0.5rem; }' >> index.html
+        echo '    h2 { font-size: 1.2rem; margin-top: 2rem; color: #555; border-left: 3px solid #007bff; padding-left: 0.75rem; }' >> index.html
+        echo '    ul { list-style-type: none; padding-left: 1rem; }' >> index.html
         echo '    li { margin: 0.75rem 0; }' >> index.html
-        echo '    a { text-decoration: none; color: #007bff; font-size: 1.1rem; transition: color 0.2s; }' >> index.html
-        echo '    a:hover { color: #0056b3; text-decoration: underline; }' >> index.html
+        echo '    a { text-decoration: none; color: #0056b3; font-size: 1.1rem; transition: color 0.2s; }' >> index.html
+        echo '    a:hover { color: #003d80; text-decoration: underline; }' >> index.html
         echo '    footer { margin-top: 3rem; text-align: center; font-size: 0.8rem; color: #777; }' >> index.html
         echo '  </style>' >> index.html
         echo '</head>' >> index.html
         echo '<body>' >> index.html
-        echo '  <h1>Index of Pages</h1>' >> index.html
-        echo '  <p>Welcome! Here is a list of all available pages on this site.</p>' >> index.html
-        echo '  <ul>' >> index.html
+        echo '  <h1>matthewf01 Github Coding Projects</h1>' >> index.html
 
-        # Find all HTML files (excluding index.html itself), format the name, and add it to a list
-        for file in $(find . -maxdepth 1 -name "*.html" -o -name "*.htm"); do
-          filename=$(basename "$file")
-          if [ "$filename" != "index.html" ]; then
-            pagename=$(echo "$filename" | sed 's/\.[^.]*$//' | sed 's/-/ /g' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1')
-            echo "    <li><a href=\"$filename\">$pagename</a></li>" >> index.html
-          fi
+        # Function to process files in a given directory
+        process_directory() {
+            local dir_path=$1
+            local file_list=$(find "$dir_path" -maxdepth 1 -name "*.html" -o -name "*.htm" | sort)
+            if [ -n "$file_list" ]; then
+                echo '  <ul>' >> index.html
+                for file in $file_list; do
+                    filename=$(basename "$file")
+                    if [ "$filename" != "index.html" ]; then
+                        # Extract title from HTML file; fallback to formatted filename
+                        page_title=$(grep -oP '(?<=<title>).*(?=</title>)' "$file" | head -n 1)
+                        if [ -z "$page_title" ]; then
+                            page_title=$(echo "$filename" | sed 's/\.[^.]*$//' | sed 's/-/ /g' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1')
+                        fi
+                        echo "    <li><a href=\"$file\">$page_title</a></li>" >> index.html
+                    fi
+                done
+                echo '  </ul>' >> index.html
+            fi
+        }
+
+        # Process root directory
+        echo "<h2>Root</h2>" >> index.html
+        process_directory "."
+
+        # Process subdirectories
+        for dir in $(find . -mindepth 1 -type d -not -path './.git*' -not -path './.github*'); do
+            dir_name_formatted=$(echo "$dir" | sed 's|^\./||' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1')
+            echo "<h2>$dir_name_formatted</h2>" >> index.html
+            process_directory "$dir"
         done
 
         # Close the HTML tags
-        echo '  </ul>' >> index.html
         echo '  <footer><p><em>This page is automatically generated and updated by a GitHub Action.</em></p></footer>' >> index.html
         echo '</body>' >> index.html
-        echo '</html>' >> index.html
-
+        echo '</html>'
+        
     - name: Commit and push if changed
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
