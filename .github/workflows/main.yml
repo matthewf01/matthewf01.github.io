@@ -1,1 +1,38 @@
+name: Generate Index Page
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Generate index.md
+      run: |
+        echo "# Index of Pages" > index.md
+        echo "" >> index.md
+        echo "Welcome to my collection of pages. Here you can find a list of all the available pages on this site." >> index.md
+        echo "" >> index.md
+        echo "## Available Pages" >> index.md
+        echo "" >> index.md
+        for file in $(find . -maxdepth 1 -name "*.html" -o -name "*.htm"); do
+          filename=$(basename "$file")
+          pagename=$(echo "$filename" | sed 's/\.[^.]*$//' | sed 's/-/ /g' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1')
+          echo "- [$pagename]($filename)" >> index.md
+        done
+        echo "" >> index.md
+        echo "---" >> index.md
+        echo "" >> index.md
+        echo "*This page is automatically updated by a GitHub Action.*" >> index.md
+
+    - name: Commit and push if changed
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: "docs: update index.md"
+        file_pattern: index.md
