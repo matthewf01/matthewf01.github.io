@@ -17,7 +17,7 @@ jobs:
 
     - name: Generate index.html
       run: |
-        # Start the HTML file with updated title and a more delicate CSS style
+        # Start the HTML file with the new three-color gradient background
         echo '<!DOCTYPE html>' > index.html
         echo '<html lang="en">' >> index.html
         echo '<head>' >> index.html
@@ -25,7 +25,7 @@ jobs:
         echo '  <meta name="viewport" content="width=device-width, initial-scale=1.0">' >> index.html
         echo '  <title>matthewf01 Github Coding Projects</title>' >> index.html
         echo '  <style>' >> index.html
-        echo '    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: #343a40; max-width: 900px; margin: 0 auto; padding: 2rem; background: linear-gradient(to bottom, #f8f9fa, #ffffff); min-height: 100vh; }' >> index.html
+        echo '    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: #343a40; max-width: 900px; margin: 0 auto; padding: 2rem; background: linear-gradient(to bottom, #ffffff, #e6ffe6, #e6f7ff); min-height: 100vh; }' >> index.html
         echo '    h1 { color: #212529; border-bottom: 2px solid #e9ecef; padding-bottom: 0.5rem; text-align: center; }' >> index.html
         echo '    h2 { font-size: 1.2rem; margin-top: 2.5rem; color: #495057; border-left: 3px solid #ced4da; padding-left: 0.75rem; width: 100%; }' >> index.html
         echo '    ul { list-style-type: none; padding: 0; display: flex; flex-wrap: wrap; gap: 15px; margin-top: 1rem; }' >> index.html
@@ -48,20 +48,23 @@ jobs:
                     filename=$(basename "$file")
                     page_title=""
 
-                    # Read the entire file content, remove newlines, and then search
-                    file_content=$(cat "$file" | tr -d '\r\n')
-
-                    # 1. Try to get title from the first <h1> tag (case-insensitive)
-                    page_title=$(echo "$file_content" | grep -i -m 1 -oP '<h1[^>]*>\K[^<]+')
-                    
-                    # 2. If no <h1>, try to get title from the <title> tag (case-insensitive)
-                    if [ -z "$page_title" ]; then
-                        page_title=$(echo "$file_content" | grep -i -m 1 -oP '<title[^>]*>\K[^<]+')
-                    fi
-                    
-                    # 3. If still no title, fall back to the formatted filename
-                    if [ -z "$page_title" ]; then
+                    # NEW: Check if the file is in the root directory
+                    if [ "$dir_path" == "." ]; then
+                        # For root files, ONLY use the formatted filename
                         page_title=$(echo "$filename" | sed 's/\.[^.]*$//' | sed 's/-/ /g' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1')
+                    else
+                        # For subfolder files, use the full H1 -> Title -> Filename logic
+                        file_content=$(cat "$file" | tr -d '\r\n')
+                        
+                        page_title=$(echo "$file_content" | grep -i -m 1 -oP '<h1[^>]*>\K[^<]+')
+                        
+                        if [ -z "$page_title" ]; then
+                            page_title=$(echo "$file_content" | grep -i -m 1 -oP '<title[^>]*>\K[^<]+')
+                        fi
+                        
+                        if [ -z "$page_title" ]; then
+                            page_title=$(echo "$filename" | sed 's/\.[^.]*$//' | sed 's/-/ /g' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1')
+                        fi
                     fi
 
                     if [ "$filename" != "index.html" ]; then
@@ -91,5 +94,5 @@ jobs:
     - name: Commit and push if changed
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        commit_message: "docs: update index.html with compatible regex"
+        commit_message: "docs: update index.html with new root folder logic"
         file_pattern: index.html
