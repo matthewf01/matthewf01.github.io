@@ -52,11 +52,11 @@ jobs:
                     file_content=$(cat "$file" | tr -d '\r\n')
 
                     # 1. Try to get title from the first <h1> tag (case-insensitive)
-                    page_title=$(echo "$file_content" | grep -i -m 1 -oP '(?<=<h1[^>]*>).*(?=</h1>)')
+                    page_title=$(echo "$file_content" | grep -i -m 1 -oP '<h1[^>]*>\K[^<]+')
                     
                     # 2. If no <h1>, try to get title from the <title> tag (case-insensitive)
                     if [ -z "$page_title" ]; then
-                        page_title=$(echo "$file_content" | grep -i -m 1 -oP '(?<=<title[^>]*>).*(?=</title>)')
+                        page_title=$(echo "$file_content" | grep -i -m 1 -oP '<title[^>]*>\K[^<]+')
                     fi
                     
                     # 3. If still no title, fall back to the formatted filename
@@ -68,7 +68,7 @@ jobs:
                         echo "    <li><a href=\"$file\">$page_title</a></li>" >> index.html
                     fi
                 done
-                echo '  </ul>' >> index.html
+                echo '  <ul>' >> index.html
             fi
         }
 
@@ -91,5 +91,5 @@ jobs:
     - name: Commit and push if changed
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        commit_message: "docs: update index.html with robust h1/title logic"
+        commit_message: "docs: update index.html with compatible regex"
         file_pattern: index.html
