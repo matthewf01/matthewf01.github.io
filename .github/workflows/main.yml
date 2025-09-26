@@ -17,7 +17,7 @@ jobs:
 
     - name: Generate index.html
       run: |
-        # Start the HTML file with updated title and CSS for buttons
+        # Start the HTML file with updated title and a more delicate CSS style
         echo '<!DOCTYPE html>' > index.html
         echo '<html lang="en">' >> index.html
         echo '<head>' >> index.html
@@ -25,14 +25,14 @@ jobs:
         echo '  <meta name="viewport" content="width=device-width, initial-scale=1.0">' >> index.html
         echo '  <title>matthewf01 Github Coding Projects</title>' >> index.html
         echo '  <style>' >> index.html
-        echo '    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 2rem; background: linear-gradient(to bottom, #e6f7ff, #ffffff); min-height: 100vh; }' >> index.html
-        echo '    h1 { color: #111; border-bottom: 2px solid #dde; padding-bottom: 0.5rem; text-align: center; }' >> index.html
-        echo '    h2 { font-size: 1.2rem; margin-top: 2.5rem; color: #555; border-left: 3px solid #007bff; padding-left: 0.75rem; width: 100%; }' >> index.html
+        echo '    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: #343a40; max-width: 900px; margin: 0 auto; padding: 2rem; background: linear-gradient(to bottom, #f8f9fa, #ffffff); min-height: 100vh; }' >> index.html
+        echo '    h1 { color: #212529; border-bottom: 2px solid #e9ecef; padding-bottom: 0.5rem; text-align: center; }' >> index.html
+        echo '    h2 { font-size: 1.2rem; margin-top: 2.5rem; color: #495057; border-left: 3px solid #ced4da; padding-left: 0.75rem; width: 100%; }' >> index.html
         echo '    ul { list-style-type: none; padding: 0; display: flex; flex-wrap: wrap; gap: 15px; margin-top: 1rem; }' >> index.html
         echo '    li { margin: 0; }' >> index.html
-        echo '    a { display: inline-block; text-decoration: none; background-color: #007bff; color: white; padding: 12px 18px; border-radius: 8px; font-size: 1rem; font-weight: 500; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.2s ease-in-out; }' >> index.html
-        echo '    a:hover { background-color: #0056b3; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transform: translateY(-2px); }' >> index.html
-        echo '    footer { margin-top: 3rem; text-align: center; font-size: 0.8rem; color: #777; }' >> index.html
+        echo '    a { display: inline-block; text-decoration: none; background-color: #ffffff; color: #495057; padding: 12px 18px; border: 1px solid #dee2e6; border-radius: 8px; font-size: 1rem; font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.2s ease-in-out; }' >> index.html
+        echo '    a:hover { color: #007bff; border-color: #007bff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transform: translateY(-2px); }' >> index.html
+        echo '    footer { margin-top: 3rem; text-align: center; font-size: 0.8rem; color: #adb5bd; }' >> index.html
         echo '  </style>' >> index.html
         echo '</head>' >> index.html
         echo '<body>' >> index.html
@@ -46,14 +46,17 @@ jobs:
                 echo '  <ul>' >> index.html
                 for file in $file_list; do
                     filename=$(basename "$file")
-                    page_title="" # Reset page_title for each file
+                    page_title=""
 
-                    # ONLY use the <title> tag for files inside the "studygames" folder
-                    if [[ "$file" == *"studygames/"* ]]; then
+                    # 1. Try to get title from the first <h1> tag
+                    page_title=$(grep -m 1 -oP '(?<=<h1[^>]*>).*(?=</h1>)' "$file" | head -n 1)
+                    
+                    # 2. If no <h1>, try to get title from the <title> tag
+                    if [ -z "$page_title" ]; then
                         page_title=$(grep -oP '(?<=<title>).*(?=</title>)' "$file" | head -n 1)
                     fi
-
-                    # If page_title is still empty, use the formatted filename as a fallback
+                    
+                    # 3. If still no title, fall back to the formatted filename
                     if [ -z "$page_title" ]; then
                         page_title=$(echo "$filename" | sed 's/\.[^.]*$//' | sed 's/-/ /g' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1')
                     fi
@@ -85,5 +88,5 @@ jobs:
     - name: Commit and push if changed
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        commit_message: "docs: update index.html"
+        commit_message: "docs: update index.html with new styling and h1 logic"
         file_pattern: index.html
