@@ -17,7 +17,7 @@ jobs:
 
     - name: Generate index.html
       run: |
-        # Start the HTML file with the new green-blue-mediumblue gradient
+        # Start the HTML file with the green-blue-mediumblue gradient
         echo '<!DOCTYPE html>' > index.html
         echo '<html lang="en">' >> index.html
         echo '<head>' >> index.html
@@ -48,19 +48,20 @@ jobs:
                     filename=$(basename "$file")
                     page_title=""
 
-                    if [ "$dir_path" == "." ]; then
+                    if [ "$dir_path" == "." ];
+                    then
                         # For root files, ONLY use the formatted filename
                         page_title=$(echo "$filename" | sed 's/\.[^.]*$//' | sed 's/-/ /g' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1')
                     else
                         # For subfolder files, use the full H1 -> Title -> Filename logic
                         file_content=$(cat "$file" | tr -d '\r\n')
                         
-                        # 1. More robustly get content from the first <h1> tag and strip inner tags
-                        page_title=$(echo "$file_content" | sed -n 's/.*<h1[^>]*>\(.*\)<\/h1>.*/\1/p' | sed 's/<[^>]*>//g' | head -n 1)
+                        # 1. Get the LAST <h1> tag content
+                        page_title=$(echo "$file_content" | grep -i -oP '<h1[^>]*>\K[^<]+' | tail -n 1)
                         
-                        # 2. If no <h1>, try to get title from the <title> tag
+                        # 2. If no <h1>, get the LAST <title> tag content
                         if [ -z "$page_title" ]; then
-                            page_title=$(echo "$file_content" | sed -n 's/.*<title[^>]*>\(.*\)<\/title>.*/\1/p' | head -n 1)
+                            page_title=$(echo "$file_content" | grep -i -oP '<title[^>]*>\K[^<]+' | tail -n 1)
                         fi
                         
                         # 3. If still no title, fall back to the formatted filename
@@ -96,5 +97,5 @@ jobs:
     - name: Commit and push if changed
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        commit_message: "docs: update index.html with robust title logic and new gradient"
+        commit_message: "docs: update index.html to grab last h1 tag"
         file_pattern: index.html
