@@ -63,11 +63,11 @@
             background-position: right center;
         }
 
-        #info-btn, #resume-quiz-btn {
+        #info-btn, #resume-quiz-btn, #next-btn {
             background-size: 200% auto;
             transition: background-position 0.4s ease-in-out;
         }
-        #info-btn:hover, #resume-quiz-btn:hover {
+        #info-btn:hover, #resume-quiz-btn:hover, #next-btn:hover {
             background-position: right center;
         }
 
@@ -108,10 +108,10 @@
             <h1 class="font-title text-4xl md:text-5xl font-bold text-purple-600 mb-2">Anleigh's Social Studies Review</h1>
             <p class="text-gray-600 mb-8">Choose a unit below to play a game!</p>
             <div id="unit-selection-container" class="space-y-4 glass-effect rounded-2xl p-6">
-                 <div class="grid grid-cols-3 sm:grid-cols-5 gap-4 px-4 pb-2 border-b-2 font-bold text-gray-600">
-                    <div class="text-left col-span-3">Unit</div>
-                    <div class="text-center hidden sm:block">Study Guide</div>
-                    <div class="text-center hidden sm:block">Play Game</div>
+                <div class="grid grid-cols-[minmax(0,_1fr)_auto_auto] gap-4 px-4 pb-2 border-b-2 font-bold text-gray-600">
+                    <div class="text-left">Unit</div>
+                    <div class="text-center">Study Guide</div>
+                    <div class="text-center">Play Game</div>
                 </div>
                 <div id="unit-selection" class="space-y-2">
                     <!-- Unit selection buttons will be populated here -->
@@ -202,7 +202,7 @@
             <svg id="sound-on-icon" class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
             <svg id="sound-off-icon" class="w-5 h-5 text-gray-700 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2 2m2-2l2 2"></path></svg>
         </button>
-        <span>MF Build: 250923.21</span>
+        <span>MF Build: 250923.30</span>
     </footer>
 
     <!-- Audio Elements -->
@@ -342,7 +342,6 @@
                                 <p><strong class="font-semibold text-blue-700">Highest Court:</strong> Georgia's Supreme Court</p>
                                 <p><strong class="font-semibold text-blue-700">Supreme Court's Role:</strong> To determine if actions are constitutional and interpret laws.</p>
                                 <p><strong class="font-semibold text-blue-700">Justice Elections:</strong> Justices are elected in a state-wide election for a 6-year term.</p>
-                                <p><strong class="font-semibold text-blue-700">Main Roles of Courts:</strong> 1) Administer justice, 2) Prosecute criminals, 3) Resolve civil disputes impartially.</p>
                                 <div><strong class="font-semibold text-blue-700">Types of Law:</strong><ul class="list-disc list-inside mt-1 pl-2"><li><strong>Civil:</strong> Disputes between people (e.g., lawsuits).</li><li><strong>Criminal:</strong> Deals with violations of the law (felonies and misdemeanors).</li></ul></div>
                                 <div><strong class="font-semibold text-blue-700">Adult Criminal Justice Steps:</strong><ol class="list-decimal list-inside mt-1 pl-2"><li>Arrest</li><li>Booking</li><li>Charging (formal word is Indicting)</li><li>Trial</li><li>Sentencing</li><li>Appeal (if a fair trial is questioned)</li></ol></div>
                             </div>
@@ -431,9 +430,10 @@
                 for (const unitId in gameData) {
                     const unit = gameData[unitId];
                     const unitContainer = document.createElement('div');
-                    unitContainer.classList.add('p-4', 'rounded-lg', 'bg-white/80', 'shadow', 'flex', 'items-center', 'justify-between', 'gap-4');
+                    unitContainer.classList.add('p-4', 'rounded-lg', 'bg-white/80', 'shadow', 'grid', 'grid-cols-[minmax(0,_1fr)_auto_auto]', 'gap-4', 'items-center');
+                    
                     const titleAndScore = document.createElement('div');
-                    titleAndScore.classList.add('text-left', 'flex-grow');
+                    titleAndScore.classList.add('text-left');
                     const title = document.createElement('h2');
                     title.textContent = unit.title;
                     title.classList.add('text-xl', 'font-bold', 'text-gray-800');
@@ -444,21 +444,21 @@
                     highScoreDisplay.classList.add('text-sm', 'text-gray-500');
                     titleAndScore.appendChild(highScoreDisplay);
                     unitContainer.appendChild(titleAndScore);
-                    const buttonGroup = document.createElement('div');
-                    buttonGroup.classList.add('flex', 'items-center', 'gap-2', 'flex-shrink-0');
+                    
                     const guideButton = document.createElement('button');
                     guideButton.title = `View Study Guide for ${unit.title}`;
                     guideButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>`;
-                    guideButton.classList.add('p-2', 'rounded-full', 'bg-blue-100', 'text-blue-600', 'hover:bg-blue-200', 'transition-all', 'duration-200', 'transform', 'hover:scale-110');
+                    guideButton.classList.add('p-2', 'rounded-full', 'bg-blue-100', 'text-blue-600', 'hover:bg-blue-200', 'transition-all', 'duration-200', 'transform', 'hover:scale-110', 'justify-self-center');
                     guideButton.onclick = () => showStudyGuideModal(unitId);
-                    buttonGroup.appendChild(guideButton);
+                    unitContainer.appendChild(guideButton);
+
                     const startButton = document.createElement('button');
                     startButton.title = `Start Quiz for ${unit.title}`;
                     startButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
-                    startButton.classList.add('p-2', 'rounded-full', 'bg-green-100', 'text-green-600', 'hover:bg-green-200', 'transition-all', 'duration-200', 'transform', 'hover:scale-110');
+                    startButton.classList.add('p-2', 'rounded-full', 'bg-green-100', 'text-green-600', 'hover:bg-green-200', 'transition-all', 'duration-200', 'transform', 'hover:scale-110', 'justify-self-center');
                     startButton.onclick = () => startGame(unitId);
-                    buttonGroup.appendChild(startButton);
-                    unitContainer.appendChild(buttonGroup);
+                    unitContainer.appendChild(startButton);
+
                     unitSelectionContainer.appendChild(unitContainer);
                 }
                 const finalExamScore = getCookie('highScore_final_exam');
@@ -714,8 +714,10 @@
                     if (button.dataset.correct) {
                         button.classList.remove('text-gray-800');
                         button.classList.add('flash-correct', 'bg-green-400', 'text-black', 'font-bold');
-                    } else if (!isCorrect) {
-                        button.classList.add('flash-incorrect', 'bg-red-400', 'text-white');
+                    } else if (button === selectedBtn) {
+                        button.classList.add('bg-gray-300', 'text-gray-500', 'border-gray-400');
+                    } else {
+                        button.classList.add('bg-gray-300', 'text-gray-500', 'border-gray-400');
                     }
                 });
                 
