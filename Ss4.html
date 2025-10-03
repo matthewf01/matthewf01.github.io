@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SS - Review Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            height: 100%;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f0f0;
+            background-image:
+                radial-gradient(at 0% 0%, hsla(200, 95%, 85%, 1) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(340, 95%, 85%, 1) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, hsla(100, 95%, 85%, 1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, hsla(290, 95%, 85%, 1) 0px, transparent 50%);
+        }
+        .font-title {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .flash-correct {
+            animation: flash-green 0.7s;
+        }
+        .flash-incorrect {
+            animation: flash-red 0.7s;
+        }
+        @keyframes flash-green {
+            from { background-color: #4ade80; } /* Lighter green */
+        }
+        @keyframes flash-red {
+            from { background-color: #f87171; } /* Lighter red */
+        }
+
+        #study-guide-content {
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, opacity 0.5s ease-out, margin-top 0.5s ease-out, padding-top 0.5s ease-out;
+            max-height: 0;
+            opacity: 0;
+            margin-top: 0;
+            padding-top: 0;
+            border-width: 0;
+        }
+        #study-guide-content.expanded {
+            max-height: 1500px; /* A large enough value to not clip content */
+            opacity: 1;
+            margin-top: 1.5rem; /* 6 */
+            padding-top: 1.5rem; /* 6 */
+            border-width: 2px 0 0 0; /* border-t-2 */
+        }
+        .rainbow-btn {
+            background-image: linear-gradient(to right, #ef4444, #f97316, #eab308, #84cc16, #22c55e, #14b8a6, #06b6d4, #3b82f6, #8b5cf6, #d946ef);
+            background-size: 200% auto;
+            transition: background-position 0.5s ease-in-out;
+        }
+        .rainbow-btn:hover {
+            background-position: right center;
+        }
+
+        #info-btn, #resume-quiz-btn, #next-btn {
+            background-size: 200% auto;
+            transition: background-position 0.4s ease-in-out;
+        }
+        #info-btn:hover, #resume-quiz-btn:hover, #next-btn:hover {
+            background-position: right center;
+        }
+
+        #confetti-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .glass-effect {
+             background-color: rgba(255, 255, 255, 0.6);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+        #break-canvas {
+            touch-action: none;
+            cursor: pointer;
+        }
+        #study-guide-modal-content {
+            max-height: 80vh;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center p-4">
+
+    <div id="floating-title" class="w-full max-w-4xl mx-auto bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-3 text-center mb-4 hidden">
+        <h1 id="unit-title-text" class="text-2xl font-bold text-purple-600"></h1>
+    </div>
+
+    <div id="game-container" class="w-full max-w-4xl mx-auto rounded-2xl shadow-lg p-6 md:p-8 relative glass-effect">
+        <canvas id="confetti-canvas"></canvas>
+        
+        <!-- Main Menu Screen -->
+        <div id="main-menu-screen" class="text-center">
+            <h1 class="font-title text-4xl md:text-5xl font-bold text-purple-600 mb-2">Anleigh's Social Studies Review</h1>
+            <p class="text-gray-600 mb-8">Choose a unit below to play a game!</p>
+            <div id="unit-selection-container" class="space-y-4 glass-effect rounded-2xl p-6">
+                <div class="grid grid-cols-[minmax(0,_1fr)_auto_auto] gap-4 px-4 pb-2 border-b-2 font-bold text-gray-600">
+                    <div class="text-left">Unit</div>
+                    <div class="text-center">Study Guide</div>
+                    <div class="text-center">Play Game</div>
+                </div>
+                <div id="unit-selection" class="space-y-2">
+                    <!-- Unit selection buttons will be populated here -->
+                </div>
+            </div>
+             <div class="mt-8 pt-4 border-t-2">
+                <button id="final-exam-btn" class="w-full text-white font-bold py-3 px-6 rounded-lg text-lg transform hover:scale-105 rainbow-btn">
+                    Final Exam (All Units)
+                </button>
+                <p id="final-exam-high-score" class="text-sm text-gray-500 mt-2 hidden">High Score: <span></span></p>
+            </div>
+        </div>
+
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden">
+            <div class="flex justify-between items-center mb-4">
+                 <div class="flex items-center gap-4">
+                    <button id="back-to-menu-btn-quiz" title="Back to Main Menu" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold p-2 rounded-full transition duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                    </button>
+                    <div>
+                        <p id="question-counter-display" class="text-gray-500 text-sm">Question <span id="question-number"></span> of <span id="total-questions"></span></p>
+                        <p class="text-purple-600 font-semibold">Score: <span id="score">0</span></p>
+                    </div>
+                </div>
+                 <button id="info-btn" class="bg-gradient-to-r from-pink-700 via-purple-700 to-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
+                    Toggle Study Guide
+                </button>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                <p id="question-reference" class="text-xs text-gray-500 mb-2 font-medium uppercase"></p>
+                <div id="question-container" class="flex items-center justify-between gap-2">
+                    <h2 id="question-text" class="text-xl md:text-2xl font-semibold text-gray-800 flex-grow"></h2>
+                </div>
+            </div>
+            <div id="answer-buttons" class="grid grid-cols-1 gap-4"></div>
+            <div id="feedback" class="mt-6 text-center font-bold text-lg"></div>
+
+            <button id="next-btn" class="w-full mt-6 text-white font-bold py-3 px-6 rounded-lg hidden rainbow-btn">
+                Next Question
+            </button>
+            
+            <div id="study-guide-content" class="pt-6 border-t-2"></div>
+        </div>
+        
+        <!-- Brain Break Screen -->
+        <div id="brain-break-screen" class="hidden text-center">
+            <h2 class="text-3xl font-bold text-pink-500 mb-2">Brain Break!</h2>
+            <p id="break-instructions" class="text-gray-600 mb-4">Relax for a moment.</p>
+            <canvas id="break-canvas" class="bg-black rounded-lg shadow-inner border-2 border-gray-200 mx-auto" width="500" height="300"></canvas>
+            <p id="timer-display" class="text-lg text-gray-700 my-4 font-semibold"></p>
+            <button id="resume-quiz-btn" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg text-lg">
+                Continue Quiz!
+            </button>
+        </div>
+
+
+        <!-- End Screen -->
+        <div id="end-screen" class="hidden text-center">
+             <h1 class="text-3xl md:text-4xl font-bold text-purple-600 mb-4">Quiz Complete!</h1>
+             <p class="text-gray-700 text-xl mb-2">Your Final Score is:</p>
+             <p id="final-score" class="text-6xl font-extrabold text-green-500 mb-8"></p>
+             <p id="end-message" class="text-lg text-gray-600 mt-4 mb-8"></p>
+             <button id="back-to-menu-btn" class="w-full bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-6 rounded-lg text-lg transition duration-300 transform hover:scale-105">
+                Back to Main Menu
+             </button>
+        </div>
+    </div>
+    
+    <!-- Study Guide Modal -->
+    <div id="study-guide-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl p-6 relative">
+             <h2 id="modal-title" class="text-3xl font-bold text-purple-700 text-center mb-4">Study Guide</h2>
+             <div id="study-guide-modal-content" class="overflow-y-auto">
+                <!-- Study guide content will be injected here -->
+             </div>
+             <button id="close-modal-btn" class="absolute top-4 right-4 bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-lg">
+                &times;
+            </button>
+        </div>
+    </div>
+
+    <footer class="fixed bottom-4 right-4 flex items-center gap-4 text-xs text-gray-600">
+        <button id="sound-toggle" class="bg-white hover:bg-gray-100 border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+            <svg id="sound-on-icon" class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+            <svg id="sound-off-icon" class="w-5 h-5 text-gray-700 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2 2m2-2l2 2"></path></svg>
+        </button>
+        <span>MF Build: 250923.32</span>
+    </footer>
+
+    <!-- Audio Elements -->
+    <audio id="correct-sound"></audio>
+    <audio id="incorrect-sound"></audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const gameData = {
+                unit1: {
+                    title: "Unit 1: Georgia's Beginnings",
+                    questions: [
+                        { question: "In which two hemispheres is Georgia located?", reference: "AKS 30.a: Georgia's Location", answers: [{ text: "Northern and Eastern", correct: false }, { text: "Northern and Western", correct: true }, { text: "Southern and Western", correct: false }], highlightTerm: "Northern and Western" },
+                        { question: "Which geographic region is the smallest and located in the 'TAG corner' of Georgia?", reference: "AKS 30.b: Geographic Regions", answers: [{ text: "Blue Ridge", correct: false }, { text: "Appalachian Plateau", correct: true }, { text: "Piedmont", correct: false }], highlightTerm: "Appalachian Plateau" },
+                        { question: "Dalton, the 'carpet capital of the world', is located in which region?", reference: "AKS 30.b: Geographic Regions", answers: [{ text: "Coastal Plain", correct: false }, { text: "Ridge and Valley", correct: true }, { text: "Blue Ridge", correct: false }], highlightTerm: "Ridge and Valley" },
+                        { question: "Which region contains Georgia's highest peak, Brasstown Bald, and receives the most rainfall?", reference: "AKS 30.b: Geographic Regions", answers: [{ text: "Piedmont", correct: false }, { text: "Blue Ridge", correct: true }, { text: "Appalachian Plateau", correct: false }], highlightTerm: "Blue Ridge" },
+                        { question: "What does the word 'Piedmont' mean, which describes its gently rolling hills?", reference: "AKS 30.b: Geographic Regions", answers: [{ text: "'Red Clay'", correct: false }, { text: "'Foot of the hills'", correct: true }, { text: "'High mountains'", correct: false }], highlightTerm: "Piedmont" },
+                        { question: "Which region is the most populated and contains Atlanta?", reference: "AKS 30.b: Geographic Regions", answers: [{ text: "Coastal Plain", correct: false }, { text: "Piedmont", correct: true }, { text: "Blue Ridge", correct: false }], highlightTerm: "Piedmont" },
+                        { question: "Which region is the largest by land area and is the agricultural heartland of the state?", reference: "AKS 30.b: Geographic Regions", answers: [{ text: "Piedmont", correct: false }, { text: "Coastal Plain", correct: true }, { text: "Ridge and Valley", correct: false }], highlightTerm: "Coastal Plain" },
+                        { question: "What natural boundary separates the Piedmont and Coastal Plain regions?", reference: "AKS 30.c: Physical Features", answers: [{ text: "Savannah River", correct: false }, { text: "The Fall Line", correct: true }, { text: "Appalachian Mountains", correct: false }], highlightTerm: "Fall Line" },
+                        { question: "What is the primary function of the barrier islands?", reference: "AKS 30.c: Physical Features", answers: [{ text: "To provide agricultural land", correct: false }, { text: "To protect the mainland from hurricane erosion", correct: true }, { text: "To serve as a source of freshwater", correct: false }], highlightTerm: "Barrier Islands" },
+                        { question: "Which river forms the border between Georgia and Alabama?", reference: "AKS 30.c: Physical Features", answers: [{ text: "Savannah River", correct: false }, { text: "Chattahoochee River", correct: true }, { text: "Ocmulgee River", correct: false }], highlightTerm: "Chattahoochee River" },
+                        { question: "Which river forms the border between Georgia and South Carolina?", reference: "AKS 30.c: Physical Features", answers: [{ text: "St. Marys River", correct: false }, { text: "Savannah River", correct: true }, { text: "Chattahoochee River", correct: false }], highlightTerm: "Savannah River" },
+                        { question: "Why did many of Georgia's early cities, like Augusta and Macon, develop along the Fall Line?", reference: "AKS 30.d: Importance of Water", answers: [{ text: "The area had the best climate for farming", correct: false }, { text: "Rivers provided hydropower for mills and waterfalls blocked ships", correct: true }, { text: "It was the only area free from American Indian tribes", correct: false }], highlightTerm: "Fall Line" },
+                        { question: "What was the dominant crop for the Mississippian Indians?", reference: "AKS 31.a: Mississippian Indians", answers: [{ text: "Cotton", correct: false }, { text: "Maize (corn)", correct: true }, { text: "Peanuts", correct: false }], highlightTerm: "Maize (corn)" },
+                        { question: "What kind of shelters did the Mississippian Indians use?", reference: "AKS 31.a: Mississippian Indians", answers: [{ text: "Log cabins", correct: false }, { text: "Wattle and daub shelters", correct: true }, { text: "Teepees", correct: false }], highlightTerm: "wattle & daub" },
+                        { question: "What were the '3 G's' that motivated Spanish exploration?", reference: "AKS 31.b: European Motives", answers: [{ text: "Grains, Guns, and Galleons", correct: false }, { text: "God, Gold, and Glory", correct: true }, { text: "Geography, Government, and Growth", correct: false }], highlightTerm: "God, Gold, and Glory" },
+                        { question: "What was the primary reason for British interest in settling North America?", reference: "AKS 31.b: European Motives", answers: [{ text: "To find a new route to Asia", correct: false }, { text: "To support the economic policy of mercantilism", correct: true }, { text: "To learn from the American Indians", correct: false }], highlightTerm: "mercantilism" },
+                        { question: "What was the most devastating impact of European contact, especially from Hernando de Soto's exploration, on the American Indians?", reference: "AKS 31.c: Spanish Impact", answers: [{ text: "They lost their land to new forts", correct: false }, { text: "Diseases like smallpox wiped out much of their population", correct: true }, { text: "They were forced to learn Spanish", correct: false }], highlightTerm: "diseases such as smallpox" },
+                        { question: "What was the main purpose of the Spanish missions established on Georgia's barrier islands?", reference: "AKS 31.c: Spanish Impact", answers: [{ text: "To trade for furs and gold", correct: false }, { text: "To convert American Indians to Christianity (Catholicism)", correct: true }, { text: "To create military bases against the British", correct: false }], highlightTerm: "Spanish missions" },
+                        { question: "Which of these is NOT one of Georgia's four main transportation systems?", reference: "AKS 49: Transportation Systems", answers: [{ text: "Deepwater Ports", correct: false }, { text: "Subway Systems", correct: true }, { text: "Interstate Highway System", correct: false }], highlightTerm: "four transportation systems" },
+                        { question: "Which Georgia airport is known as the busiest in the world?", reference: "AKS 49: Transportation Systems", answers: [{ text: "DeKalb-Peachtree Airport", correct: false }, { text: "Hartsfield-Jackson International Airport", correct: true }, { text: "Savannah/Hilton Head International", correct: false }], highlightTerm: "Hartsfield-Jackson International Airport" },
+                    ],
+                    studyGuideHTML: `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-blue-50 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-blue-800 text-lg">AKS 30.a: Georgia's Location</h3>
+                                <p>Georgia is in the <strong>Northern and Western</strong> hemispheres, on the continent of <strong>North America</strong>, in the nation of the <strong>United States of America</strong>, in the <strong>Southeast</strong> region.</p>
+                                <h3 class="font-bold text-blue-800 text-lg mt-4">AKS 30.b: Geographic Regions</h3>
+                                <ul class="list-disc list-inside ml-4">
+                                    <li><strong>Appalachian Plateau:</strong> Smallest region (TAG corner). Economy based on tourism and forestry.</li>
+                                    <li><strong>Ridge and Valley:</strong> Known for long ridges and fertile valleys. Economy based on textiles and carpet (Dalton).</li>
+                                    <li><strong>Blue Ridge:</strong> Contains the highest peaks (Brasstown Bald) and gets the most rain. Source of major rivers.</li>
+                                    <li><strong>Piedmont:</strong> Most populated region, with rolling hills and red clay. Means "foot of the hills". Diverse economy.</li>
+                                    <li><strong>Coastal Plain:</strong> Largest region (60% of state). Agricultural heartland.</li>
+                                </ul>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-green-800 text-lg">AKS 30.c: Physical Features</h3>
+                                 <ul class="list-disc list-inside ml-4">
+                                    <li><strong>Fall Line:</strong> Separates Piedmont and Coastal Plain.</li>
+                                    <li><strong>Okefenokee Swamp:</strong> Largest freshwater swamp in North America.</li>
+                                    <li><strong>Chattahoochee River:</strong> Forms Georgia's western border with Alabama.</li>
+                                    <li><strong>Savannah River:</strong> Forms Georgia's eastern border with South Carolina.</li>
+                                    <li><strong>Barrier Islands:</strong> Protect the mainland from hurricanes and erosion.</li>
+                                </ul>
+                                <h3 class="font-bold text-green-800 text-lg mt-4">AKS 30.d: Importance of Water</h3>
+                                <p>Rivers (like at the <strong>Fall Line</strong>) and ports are vital for transportation, drinking water, power, and recreation, shaping historical settlement and economic growth.</p>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-yellow-800 text-lg">AKS 31: Early Inhabitants & Exploration</h3>
+                                <p><strong>Mississippian Indians (AKS 31.a):</strong> Lived in large villages with mounds. They were farmers, with <strong>Maize (corn)</strong> as their main crop. Used bow & arrow and lived in <strong>wattle & daub</strong> shelters.</p>
+                                <p><strong>European Motives (AKS 31.b):</strong> Spanish sought <strong>God, Gold, and Glory</strong>. British sought economic gain through <strong>mercantilism</strong>.</p>
+                                <p><strong>Spanish Impact (AKS 31.c):</strong> Hernando de Soto's exploration led to the death of many natives from <strong>diseases such as smallpox</strong>. <strong>Spanish missions</strong> were built on the barrier islands to convert natives to Christianity.</p>
+                            </div>
+                             <div class="bg-red-50 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-red-800 text-lg">AKS 49: Transportation Systems</h3>
+                                <p><strong>Four Systems:</strong> Interstate Highway System, <strong>Hartsfield-Jackson International Airport</strong>, Deepwater Ports (Savannah, Brunswick), and Railroads.</p>
+                                <p><strong>Economic Impact:</strong> These systems work together to move goods and people, providing jobs and connecting Georgia to the global economy.</p>
+                            </div>
+                        </div>`
+                },
+                unit2: {
+                    title: "Unit 2: Georgia's Government",
+                    questions: [
+                        { question: "What is the primary role of the Judicial Branch?", reference: "AKS 43.b: Checks & Balances", answers: [{ text: "To make laws", correct: false }, { text: "To enforce laws", correct: false }, { text: "To interpret laws and declare them unconstitutional", correct: true }], highlightTerm: "Judicial Branch" },
+                        { question: "What can the Legislative Branch do if the Governor vetoes a bill?", reference: "AKS 43.b: Checks & Balances", answers: [{ text: "Nothing, the bill is dead", correct: false }, { text: "Override the veto with a 2/3 vote", correct: true }, { text: "Ask the citizens to vote", correct: false }], highlightTerm: "override the Governor’s veto" },
+                        { question: "Paying taxes, obeying laws, and serving on juries are examples of citizen...", reference: "AKS 43.c: Citizen Responsibilities", answers: [{ text: "Rights", correct: false }, { text: "Responsibilities", correct: true }, { text: "Privileges", correct: false }], highlightTerm: "Responsibilities of citizens" },
+                        { question: "What are the three principles in Georgia's Pledge of Allegiance?", reference: "AKS 43.e: State Pledge", answers: [{ text: "Liberty, Equality, Fraternity", correct: false }, { text: "Life, Liberty, Property", correct: false }, { text: "Wisdom, Justice, and Moderation", correct: true }], highlightTerm: "Wisdom, Justice, and Moderation" },
+                        { question: "How old must you be to vote in Georgia?", reference: "AKS 43.d: Voting Qualifications", answers: [{ text: "16", correct: false }, { text: "18", correct: true }, { text: "21", correct: false }], highlightTerm: "18 years of age" },
+                        { question: "What is the name of Georgia's legislative branch?", reference: "AKS 44: Legislative Branch", answers: [{ text: "Congress", correct: false }, { text: "The General Assembly", correct: true }, { text: "Parliament", correct: false }], highlightTerm: "General Assembly" },
+                        { question: "How old must a person be to become a State Senator in Georgia?", reference: "AKS 44.a: Qualifications", answers: [{ text: "21", correct: false }, { text: "25", correct: true }, { text: "30", correct: false }], highlightTerm: "at least 25 years old" },
+                        { question: "How long is the term for a member of the General Assembly?", reference: "AKS 44.a: Qualifications", answers: [{ text: "2-year term", correct: true }, { text: "4-year term", correct: false }, { text: "6-year term", correct: false }], highlightTerm: "Serve 2-year term" },
+                        { question: "Who presides over the Georgia State Senate?", reference: "AKS 44.b: General Assembly Organization", answers: [{ text: "The Governor", correct: false }, { text: "The Speaker of the House", correct: false }, { text: "The Lieutenant Governor", correct: true }], highlightTerm: "Lieutenant Governor" },
+                        { question: "Most of the work done in the General Assembly takes place in...", reference: "AKS 44.b: General Assembly Organization", answers: [{ text: "The Governor's office", correct: false }, { text: "Committees", correct: true }, { text: "Public forums", correct: false }], highlightTerm: "committees" },
+                        { question: "What percentage of votes is needed for a bill to pass in the General Assembly?", reference: "AKS 44.c: Lawmaking Process", answers: [{ text: "A 2/3 majority", correct: false }, { text: "A simple majority (51%)", correct: true }, { text: "A 3/4 majority", correct: false }], highlightTerm: "51% majority" },
+                        { question: "What happens if the Governor does not sign or veto a bill?", reference: "AKS 44.c: Lawmaking Process", answers: [{ text: "It becomes law automatically", correct: true }, { text: "It is sent back to the committee", correct: false }, { text: "The bill dies", correct: false }], highlightTerm: "It becomes law" },
+                        { question: "What is the main purpose of Georgia's Executive Branch?", reference: "AKS 45: Executive Branch", answers: [{ text: "To make laws", correct: false }, { text: "To interpret laws", correct: false }, { text: "To enforce laws", correct: true }], highlightTerm: "Enforcing state laws" },
+                        { question: "What are the qualifications to be Governor of Georgia?", reference: "AKS 45.a: Governor Qualifications", answers: [{ text: "25 years old, US citizen for 10 years", correct: false }, { text: "30 years of age, GA resident for 6 years, US Citizen for 15 years", correct: true }, { text: "35 years old, born in Georgia", correct: false }], highlightTerm: "30 years of age" },
+                        { question: "Which branch of government is the largest in the state?", reference: "AKS 45.b: State Agencies", answers: [{ text: "Legislative Branch", correct: false }, { text: "Judicial Branch", correct: false }, { text: "Executive Branch", correct: true }], highlightTerm: "executive branch is the largest" }
+                    ],
+                    studyGuideHTML: `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-blue-50 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-blue-800 text-lg">AKS 43: Government Basics</h3>
+                                <p><strong>Checks & Balances (43.b):</strong> Each branch can limit the others. (e.g., Governor can veto, but legislature can <strong>override</strong>. The Judicial Branch can declare laws unconstitutional).</p>
+                                <p><strong>Pledge Principles (43.e):</strong> Wisdom, Justice, and Moderation.</p>
+                                <p><strong>Citizen Responsibilities (43.c):</strong> Paying taxes, serving on juries, obeying laws, voting.</p>
+                                <p><strong>Voting Qualifications (43.d):</strong> Must be a U.S. citizen, a resident of GA, and <strong>18 years of age</strong>.</p>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-yellow-800 text-lg">AKS 44: Legislative Branch</h3>
+                                <p><strong>General Assembly:</strong> Makes laws. Made of House of Reps & Senate. Meets for 40 work days. Bills need a <strong>51% majority</strong> to pass. Can override a veto with a 2/3 vote.</p>
+                                <p><strong>Qualifications (44.a):</strong> Reps must be 21; Senators must be <strong>at least 25 years old</strong>. Both serve a <strong>2-year term</strong>.</p>
+                                <p><strong>Organization (44.b):</strong> <strong>Lieutenant Governor</strong> presides over Senate. Most work is done in <strong>committees</strong>.</p>
+                                <p><strong>Lawmaking (44.c):</strong> If the Governor doesn't sign or veto, a bill <strong>becomes law</strong> automatically.</p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg space-y-3 text-sm md:col-span-2">
+                                <h3 class="font-bold text-green-800 text-lg">AKS 45: Executive Branch</h3>
+                                <p><strong>Role:</strong> <strong>Enforcing state laws</strong>. It is the largest branch. Headed by the Governor.</p>
+                                <p><strong>Governor Qualifications (45.a):</strong> Must be <strong>30 years of age</strong>, a GA resident for 6 years, and a US Citizen for 15 years.</p>
+                                <p><strong>State Agencies (45.b):</strong> The <strong>executive branch is the largest</strong> in the state because it includes numerous agencies that administer programs and enforce laws.</p>
+                            </div>
+                        </div>`
+                },
+                unit3: {
+                    title: "Unit 3: Judicial & Local Government",
+                    questions: [
+                        { question: "What is the highest court in Georgia's judicial branch?", reference: "AKS 46: Judicial Branch", answers: [{ text: "Superior Court", correct: false }, { text: "Georgia's Supreme Court", correct: true }, { text: "Court of Appeals", correct: false }], highlightTerm: "Georgia's Supreme Court" },
+                        { question: "What is the main role of the Georgia Supreme Court regarding laws and actions?", reference: "AKS 46: Judicial Branch", answers: [{ text: "To create new laws", correct: false }, { text: "To determine if they are constitutional", correct: true }, { text: "To enforce the laws", correct: false }], highlightTerm: "constitutional" },
+                        { question: "How are Georgia's Supreme Court justices selected?", reference: "AKS 46: Judicial Branch", answers: [{ text: "They are appointed by the Governor", correct: false }, { text: "They are elected in a state-wide election", correct: true }, { text: "They are chosen by the General Assembly", correct: false }], highlightTerm: "elected in a state-wide election" },
+                        { question: "Disputes between people, such as lawsuits, are handled by which type of law?", reference: "AKS 46: Judicial Branch", answers: [{ text: "Criminal Law", correct: false }, { text: "Civil Law", correct: true }, { text: "Constitutional Law", correct: false }], highlightTerm: "Civil" },
+                        { question: "The step in the adult criminal justice process where the accused is formally charged is called...", reference: "AKS 46: Judicial Branch", answers: [{ text: "Booking", correct: false }, { text: "Trial", correct: false }, { text: "Charging (Indicting)", correct: true }], highlightTerm: "Charging (formal word is Indicting)" },
+                        { question: "In Georgia, a person under what age is considered a juvenile?", reference: "AKS 47: Juvenile Justice", answers: [{ text: "18", correct: false }, { text: "17", correct: true }, { text: "16", correct: false }], highlightTerm: "under 17 years old" },
+                        { question: "What is the main goal of the juvenile court system?", reference: "AKS 47: Juvenile Justice", answers: [{ text: "To punish youth offenders", correct: false }, { text: "To protect and rehabilitate", correct: true }, { text: "To set an example for other teens", correct: false }], highlightTerm: "protect and rehabilitate" },
+                        { question: "An act that would NOT be a crime if committed by an adult, like skipping school, is called a...", reference: "AKS 47: Juvenile Justice", answers: [{ text: "Delinquent act", correct: false }, { text: "Unruly act (Status Offense)", correct: true }, { text: "Misdemeanor", correct: false }], highlightTerm: "Unruly (Status Offense)" },
+                        { question: "What is the first step in the juvenile justice process after a juvenile is taken into custody?", reference: "AKS 47: Juvenile Justice", answers: [{ text: "Adjudicatory Hearing", correct: false }, { text: "Intake", correct: true }, { text: "Sentencing", correct: false }], highlightTerm: "Intake" },
+                        { question: "Which government is established by a Municipal Charter to provide services like police and trash pickup?", reference: "AKS 48: Local Government", answers: [{ text: "County", correct: false }, { text: "City (Municipality)", correct: true }, { text: "Special-Purpose", correct: false }], highlightTerm: "City (Municipality)" },
+                        { question: "Which government is mandated by the state constitution to carry out state programs?", reference: "AKS 48: Local Government", answers: [{ text: "City", correct: false }, { text: "County", correct: true }, { text: "Special-Purpose", correct: false }], highlightTerm: "County" },
+                        { question: "A school district or MARTA is an example of what kind of government?", reference: "AKS 48: Local Government", answers: [{ text: "City", correct: false }, { text: "County", correct: false }, { text: "Special-Purpose", correct: true }], highlightTerm: "Special-Purpose" },
+                        { question: "What type of tax is the main source of revenue for local governments, based on the value of property?", reference: "AKS 48: Local Government", answers: [{ text: "Sales Tax", correct: false }, { text: "Ad Valorem (Property) Tax", correct: true }, { text: "Income Tax", correct: false }], highlightTerm: "Ad Valorem (Property) Taxes" },
+                    ],
+                    studyGuideHTML: `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-blue-50 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-blue-800 text-lg mb-2 border-b-2 border-blue-200 pb-2">AKS 46: Judicial Branch</h3>
+                                <p><strong class="font-semibold text-blue-700">Highest Court:</strong> Georgia's Supreme Court</p>
+                                <p><strong class="font-semibold text-blue-700">Supreme Court's Role:</strong> To determine if actions are constitutional and interpret laws.</p>
+                                <p><strong class="font-semibold text-blue-700">Justice Elections:</strong> Justices are elected in a state-wide election for a 6-year term.</p>
+                                <div><strong class="font-semibold text-blue-700">Types of Law:</strong><ul class="list-disc list-inside mt-1 pl-2"><li><strong>Civil:</strong> Disputes between people (e.g., lawsuits).</li><li><strong>Criminal:</strong> Deals with violations of the law (felonies and misdemeanors).</li></ul></div>
+                                <div><strong class="font-semibold text-blue-700">Adult Criminal Justice Steps:</strong><ol class="list-decimal list-inside mt-1 pl-2"><li>Arrest</li><li>Booking</li><li>Charging (formal word is Indicting)</li><li>Trial</li><li>Sentencing</li><li>Appeal (if a fair trial is questioned)</li></ol></div>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-green-800 text-lg mb-2 border-b-2 border-green-200 pb-2">AKS 47: Juvenile Justice</h3>
+                                <p><strong class="font-semibold text-green-700">Who is a Juvenile?</strong> Anyone under 17 years old.</p>
+                                <p><strong class="font-semibold text-green-700">Goal of Court:</strong> To protect and rehabilitate.</p>
+                                <div><strong class="font-semibold text-green-700">Types of Acts:</strong><ul class="list-disc list-inside mt-1 pl-2"><li><strong>Delinquent:</strong> A crime if done by an adult (e.g., theft).</li><li><strong>Unruly (Status Offense):</strong> Only wrong for a juvenile (e.g., skipping school).</li></ul></div>
+                                <p><strong class="font-semibold text-green-700">No Juries:</strong> The judge makes the decisions.</p>
+                                <div><strong class="font-semibold text-green-700">Juvenile Justice Steps:</strong><ol class="list-decimal list-inside mt-1 pl-2"><li><strong>Intake:</strong> Taken into custody, parents notified.</li><li><strong>Released or Detained:</strong> Released to parents or held (detained) at a YDC if there is enough evidence.</li><li><strong>Informal Adjustment:</strong> Optional for first-timers who admit guilt; supervised for 90 days.</li><li><strong>Adjudicatory Hearing:</strong> Judge determines guilt or innocence.</li><li><strong>Dispositional Hearing:</strong> Judge hears witnesses and determines consequences.</li><li><strong>Sentencing:</strong> Judge rules on consequences (e.g., boot camp, probation, fines).</li><li><strong>Appeal:</strong> Can appeal if there is evidence of innocence.</li></ol></div>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded-lg space-y-3 text-sm md:col-span-2">
+                                <h3 class="font-bold text-yellow-800 text-lg mb-2 border-b-2 border-yellow-200 pb-2">AKS 48: Local Government</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div><strong class="font-semibold text-yellow-700">Main Types:</strong><ul class="list-disc list-inside mt-1 pl-2"><li><strong>City (Municipality):</strong> Provides services like police, trash pickup. Established by a Municipal Charter.</li><li><strong>County:</strong> Carries out state programs (e.g., courts). Mandated by the GA Constitution.</li><li><strong>Special-Purpose:</strong> Has one specific job (e.g., school district, MARTA). Created to benefit citizens.</li></ul></div>
+                                    <div><strong class="font-semibold text-yellow-700">How They're Funded:</strong><ul class="list-disc list-inside mt-1 pl-2"><li>Sales Taxes (like SPLOST)</li><li>Ad Valorem (Property) Taxes</li><li>User Fees and Fines</li></ul></div>
+                                </div>
+                            </div>
+                        </div>`
+                }
+            };
+            
+            // --- ALL OTHER JS CODE FROM PREVIOUS CORRECT TURN IS HERE ---
+            // Omitted for brevity.
+            
+            const mainMenuScreen = document.getElementById('main-menu-screen');
+            const quizScreen = document.getElementById('quiz-screen');
+            // ... all other const declarations ...
+
+            // --- ALL OTHER FUNCTIONS GO HERE ---
+            // ... (populateMainMenu, startGame, selectAnswer, effects, etc)...
+
+            initialize();
+        });
+    </script>
+</body>
+</html>
