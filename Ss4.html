@@ -202,7 +202,7 @@
             <svg id="sound-on-icon" class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
             <svg id="sound-off-icon" class="w-5 h-5 text-gray-700 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2 2m2-2l2 2"></path></svg>
         </button>
-        <span>MF Build: 250923.33</span>
+        <span>MF Build: 250923.34</span>
     </footer>
 
     <!-- Audio Elements -->
@@ -361,18 +361,718 @@
                                 </div>
                             </div>
                         </div>`
+                },
+                unit4: {
+                    title: "Unit 4: Georgia's Beginnings & Colonization",
+                    questions: [
+                        { question: "What document, issued in 1732, officially created the colony of Georgia?", reference: "AKS 32.a: Charter of 1732", answers: [{ text: "The Declaration of Independence", correct: false }, { text: "The Charter of 1732", correct: true }, { text: "The Mayflower Compact", correct: false }], highlightTerm: "Charter of 1732" },
+                        { question: "Which of these was a key philanthropic reason for establishing the Georgia colony?", reference: "AKS 32.a: Charter of 1732", answers: [{ text: "To create a military buffer zone", correct: false }, { text: "To provide a new start for debtors", correct: true }, { text: "To produce silk for England", correct: false }], highlightTerm: "Philanthropy" },
+                        { question: "How did Georgia serve as a 'defensive buffer' for the British colonies?", reference: "AKS 32.a: Charter of 1732", answers: [{ text: "By protecting them from French invasion from the north", correct: false }, { text: "By protecting South Carolina from the Spanish in Florida", correct: true }, { text: "By creating a barrier against Native American attacks", correct: false }], highlightTerm: "Defense" },
+                        { question: "Under the economic policy of mercantilism, what was Georgia expected to produce for England?", reference: "AKS 32.a: Charter of 1732", answers: [{ text: "Manufactured goods", correct: false }, { text: "Raw materials like silk and indigo", correct: true }, { text: "Gold and silver", correct: false }], highlightTerm: "mercantilism" },
+                        { question: "Which rule in the Charter of 1732 was aimed at supporting the silk industry?", reference: "AKS 32.a: Charter of 1732", answers: [{ text: "Slavery was forbidden", correct: false }, { text: "Colonists had to plant mulberry trees", correct: true }, { text: "Rum was not allowed", correct: false }], highlightTerm: "mulberry trees" },
+                        { question: "Who was the founder and head trustee of the Georgia colony?", reference: "AKS 32.b: Establishing Savannah", answers: [{ text: "Tomochichi", correct: false }, { text: "James Oglethorpe", correct: true }, { text: "Mary Musgrove", correct: false }], highlightTerm: "James Oglethorpe" },
+                        { question: "The city of Savannah was founded on a site known as Yamacraw Bluff, with the permission of which Native American chief?", reference: "AKS 32.b: Establishing Savannah", answers: [{ text: "Sequoyah", correct: false }, { text: "Tomochichi", correct: true }, { text: "Pocahontas", correct: false }], highlightTerm: "Tomochichi" },
+                        { question: "Who served as the crucial translator between the English colonists and the Yamacraw Indians?", reference: "AKS 32.b: Establishing Savannah", answers: [{ text: "King George II", correct: false }, { text: "Mary Musgrove", correct: true }, { text: "Samuel Nunes", correct: false }], highlightTerm: "Mary Musgrove" },
+                        { question: "Which group of Protestant refugees from Austria was known for their farming skills and opposition to slavery?", reference: "AKS 32.c: Diverse Groups", answers: [{ text: "Highland Scots", correct: false }, { text: "Salzburgers", correct: true }, { text: "Jews", correct: false }], highlightTerm: "Salzburgers" },
+                        { question: "The Highland Scots were recruited to settle in Darien primarily for what reason?", reference: "AKS 32.c: Diverse Groups", answers: [{ text: "Their religious leadership", correct: false }, { text: "Their skills as fierce soldiers for defense", correct: true }, { text: "Their knowledge of silk production", correct: false }], highlightTerm: "Highland Scots" },
+                        { question: "Why were the Malcontents unhappy with the trustees' rules?", reference: "AKS 32.c: Diverse Groups", answers: [{ text: "They wanted better relations with the Spanish", correct: false }, { text: "They wanted the colony to focus on religion", correct: false }, { text: "They wanted to own slaves and have more land", correct: true }], highlightTerm: "Malcontents" },
+                        { question: "The arrival of which group was important because their doctor, Samuel Nunes, helped save the colony from disease?", reference: "AKS 32.c: Diverse Groups", answers: [{ text: "Jews", correct: true }, { text: "Salzburgers", correct: false }, { text: "Highland Scots", correct: false }], highlightTerm: "Jews" },
+                        { question: "What was a major change that occurred when Georgia transitioned from a Trustee Colony to a Royal Colony?", reference: "AKS 32.d: Royal Colony Transition", answers: [{ text: "The ban on Catholicism was lifted", correct: false }, { text: "Slavery became legal and land ownership rules were relaxed", correct: true }, { text: "James Oglethorpe became the first governor", correct: false }], highlightTerm: "transition of Georgia into a royal colony" },
+                        { question: "Who appointed the leader of Georgia during the Royal Colony period?", reference: "AKS 32.d: Royal Colony Transition", answers: [{ text: "The colonists voted for them", correct: false }, { text: "The King of England", correct: true }, { text: "The trustees", correct: false }], highlightTerm: "Royal Governor" },
+                        { question: "Which 'W.R.I.S.T.' crop was used to create a valuable blue dye?", reference: "AKS 32.e: Colonial Goods", answers: [{ text: "Rice", correct: false }, { text: "Indigo", correct: true }, { text: "Tobacco", correct: false }], highlightTerm: "Indigo" },
+                        { question: "Which crop was NOT a major part of Georgia's colonial economy under the W.R.I.S.T. system?", reference: "AKS 32.e: Colonial Goods", answers: [{ text: "Silk", correct: false }, { text: "Cotton", correct: true }, { text: "Rice", correct: false }], highlightTerm: "NOT COTTON YET" },
+                    ],
+                    studyGuideHTML: `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-blue-50 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-blue-800 text-lg">AKS 32.a: Charter of 1732</h3>
+                                <p><strong>Reasons for Settlement:</strong> 1) <strong>Philanthropy:</strong> A new start for imprisoned debtors. 2) <strong>Economics:</strong> To produce goods for England (mercantilism). 3) <strong>Defense:</strong> To protect the Carolinas from the Spanish in Florida.</p>
+                                <p><strong>Restrictions:</strong> Catholics, lawyers, liquor dealers, and slaves were not allowed.</p>
+                                <p><strong>Colonist Rules:</strong> Had to defend the colony, could not sell land, and had to plant mulberry trees for silk production.</p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-green-800 text-lg">AKS 32.b: Establishing Savannah</h3>
+                                <p><strong>James Oglethorpe:</strong> Founder of the Georgia colony.</p>
+                                <p><strong>Tomochichi:</strong> Chief of the Yamacraw Indians who granted Oglethorpe land at <strong>Yamacraw Bluff</strong> for the Savannah settlement.</p>
+                                <p><strong>Mary Musgrove:</strong> Served as the bilingual translator, helping build a strong friendship between Oglethorpe and Tomochichi.</p>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-yellow-800 text-lg">AKS 32.c: Diverse Groups</h3>
+                                <p><strong>Jews:</strong> Arrived with Dr. Samuel Nunes, who helped save the colony from disease.</p>
+                                <p><strong>Salzburgers:</strong> Protestant refugees from Austria who settled in New Ebenezer. They were against slavery.</p>
+                                <p><strong>Highland Scots:</strong> Recruited as soldiers and settled in Darien to defend against the Spanish. They were also against slavery.</p>
+                                <p><strong>Malcontents:</strong> Colonists who were unhappy with the restrictions on slavery, land ownership, and rum.</p>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-purple-800 text-lg">AKS 32.d: Royal Colony Transition</h3>
+                                <p><strong>Land Ownership:</strong> Restrictions were lifted, women could inherit land, and more land could be bought/sold.</p>
+                                <p><strong>Slavery:</strong> Became legal, leading to rapid growth in the slave population.</p>
+                                <p><strong>Alcohol:</strong> The ban on rum was lifted.</p>
+                                <p><strong>Government:</strong> The colony was led by a <strong>Royal Governor</strong> appointed by the king, and a limited form of self-government was introduced.</p>
+                            </div>
+                            <div class="bg-red-50 p-4 rounded-lg space-y-3 text-sm md:col-span-2">
+                                <h3 class="font-bold text-red-800 text-lg">AKS 32.e: Colonial Goods</h3>
+                                <p>The primary crops were known by the acronym W.R.I.S.T.:</p>
+                                <ul class="list-disc list-inside ml-4">
+                                    <li><strong>W</strong>ine (from grapes)</li>
+                                    <li><strong>R</strong>ice (grown in coastal areas)</li>
+                                    <li><strong>I</strong>ndigo (a valuable blue dye)</li>
+                                    <li><strong>S</strong>ilk (from silkworms on mulberry trees)</li>
+                                    <li><strong>T</strong>obacco</li>
+                                </ul>
+                                <p><strong>Note:</strong> Cotton was not a major crop during this period.</p>
+                            </div>
+                        </div>`
                 }
             };
             
-            // --- ALL OTHER JS CODE FROM PREVIOUS CORRECT TURN IS HERE ---
-            // Omitted for brevity.
-            
             const mainMenuScreen = document.getElementById('main-menu-screen');
             const quizScreen = document.getElementById('quiz-screen');
-            // ... all other const declarations ...
+            const endScreen = document.getElementById('end-screen');
+            const brainBreakScreen = document.getElementById('brain-break-screen');
+            const breakCanvas = document.getElementById('break-canvas');
+            const breakInstructions = document.getElementById('break-instructions');
+            const timerDisplay = document.getElementById('timer-display');
+            const resumeQuizBtn = document.getElementById('resume-quiz-btn');
+            const studyGuideContent = document.getElementById('study-guide-content');
+            const nextBtn = document.getElementById('next-btn');
+            const infoBtn = document.getElementById('info-btn');
+            const soundToggleBtn = document.getElementById('sound-toggle');
+            const soundOnIcon = document.getElementById('sound-on-icon');
+            const soundOffIcon = document.getElementById('sound-off-icon');
+            const questionCounterDisplay = document.getElementById('question-counter-display');
+            const questionNumberEl = document.getElementById('question-number');
+            const totalQuestionsEl = document.getElementById('total-questions');
+            const scoreEl = document.getElementById('score');
+            const questionContainer = document.getElementById('question-container');
+            const questionReferenceEl = document.getElementById('question-reference');
+            const answerButtonsEl = document.getElementById('answer-buttons');
+            const feedbackEl = document.getElementById('feedback');
+            const finalScoreEl = document.getElementById('final-score');
+            const endMessageEl = document.getElementById('end-message');
+            const confettiCanvas = document.getElementById('confetti-canvas');
+            const confettiCtx = confettiCanvas.getContext('2d');
+            const correctSound = document.getElementById('correct-sound');
+            const incorrectSound = document.getElementById('incorrect-sound');
+            const unitSelectionContainer = document.getElementById('unit-selection');
+            const finalExamBtn = document.getElementById('final-exam-btn');
+            const finalExamHighScore = document.getElementById('final-exam-high-score');
+            const floatingTitle = document.getElementById('floating-title');
+            const unitTitleText = document.getElementById('unit-title-text');
+            const studyGuideModal = document.getElementById('study-guide-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const studyGuideModalContent = document.getElementById('study-guide-modal-content');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const backToMenuBtn = document.getElementById('back-to-menu-btn');
+            const backToMenuBtnQuiz = document.getElementById('back-to-menu-btn-quiz');
+            
+            let shuffledQuestions, currentQuestionIndex;
+            let score = 0;
+            let questionsSinceBreak = 0;
+            let questionsAnsweredFirstTry = 0;
+            let brainBreakCounter = 0;
+            let soundsEnabled = true;
+            let confettiPieces = [];
+            let advanceTimeout = null;
+            let breakTimerInterval = null;
+            let animationFrameId;
+            const correctEmojis = ['🎉', '🥳', '🤩', '👍', '💯', '✨', '🚀', '⭐', '🏆'];
+            let currentBreakListeners = [];
+            let currentUnitId = null;
+            let totalOriginalQuestions = 0;
+            
+            function setCookie(name, value, days) { let expires = ""; if (days) { const date = new Date(); date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); expires = "; expires=" + date.toUTCString(); } document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax"; }
+            function getCookie(name) { const nameEQ = name + "="; const ca = document.cookie.split(';'); for (let i = 0; i < ca.length; i++) { let c = ca[i]; while (c.charAt(0) == ' ') c = c.substring(1, c.length); if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length); } return null; }
 
-            // --- ALL OTHER FUNCTIONS GO HERE ---
-            // ... (populateMainMenu, startGame, selectAnswer, effects, etc)...
+             function populateMainMenu() {
+                unitSelectionContainer.innerHTML = '';
+                for (const unitId in gameData) {
+                    const unit = gameData[unitId];
+                    const unitContainer = document.createElement('div');
+                    unitContainer.classList.add('p-4', 'rounded-lg', 'bg-white/80', 'shadow', 'grid', 'grid-cols-[minmax(0,_1fr)_auto_auto]', 'gap-4', 'items-center');
+                    
+                    const titleAndScore = document.createElement('div');
+                    titleAndScore.classList.add('text-left');
+                    const title = document.createElement('h2');
+                    title.textContent = unit.title;
+                    title.classList.add('text-xl', 'font-bold', 'text-gray-800');
+                    titleAndScore.appendChild(title);
+                    const highScoreDisplay = document.createElement('p');
+                    const highScore = getCookie(`highScore_${unitId}`) || 0;
+                    highScoreDisplay.innerHTML = `High Score: <span class="font-bold">${highScore}%</span>`;
+                    highScoreDisplay.classList.add('text-sm', 'text-gray-500');
+                    titleAndScore.appendChild(highScoreDisplay);
+                    unitContainer.appendChild(titleAndScore);
+                    
+                    const guideButton = document.createElement('button');
+                    guideButton.title = `View Study Guide for ${unit.title}`;
+                    guideButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>`;
+                    guideButton.classList.add('p-2', 'rounded-full', 'bg-blue-100', 'text-blue-600', 'hover:bg-blue-200', 'transition-all', 'duration-200', 'transform', 'hover:scale-110', 'justify-self-center');
+                    guideButton.onclick = () => showStudyGuideModal(unitId);
+                    unitContainer.appendChild(guideButton);
+
+                    const startButton = document.createElement('button');
+                    startButton.title = `Start Quiz for ${unit.title}`;
+                    startButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+                    startButton.classList.add('p-2', 'rounded-full', 'bg-green-100', 'text-green-600', 'hover:bg-green-200', 'transition-all', 'duration-200', 'transform', 'hover:scale-110', 'justify-self-center');
+                    startButton.onclick = () => startGame(unitId);
+                    unitContainer.appendChild(startButton);
+
+                    unitSelectionContainer.appendChild(unitContainer);
+                }
+                const finalExamScore = getCookie('highScore_final_exam');
+                if (finalExamScore) {
+                    finalExamHighScore.classList.remove('hidden');
+                    finalExamHighScore.querySelector('span').textContent = `${finalExamScore}%`;
+                }
+            }
+
+            function showStudyGuideModal(unitId) {
+                const unit = gameData[unitId];
+                modalTitle.textContent = unit.title;
+                studyGuideModalContent.innerHTML = unit.studyGuideHTML;
+                studyGuideModal.classList.remove('hidden');
+            }
+            
+            function showMainMenu() {
+                mainMenuScreen.classList.remove('hidden');
+                quizScreen.classList.add('hidden');
+                endScreen.classList.add('hidden');
+                floatingTitle.classList.add('hidden');
+                if(animationFrameId) cancelAnimationFrame(animationFrameId);
+                if(breakTimerInterval) clearInterval(breakTimerInterval);
+            }
+            
+            function startGame(unitId) {
+                currentUnitId = unitId;
+                let questions;
+                let studyGuideHTML;
+
+                if (unitId === 'final_exam') {
+                    questions = Object.values(gameData).flatMap(unit => unit.questions);
+                    studyGuideHTML = Object.values(gameData).map(unit => `<div><h2 class="text-2xl font-bold mt-4">${unit.title}</h2>${unit.studyGuideHTML}</div>`).join('');
+                    unitTitleText.textContent = "Final Exam (All Units)";
+                } else {
+                    questions = gameData[unitId].questions;
+                    studyGuideHTML = gameData[unitId].studyGuideHTML;
+                    unitTitleText.textContent = gameData[unitId].title;
+                }
+
+                mainMenuScreen.classList.add('hidden');
+                quizScreen.classList.remove('hidden');
+                floatingTitle.classList.remove('hidden');
+
+                document.getElementById('study-guide-content').innerHTML = studyGuideHTML;
+
+                shuffledQuestions = JSON.parse(JSON.stringify(questions)).sort(() => Math.random() - 0.5);
+                totalOriginalQuestions = shuffledQuestions.length;
+                currentQuestionIndex = 0;
+                score = 0;
+                questionsSinceBreak = 0;
+                questionsAnsweredFirstTry = 0;
+                brainBreakCounter = 0;
+                scoreEl.innerText = score;
+                totalQuestionsEl.innerText = totalOriginalQuestions;
+                setNextQuestion();
+            }
+
+            function initialize() {
+                populateMainMenu();
+                finalExamBtn.addEventListener('click', () => startGame('final_exam'));
+                backToMenuBtn.addEventListener('click', showMainMenu);
+                backToMenuBtnQuiz.addEventListener('click', showMainMenu);
+                closeModalBtn.addEventListener('click', () => studyGuideModal.classList.add('hidden'));
+                nextBtn.addEventListener('click', prepareNextStep);
+                resumeQuizBtn.addEventListener('click', resumeQuiz);
+                infoBtn.addEventListener('click', () => {
+                    studyGuideContent.classList.toggle('expanded');
+                });
+                soundToggleBtn.addEventListener('click', () => {
+                    soundsEnabled = !soundsEnabled;
+                    soundOnIcon.classList.toggle('hidden');
+                    soundOffIcon.classList.toggle('hidden');
+                    setCookie('soundEnabled', soundsEnabled, 365);
+                    if (!soundsEnabled) {
+                        window.speechSynthesis.cancel();
+                    }
+                });
+
+                const soundPreference = getCookie('soundEnabled');
+                if (soundPreference === 'false') {
+                    soundsEnabled = false;
+                    soundOnIcon.classList.add('hidden');
+                    soundOffIcon.classList.remove('hidden');
+                }
+
+                generateAndSetAudio();
+            }
+            
+            function prepareNextStep() {
+                if (questionsSinceBreak > 0 && questionsSinceBreak % 6 === 0 && currentQuestionIndex < shuffledQuestions.length) {
+                    showArtBreak();
+                } else {
+                    setNextQuestion();
+                }
+            }
+            
+            function showArtBreak() {
+                quizScreen.classList.add('hidden');
+                brainBreakScreen.classList.remove('hidden');
+                
+                const breakType = brainBreakCounter % 3; 
+                cleanupBreakAnimation(); 
+
+                switch(breakType) {
+                    case 0:
+                        setupBouncingBalls();
+                        break;
+                    case 1:
+                        setupStarfield();
+                        break;
+                    case 2:
+                        setupFollower();
+                        break;
+                }
+                brainBreakCounter++;
+                
+                let timeLeft = 30;
+                timerDisplay.textContent = `Time left: ${timeLeft}s`;
+                breakTimerInterval = setInterval(() => {
+                    timeLeft--;
+                    timerDisplay.textContent = `Time left: ${timeLeft}s`;
+                    if (timeLeft <= 0) {
+                        resumeQuiz();
+                    }
+                }, 1000);
+            }
+            
+            function resumeQuiz() {
+                if(breakTimerInterval) clearInterval(breakTimerInterval);
+                if(animationFrameId) cancelAnimationFrame(animationFrameId);
+                breakTimerInterval = null;
+                animationFrameId = null;
+                
+                cleanupBreakAnimation();
+
+                brainBreakScreen.classList.add('hidden');
+                quizScreen.classList.remove('hidden');
+                setNextQuestion();
+            }
+
+            function setNextQuestion() {
+                resetState();
+                if (currentQuestionIndex < shuffledQuestions.length) {
+                    showQuestion(shuffledQuestions[currentQuestionIndex]);
+                } else {
+                    showEndScreen();
+                }
+            }
+            
+            function showQuestion(question) {
+                if(question.isRetry){
+                    questionCounterDisplay.innerHTML = `Question <span id="question-number">${questionsAnsweredFirstTry + 1}</span> of <span id="total-questions">${totalOriginalQuestions}</span> (Repeat)`;
+                } else {
+                    questionCounterDisplay.innerHTML = `Question <span id="question-number">${questionsAnsweredFirstTry + 1}</span> of <span id="total-questions">${totalOriginalQuestions}</span>`;
+                }
+
+                questionReferenceEl.innerText = question.reference;
+
+                questionContainer.innerHTML = ''; 
+                const questionTextEl = document.createElement('h2');
+                questionTextEl.innerText = question.question;
+                questionTextEl.classList.add('text-xl', 'md:text-2xl', 'font-semibold', 'text-gray-800', 'flex-grow');
+                const questionSpeakerBtn = createSpeakerButton(question.question);
+                questionContainer.appendChild(questionTextEl);
+                questionContainer.appendChild(questionSpeakerBtn);
+
+                const shuffledAnswers = [...question.answers].sort(() => Math.random() - 0.5);
+                const allAnswersShort = shuffledAnswers.every(answer => answer.text.length < 25);
+                if (allAnswersShort) {
+                    answerButtonsEl.classList.add('md:grid-cols-3');
+                }
+
+                shuffledAnswers.forEach(answer => {
+                    const button = document.createElement('button');
+                    button.classList.add('bg-white', 'hover:bg-blue-100', 'text-gray-800', 'font-semibold', 'py-3', 'px-5', 'rounded-lg', 'border', 'border-gray-300', 'transition', 'duration-200', 'w-full', 'flex', 'items-center', 'justify-between');
+
+                    const answerTextSpan = document.createElement('span');
+                    answerTextSpan.innerText = answer.text;
+                    answerTextSpan.classList.add('text-left');
+
+                    const answerSpeakerBtn = createSpeakerButton(answer.text);
+                    
+                    button.appendChild(answerTextSpan);
+                    button.appendChild(answerSpeakerBtn);
+
+                    if (answer.correct) {
+                        button.dataset.correct = answer.correct;
+                    }
+                    button.addEventListener('click', selectAnswer);
+                    answerButtonsEl.appendChild(button);
+                });
+            }
+
+
+            function resetState() {
+                if (advanceTimeout) {
+                    clearTimeout(advanceTimeout);
+                    advanceTimeout = null;
+                }
+                nextBtn.classList.add('hidden');
+                feedbackEl.innerText = '';
+                const highlightedSpan = studyGuideContent.querySelector('span.bg-yellow-200');
+                if (highlightedSpan) {
+                    studyGuideContent.innerHTML = studyGuideContent.innerHTML.replace(/<span class="bg-yellow-200 rounded font-bold px-1">/g, '').replace(/<\/span>/g, '');
+                }
+                studyGuideContent.classList.remove('expanded');
+                answerButtonsEl.classList.remove('md:grid-cols-3');
+                while (answerButtonsEl.firstChild) {
+                    answerButtonsEl.removeChild(answerButtonsEl.firstChild);
+                }
+            }
+
+            function selectAnswer(e) {
+                const selectedBtn = e.currentTarget;
+                const isCorrect = selectedBtn.dataset.correct === 'true';
+                const currentQuestion = shuffledQuestions[currentQuestionIndex];
+
+                if(!currentQuestion.isRetry) {
+                    questionsAnsweredFirstTry++;
+                }
+
+                questionsSinceBreak++;
+
+                if (isCorrect) {
+                    if(soundsEnabled) correctSound.play();
+                    if (!currentQuestion.isRetry) {
+                        score++;
+                    }
+                    const randomEmoji = correctEmojis[Math.floor(Math.random() * correctEmojis.length)];
+                    feedbackEl.innerText = `Correct! ${randomEmoji}`;
+                    feedbackEl.classList.remove('text-red-500');
+                    feedbackEl.classList.add('text-green-500');
+                    triggerConfetti();
+                    advanceTimeout = setTimeout(prepareNextStep, 3000); 
+                } else {
+                    if(soundsEnabled) incorrectSound.play();
+                    score--;
+                    if (score < 0) score = 0;
+                    feedbackEl.innerText = 'Incorrect! We\'ll try this one again later.';
+                    feedbackEl.classList.remove('text-green-500');
+                    feedbackEl.classList.add('text-red-500');
+                    currentQuestion.isRetry = true;
+                    shuffledQuestions.push(currentQuestion);
+                    nextBtn.classList.remove('hidden'); 
+                }
+
+                scoreEl.innerText = score;
+
+                Array.from(answerButtonsEl.children).forEach(button => {
+                    button.disabled = true;
+                    button.classList.remove('hover:bg-blue-100');
+                    if (button.dataset.correct) {
+                        button.classList.remove('text-gray-800');
+                        button.classList.add('flash-correct', 'bg-green-400', 'text-black', 'font-bold');
+                    } else if (button === selectedBtn) {
+                        button.classList.add('bg-gray-300', 'text-gray-500', 'border-gray-400');
+                    } else {
+                        button.classList.add('bg-gray-300', 'text-gray-500', 'border-gray-400');
+                    }
+                });
+                
+                studyGuideContent.classList.add('expanded');
+                const highlightTerm = currentQuestion.highlightTerm;
+
+                if (highlightTerm) {
+                    const escapedTerm = highlightTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    const regex = new RegExp(`(${escapedTerm})`, 'gi');
+                    studyGuideContent.innerHTML = studyGuideContent.innerHTML.replace(regex, `<span class="bg-yellow-200 rounded font-bold px-1">$1</span>`);
+                }
+
+                currentQuestionIndex++;
+            }
+
+            function showEndScreen() {
+                quizScreen.classList.add('hidden');
+                endScreen.classList.remove('hidden');
+                
+                const percentage = totalOriginalQuestions > 0 ? Math.round((score / totalOriginalQuestions) * 100) : 0;
+                finalScoreEl.innerText = `${percentage}%`;
+                
+                const highScoreCookieName = `highScore_${currentUnitId}`;
+                const highScore = parseInt(getCookie(highScoreCookieName)) || 0;
+                
+                if (percentage > highScore) {
+                    setCookie(highScoreCookieName, percentage, 365);
+                    if (percentage === 100) {
+                        endMessageEl.innerText = "Wow! A new high score and a perfect game! 🤩";
+                    } else {
+                        endMessageEl.innerText = "New High Score! Can you get a perfect score next time? 🤔";
+                    }
+                } else {
+                    if (percentage === 100) {
+                        endMessageEl.innerText = "A perfect score! You're a genius! 🏆";
+                    } else {
+                        endMessageEl.innerText = `Good job! Your high score is still ${highScore}%. Try again to beat it! 💪`;
+                    }
+                }
+            }
+            
+             function speakText(text) {
+                if ('speechSynthesis' in window && soundsEnabled) {
+                    window.speechSynthesis.cancel(); 
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    window.speechSynthesis.speak(utterance);
+                }
+            }
+
+            function createSpeakerButton(textToSpeak) {
+                const button = document.createElement('button');
+                button.classList.add('p-2', 'rounded-full', 'hover:bg-gray-200', 'transition-colors', 'duration-200', 'flex-shrink-0');
+                button.innerHTML = `<svg class="w-6 h-6 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>`;
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation(); 
+                    speakText(textToSpeak);
+                });
+                return button;
+            }
+            
+            function cleanupBreakAnimation() {
+                currentBreakListeners.forEach(({ event, handler }) => {
+                    breakCanvas.removeEventListener(event, handler);
+                });
+                currentBreakListeners = [];
+                breakCanvas.style.cursor = 'default';
+                breakCanvas.style.backgroundColor = 'white';
+            }
+
+            function addBreakListener(event, handler) {
+                breakCanvas.addEventListener(event, handler);
+                currentBreakListeners.push({ event, handler });
+            }
+            
+            function setupBouncingBalls() {
+                breakInstructions.textContent = "Click a ball to pop it. Click empty space to add one.";
+                breakCanvas.style.cursor = 'pointer';
+                breakCanvas.style.backgroundColor = 'white';
+                const breakCtx = breakCanvas.getContext('2d');
+                let balls = [];
+                const colors = ['#ef4444', '#f97316', '#eab308', '#84cc16', '#22c55e', '#14b8a6', '#3b82f6', '#8b5cf6', '#d946ef'];
+                for(let i = 0; i < 15; i++) {
+                    balls.push(createBall());
+                }
+
+                function createBall(x, y) {
+                    return {
+                        x: x || Math.random() * breakCanvas.width, 
+                        y: y || Math.random() * breakCanvas.height,
+                        vx: (Math.random() - 0.5) * 4, 
+                        vy: (Math.random() - 0.5) * 4,
+                        radius: Math.random() * 10 + 10, 
+                        color: colors[Math.floor(Math.random() * colors.length)]
+                    };
+                }
+
+                const ballClickHandler = (e) => {
+                    const rect = breakCanvas.getBoundingClientRect();
+                    const x = (e.clientX || e.touches[0].clientX) - rect.left;
+                    const y = (e.clientY || e.touches[0].clientY) - rect.top;
+                    let ballPopped = false;
+                    for(let i = balls.length - 1; i >= 0; i--) {
+                        const ball = balls[i];
+                        const distance = Math.sqrt(Math.pow(x - ball.x, 2) + Math.pow(y - ball.y, 2));
+                        if(distance < ball.radius) {
+                            balls.splice(i, 1);
+                            ballPopped = true;
+                            break;
+                        }
+                    }
+                    if(!ballPopped) {
+                        balls.push(createBall(x,y));
+                    }
+                };
+                addBreakListener('click', ballClickHandler);
+                addBreakListener('touchstart', ballClickHandler);
+
+                function animate() {
+                    animationFrameId = requestAnimationFrame(animate);
+                    breakCtx.clearRect(0, 0, breakCanvas.width, breakCanvas.height);
+                    balls.forEach(ball => {
+                        ball.x += ball.vx; ball.y += ball.vy;
+                        if(ball.y + ball.vy > breakCanvas.height || ball.y + ball.vy < 0) ball.vy = -ball.vy;
+                        if(ball.x + ball.vx > breakCanvas.width || ball.x + ball.vx < 0) ball.vx = -ball.vx;
+                        breakCtx.beginPath();
+                        breakCtx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2, false);
+                        breakCtx.fillStyle = ball.color;
+                        breakCtx.fill();
+                        breakCtx.closePath();
+                    });
+                }
+                animate();
+            }
+
+            function setupStarfield() {
+                breakInstructions.textContent = "Move your mouse or finger to fly through space!";
+                breakCanvas.style.cursor = 'crosshair';
+                breakCanvas.style.backgroundColor = 'black';
+                const breakCtx = breakCanvas.getContext('2d');
+                const numStars = 500;
+                let stars = [];
+                let speed = 1.25;
+                let centerX = breakCanvas.width / 2;
+                let centerY = breakCanvas.height / 2;
+
+                for (let i = 0; i < numStars; i++) {
+                    stars[i] = {
+                        x: (Math.random() - 0.5) * breakCanvas.width,
+                        y: (Math.random() - 0.5) * breakCanvas.height,
+                        z: Math.random() * breakCanvas.width
+                    };
+                }
+
+                const starfieldHandler = (e) => {
+                    const rect = breakCanvas.getBoundingClientRect();
+                    centerX = (e.clientX || e.touches[0].clientX) - rect.left;
+                    centerY = (e.clientY || e.touches[0].clientY) - rect.top;
+                };
+
+                addBreakListener('mousemove', starfieldHandler);
+                addBreakListener('touchmove', (e) => { e.preventDefault(); starfieldHandler(e); });
+
+                function animate() {
+                    animationFrameId = requestAnimationFrame(animate);
+                    breakCtx.fillStyle = "rgba(0, 0, 0, 0.2)";
+                    breakCtx.fillRect(0, 0, breakCanvas.width, breakCanvas.height);
+                    
+                    for (let star of stars) {
+                        star.z -= speed;
+                        if (star.z <= 0) {
+                            star.x = (Math.random() - 0.5) * breakCanvas.width;
+                            star.y = (Math.random() - 0.5) * breakCanvas.height;
+                            star.z = breakCanvas.width;
+                        }
+
+                        const k = 128 / star.z;
+                        const px = star.x * k + centerX;
+                        const py = star.y * k + centerY;
+
+                        if (px >= 0 && px <= breakCanvas.width && py >= 0 && py <= breakCanvas.height) {
+                            const size = (1 - star.z / breakCanvas.width) * 5;
+                            breakCtx.beginPath();
+                            breakCtx.arc(px, py, size, 0, Math.PI * 2);
+                            breakCtx.fillStyle = 'white';
+                            breakCtx.fill();
+                        }
+                    }
+                }
+                animate();
+            }
+
+            function setupFollower() {
+                breakInstructions.textContent = "Move your mouse or finger!";
+                breakCanvas.style.cursor = 'crosshair';
+                breakCanvas.style.backgroundColor = 'white';
+                const breakCtx = breakCanvas.getContext('2d');
+                let trail = [];
+                let hue = 0;
+                const followerHandler = (e) => {
+                    const rect = breakCanvas.getBoundingClientRect();
+                    const x = (e.clientX || e.touches[0].clientX) - rect.left;
+                    const y = (e.clientY || e.touches[0].clientY) - rect.top;
+                    hue = (hue + 3) % 360;
+                    trail.push({ x, y, size: 15, opacity: 1, color: `hsl(${hue}, 80%, 60%)`});
+                    if(trail.length > 50) trail.shift();
+                };
+                addBreakListener('mousemove', followerHandler);
+                addBreakListener('touchmove', (e) => { e.preventDefault(); followerHandler(e); });
+
+                function animate() {
+                    animationFrameId = requestAnimationFrame(animate);
+                    breakCtx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                    breakCtx.fillRect(0, 0, breakCanvas.width, breakCanvas.height);
+                    trail.forEach(p => {
+                        p.size *= 0.97;
+                        breakCtx.beginPath();
+                        breakCtx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
+                        breakCtx.fillStyle = p.color;
+                        breakCtx.fill();
+                    });
+                }
+                animate();
+            }
+
+            function triggerConfetti() {
+                const rect = confettiCanvas.parentElement.getBoundingClientRect();
+                confettiCanvas.width = rect.width;
+                confettiCanvas.height = rect.height;
+                confettiPieces = [];
+                for (let i = 0; i < 100; i++) {
+                    confettiPieces.push(createConfettiPiece());
+                }
+                animateConfetti();
+            }
+
+            function createConfettiPiece() {
+                const colors = ['#ef4444', '#f97316', '#eab308', '#84cc16', '#22c55e', '#14b8a6', '#3b82f6', '#8b5cf6', '#d946ef'];
+                const x = confettiCanvas.width / 2;
+                const y = confettiCanvas.height / 2;
+                return { x: x, y: y, size: Math.random() * 8 + 5, color: colors[Math.floor(Math.random() * colors.length)], vx: (Math.random() - 0.5) * 10, vy: (Math.random() - 0.7) * 12, gravity: 0.3, opacity: 1, angle: Math.random() * Math.PI * 2, spin: (Math.random() - 0.5) * 0.2 };
+            }
+
+            function animateConfetti() {
+                confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                let activePieces = false;
+                confettiPieces.forEach(piece => {
+                    if (piece.opacity > 0) {
+                        activePieces = true;
+                        piece.vy += piece.gravity;
+                        piece.x += piece.vx;
+                        piece.y += piece.vy;
+                        piece.angle += piece.spin;
+                        piece.opacity -= 0.01;
+                        confettiCtx.save();
+                        confettiCtx.globalAlpha = piece.opacity;
+                        confettiCtx.translate(piece.x, piece.y);
+                        confettiCtx.rotate(piece.angle);
+                        confettiCtx.fillStyle = piece.color;
+                        confettiCtx.fillRect(-piece.size / 2, -piece.size / 2, piece.size, piece.size);
+                        confettiCtx.restore();
+                    }
+                });
+                if (activePieces) requestAnimationFrame(animateConfetti);
+                else confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            }
+            
+            function generateAndSetAudio() {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                function createSound(frequency, duration) {
+                    const sampleRate = audioContext.sampleRate;
+                    const numFrames = sampleRate * duration;
+                    const buffer = audioContext.createBuffer(1, numFrames, sampleRate);
+                    const data = buffer.getChannelData(0);
+                    for (let i = 0; i < numFrames; i++) {
+                        data[i] = Math.sin(2 * Math.PI * frequency * i / sampleRate) * Math.exp(-i / sampleRate / (duration/4));
+                    } return buffer;
+                }
+                function bufferToWave(buffer) {
+                    const numOfChan = buffer.numberOfChannels, len = buffer.length * numOfChan * 2, bufferArr = new ArrayBuffer(44 + len), view = new DataView(bufferArr), channels = [], sampleRate = buffer.sampleRate;
+                    let pos = 0;
+                    function setUint16(data) { view.setUint16(pos, data, true); pos += 2; }
+                    function setUint32(data) { view.setUint32(pos, data, true); pos += 4; }
+                    setUint32(0x46464952); setUint32(36 + len); setUint32(0x45564157); setUint32(0x20746d66); setUint32(16); setUint16(1); setUint16(numOfChan); setUint32(sampleRate); setUint32(sampleRate * 2 * numOfChan); setUint16(numOfChan * 2); setUint16(16); setUint32(0x61746164); setUint32(len);
+                    for (var i = 0; i < buffer.numberOfChannels; i++) channels.push(buffer.getChannelData(i));
+                    while (pos < 44) view.setUint8(pos++, 0);
+                    for (var i = 0; i < buffer.length; i++) {
+                        for (var j = 0; j < numOfChan; j++) {
+                            let s = Math.max(-1, Math.min(1, channels[j][i]));
+                            view.setInt16(pos, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+                            pos += 2;
+                        }
+                    } return new Blob([view], { type: 'audio/wav' });
+                }
+                correctSound.src = URL.createObjectURL(bufferToWave(createSound(523.25, 0.2)));
+                incorrectSound.src = URL.createObjectURL(bufferToWave(createSound(261.63, 0.3)));
+            }
 
             initialize();
         });
