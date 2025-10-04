@@ -1,40 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anleigh's Social Studies Review</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-gradient: radial-gradient(circle at top left, #ffb3ba, #ffdfba, #ffffba, #baffc9, #bae1ff, #d0baff);
-            --glass-bg: rgba(255, 255, 255, 0.3);
-            --glass-blur: blur(10px);
-            --text-color: #2c3e50;
-            --border-color: rgba(255, 255, 255, 0.5);
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --rainbow-gradient: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
-            --pink-purple-blue-gradient: linear-gradient(90deg, #ff007f, #bf00ff, #007fff);
+            --bg-gradient-start: #ff7e5f;
+            --bg-gradient-mid1: #feb47b;
+            --bg-gradient-mid2: #86a8e7;
+            --bg-gradient-end: #5ff3a0;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --text-color: #ffffff;
+            --border-color: rgba(255, 255, 255, 0.2);
+            --correct-color: #28a745;
+            --incorrect-color: #6c757d;
+            --highlight-color: yellow;
+            --text-shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
 
+        /* General Body Styles */
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 2rem 1rem;
-            min-height: 100vh;
-            background-color: #ffb3ba;
-            background-image: var(--bg-gradient);
-            background-size: 400% 400%;
-            animation: gradient-animation 20s ease infinite;
+            background: radial-gradient(circle, var(--bg-gradient-start), var(--bg-gradient-mid1), var(--bg-gradient-mid2), var(--bg-gradient-end));
             color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Container */
+        .game-container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            padding: 2rem;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin: 0;
+            text-shadow: var(--text-shadow);
+        }
+        .header p {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            opacity: 0.9;
+        }
+
+        /* Hide Screens by Default */
+        #main-menu-screen, #quiz-screen {
+            display: none;
+        }
+
+        /* Main Menu Styling */
+        .unit-list-header, .unit-row {
+            display: grid;
+            grid-template-columns: 4fr 1fr 1fr;
+            gap: 1rem;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .unit-list-header {
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding-bottom: 1rem;
+            text-align: center;
+        }
+        .unit-title {
+            font-weight: 500;
+        }
+        .unit-score {
+            text-align: center;
+        }
+        .unit-actions {
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            box-sizing: border-box;
+            gap: 0.5rem;
+        }
+
+        /* Icon Buttons */
+        .icon-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            position: relative;
+        }
+        .icon-button:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        .icon-button svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--text-color);
+        }
+        .tooltip {
+            visibility: hidden;
+            width: max-content;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            position: absolute;
+            z-index: 100;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .icon-button:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Rainbow Animated Button */
+        .animated-gradient-button {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-color);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            background-color: #8a2be2;
+            transition: transform 0.2s;
+            margin-top: 2rem;
+            text-shadow: var(--text-shadow);
+        }
+        .animated-gradient-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 300%;
+            height: 100%;
+            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet, red);
+            transition: left 0.5s ease-in-out;
+            z-index: 0;
+        }
+        .animated-gradient-button:hover::before {
+            left: 0;
+        }
+        .animated-gradient-button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Dark Animated Button */
+        .dark-animated-button {
+             background: linear-gradient(90deg, #4b0082, #8a2be2, #0000ff);
+             background-size: 200% 200%;
+             animation: gradient-animation 5s ease infinite;
         }
 
         @keyframes gradient-animation {
@@ -43,319 +194,145 @@
             100% { background-position: 0% 50%; }
         }
 
-        .game-container {
-            width: 100%;
-            max-width: 900px;
+        /* Quiz Screen */
+        .quiz-header {
             background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border-radius: 20px;
+            backdrop-filter: blur(15px);
             border: 1px solid var(--border-color);
-            box-shadow: 0 8px 32px 0 var(--shadow-color);
-            padding: 2rem;
-            text-align: center;
-            box-sizing: border-box;
-        }
-        
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            color: #34495e;
-        }
-
-        h2 {
-            font-size: 1.2rem;
-            font-weight: 400;
-            margin-top: 0;
-            margin-bottom: 2rem;
-            color: #34495e;
-        }
-
-        #main-menu, #quiz-screen, #brain-break-screen {
-            display: none;
-        }
-
-        .unit-list-header, .unit-row {
-            display: grid;
-            grid-template-columns: 1fr 120px 120px;
-            gap: 1rem;
-            align-items: center;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .unit-list-header {
-            font-weight: 600;
-            color: #34495e;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
-        }
-        
-        .unit-title { text-align: left; }
-        .unit-score { font-size: 0.9rem; }
-        .unit-actions { display: flex; justify-content: center; gap: 0.5rem; }
-
-        .icon-btn {
-            background: rgba(255, 255, 255, 0.7);
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            transition: all 0.2s ease;
-            position: relative;
-        }
-
-        .icon-btn:hover {
-            background: white;
-            transform: scale(1.1);
-        }
-        
-        .icon-btn svg { width: 20px; height: 20px; }
-
-        .tooltip {
-            position: absolute;
-            background-color: #333;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 0.2s;
-            bottom: 125%;
+            position: fixed;
+            top: 1rem;
             left: 50%;
             transform: translateX(-50%);
-            white-space: nowrap;
+            width: 90%;
+            max-width: 900px;
             z-index: 10;
         }
-        
-        .icon-btn:hover .tooltip {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        .btn {
-            background-color: white;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 1rem 1.5rem;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            margin-top: 1rem;
-            box-sizing: border-box;
-        }
-
-        .btn-gradient-animated {
-            background-size: 200% 100%;
-            transition: background-position 0.5s ease;
+        .quiz-title { font-size: 1.5rem; font-weight: bold; }
+        .back-button {
+            background: rgba(0,0,0,0.2);
+            border: none;
             color: white;
-        }
-        
-        .btn-gradient-animated:hover {
-            background-position: -100% 0;
-        }
-
-        #final-exam-btn {
-            background-image: var(--rainbow-gradient);
-        }
-
-        #next-question-btn {
-            background-image: var(--rainbow-gradient);
-            display: none;
-        }
-
-        #toggle-study-guide-btn {
-            background-image: var(--pink-purple-blue-gradient);
-        }
-
-        .quiz-title-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 1rem;
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border-bottom: 1px solid var(--border-color);
-            z-index: 5;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .quiz-title-bar h3 { margin: 0; font-size: 1.2rem; }
-        
-        .quiz-title-bar .btn-small {
             padding: 0.5rem 1rem;
-            font-size: 0.9rem;
             border-radius: 8px;
-            background: var(--glass-bg);
+            cursor: pointer;
         }
-        
-        .quiz-title-bar .btn-small:hover { background: white; }
-
-        .quiz-stats {
-            margin-top: 80px; /* Space for title bar */
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
+        .quiz-stats { display: flex; gap: 1.5rem; font-size: 1.1rem; }
 
         #question-container {
-            margin-bottom: 2rem;
-            font-size: 1.4rem;
+            margin-top: 80px; /* Space for fixed header */
         }
-
-        .speaker-icon {
-            cursor: pointer;
-            display: inline-block;
-            margin-left: 10px;
-            vertical-align: middle;
-            color: #3498db;
-        }
-        
-        .speaker-icon:hover { color: #2980b9; }
-
-        .answer-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .answer-btn {
-            background-color: rgba(255, 255, 255, 0.7);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 1rem;
-            text-align: left;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
+        .question-text-container {
             display: flex;
             align-items: center;
+            gap: 1rem;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            text-shadow: var(--text-shadow);
         }
-        
-        .answer-btn:hover { background-color: white; transform: translateY(-2px); }
-        .answer-btn:disabled { cursor: not-allowed; opacity: 0.7; }
-        .answer-btn .speaker-icon { margin-left: auto; }
-
+        .aks-reference {
+            display: block;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+        #answer-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+        .answer-btn {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            font-size: 1.1rem;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+        .answer-btn:not([disabled]):hover {
+            background: rgba(0,0,0,0.4);
+            transform: translateY(-2px);
+        }
+        .answer-btn[disabled] {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
         .answer-btn.correct {
-            background-color: #2ecc71 !important;
-            color: black !important;
+            background: var(--correct-color);
+            border-color: #1a6e2f;
+            color: black;
             font-weight: bold;
             animation: flash-green 0.5s ease;
         }
-
         .answer-btn.incorrect {
-            background-color: #e74c3c !important;
-            color: white !important;
+            background: var(--incorrect-color);
+            border-color: #495057;
+            opacity: 0.6;
         }
-
-        .answer-btn.disabled {
-            background-color: #bdc3c7 !important;
-            color: #7f8c8d !important;
-        }
-
         @keyframes flash-green {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
-        
-        .in-quiz-study-guide {
+
+        /* Study Guide */
+        #study-guide-container {
+            margin-top: 2rem;
             max-height: 0;
             overflow-y: auto;
-            transition: max-height 0.5s ease-in-out;
-            margin-top: 2rem;
-            background: rgba(255, 255, 255, 0.5);
-            padding: 0 1.5rem;
+            transition: max-height 0.7s ease-in-out;
+            background: rgba(0,0,0,0.3);
             border-radius: 10px;
+            padding: 0 1.5rem;
         }
-        
-        .in-quiz-study-guide.show {
-            max-height: 300px;
+        #study-guide-container.visible {
+            max-height: 400px;
             padding: 1.5rem;
         }
-
-        .highlight {
-            background-color: yellow;
-            font-weight: bold;
+        .study-guide-content {
+            color: #f0f0f0;
+        }
+        .study-guide-content .highlight {
+            background-color: var(--highlight-color);
+            color: black;
             padding: 2px 4px;
             border-radius: 3px;
         }
-        
-        .sound-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--glass-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-        }
 
-        footer {
-            margin-top: 2rem;
-            font-size: 0.8rem;
-            color: var(--text-color);
-            opacity: 0.7;
-        }
-        
+        /* Quiz Controls */
+        #quiz-controls { margin-top: 2rem; }
+
         /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
-            z-index: 101;
+            z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.6);
+            align-items: center;
+            justify-content: center;
         }
-
         .modal-content {
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            margin: 5% auto;
-            padding: 2rem;
-            border: 1px solid var(--border-color);
+            margin: auto;
+            padding: 2.5rem;
             width: 90%;
             max-width: 800px;
-            border-radius: 20px;
             position: relative;
-            text-align: left;
         }
-        
-        .modal-content h3 {
-            margin-top: 0;
-            font-family: 'Playfair Display', serif;
-        }
-        
-        .modal-body {
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-        
-        .close-btn {
+        .modal-close {
             color: #aaa;
             position: absolute;
             top: 15px;
@@ -364,808 +341,894 @@
             font-weight: bold;
             cursor: pointer;
         }
-        
-        .close-btn:hover, .close-btn:focus { color: #333; }
-        
-        /* Brain Break Styles */
-        #brain-break-canvas {
-            display: block;
-            width: 100%;
-            height: 400px;
-            background-color: rgba(0,0,0,0.1);
-            border-radius: 10px;
-            cursor: crosshair;
+        .modal-close:hover, .modal-close:focus {
+            color: white;
         }
-        
-        #brain-break-timer {
-            font-size: 2rem;
-            font-weight: bold;
-            margin: 1rem 0;
+
+        /* Footer and Sound Toggle */
+        .footer {
+            margin-top: 2rem;
+            text-align: center;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        #sound-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0.7;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fall 3s linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        /* Brain Break Styles */
+        #brain-break-modal .modal-content { text-align: center; }
+        #brain-break-timer { font-size: 4rem; margin: 1rem 0; }
+        #brain-break-canvas {
+            width: 100%;
+            height: 300px;
+            background-color: #000;
+            border-radius: 10px;
+            margin-top: 1rem;
         }
 
         @media (max-width: 768px) {
             body { padding: 1rem 0.5rem; }
             .game-container { padding: 1.5rem; }
-            h1 { font-size: 2rem; }
-            .unit-list-header { display: none; }
-            .unit-row {
-                grid-template-columns: 1fr;
+            .header h1 { font-size: 2rem; }
+            .header p { font-size: 1rem; }
+            .quiz-header { padding: 0.75rem 1rem; width: 95%; }
+            .quiz-title { font-size: 1.1rem; }
+            .quiz-stats { gap: 1rem; font-size: 1rem; }
+            #question-container { margin-top: 70px; }
+            .question-text-container { font-size: 1.3rem; }
+            #answer-buttons { grid-template-columns: 1fr; }
+            .unit-list-header, .unit-row {
+                grid-template-columns: 3fr 1.5fr 1.5fr;
                 gap: 0.5rem;
-                padding: 1rem;
-                border: 1px solid var(--border-color);
-                border-radius: 10px;
-                margin-bottom: 1rem;
+                font-size: 0.9rem;
             }
-            .unit-title { font-weight: bold; }
-            .unit-score, .unit-actions { text-align: center; }
-            .answer-grid { grid-template-columns: 1fr; }
-            .quiz-title-bar h3 { font-size: 1rem; }
+            .unit-list-header { text-align: left; }
+            .unit-list-header > span:not(:first-child) { text-align: center; }
         }
+
     </style>
 </head>
-
 <body>
 
+    <div class="quiz-header" id="quiz-header-bar" style="display: none;">
+        <button class="back-button" id="back-to-menu-btn">Back to Main Menu</button>
+        <div class="quiz-title" id="quiz-header-title">Unit Title</div>
+        <div class="quiz-stats">
+            <span id="question-counter">Q: 1/20</span>
+            <span id="score-counter">Score: 0</span>
+        </div>
+    </div>
+
     <div class="game-container">
-        <!-- Main Menu Screen -->
-        <div id="main-menu">
+        <header class="header">
             <h1>Anleigh's Social Studies Review</h1>
-            <h2>Choose a unit below to play a game!</h2>
-            <div id="unit-selection">
-                <div class="unit-list-header">
-                    <div class="unit-title">Unit</div>
-                    <div class="unit-score">High Score</div>
-                    <div class="unit-actions">Actions</div>
-                </div>
-                <div id="unit-list"></div>
+            <p>Choose a unit below to play a game!</p>
+        </header>
+
+        <!-- Main Menu Screen -->
+        <div id="main-menu-screen">
+            <div class="unit-list-header">
+                <span>Unit</span>
+                <span style="text-align: center;">Study Guide</span>
+                <span style="text-align: center;">Play Game</span>
             </div>
-            <button id="final-exam-btn" class="btn btn-gradient-animated">Final Exam</button>
+            <div id="unit-list"></div>
+            <button class="animated-gradient-button" id="final-exam-btn"><span>Final Exam</span></button>
         </div>
 
         <!-- Quiz Screen -->
         <div id="quiz-screen">
-            <div class="quiz-title-bar">
-                <h3 id="quiz-title">Unit Title</h3>
-                <button id="back-to-menu-btn" class="btn-small">Back to Main Menu</button>
-            </div>
-            <div class="quiz-stats">
-                <div id="question-counter">Question 1 of 10</div>
-                <div id="score">Score: 0</div>
-            </div>
             <div id="question-container">
-                <p id="question-text"></p>
+                <div class="question-text-container">
+                    <button class="icon-button tts-button" id="tts-question">
+                         <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg>
+                    </button>
+                    <div>
+                        <span id="question-text"></span>
+                        <span id="aks-reference" class="aks-reference"></span>
+                    </div>
+                </div>
+                <div id="answer-buttons"></div>
             </div>
-            <div id="answer-grid" class="answer-grid"></div>
-            <button id="next-question-btn" class="btn btn-gradient-animated">Next Question</button>
-            <button id="toggle-study-guide-btn" class="btn btn-gradient-animated">Toggle Study Guide</button>
-            <div id="in-quiz-study-guide" class="in-quiz-study-guide"></div>
+
+            <div id="quiz-controls">
+                <button class="animated-gradient-button dark-animated-button" id="toggle-study-guide-btn"><span>Toggle Study Guide</span></button>
+                <button class="animated-gradient-button" id="next-question-btn" style="display: none;"><span>Next Question</span></button>
+            </div>
+             <div id="study-guide-container">
+                <div class="study-guide-content" id="study-guide-content-quiz"></div>
+            </div>
         </div>
-        
-        <!-- Brain Break Screen -->
-        <div id="brain-break-screen">
-            <h2>Brain Break!</h2>
-            <p>Time for a short break. Interact with the animation below!</p>
-            <canvas id="brain-break-canvas"></canvas>
-            <div id="brain-break-timer">30</div>
-            <button id="continue-quiz-btn" class="btn">Continue Quiz</button>
-        </div>
-        
-        <footer id="footer"></footer>
     </div>
     
+    <div class="footer">
+        <span id="build-number"></span>
+    </div>
+
+    <button class="icon-button" id="sound-toggle">
+        <!-- Speaker Icon -->
+    </button>
+
     <!-- Study Guide Modal -->
     <div id="study-guide-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h3 id="modal-title">Study Guide</h3>
-            <div id="modal-body" class="modal-body"></div>
+        <div class="modal-content game-container">
+            <span class="modal-close">&times;</span>
+            <h2 id="study-guide-modal-title"></h2>
+            <div id="study-guide-modal-content"></div>
         </div>
     </div>
-    
-    <!-- Sound Toggle -->
-    <div id="sound-toggle" class="sound-toggle">
-        <!-- SVG icons will be injected here by JS -->
+
+    <!-- Brain Break Modal -->
+    <div id="brain-break-modal" class="modal">
+        <div class="modal-content game-container">
+            <h2>Brain Break!</h2>
+            <p>Time to rest for a moment.</p>
+            <canvas id="brain-break-canvas"></canvas>
+            <div id="brain-break-timer">30</div>
+            <button id="continue-quiz-btn" class="animated-gradient-button dark-animated-button"><span>Continue Quiz</span></button>
+        </div>
     </div>
 
     <script>
-        // --- DATA ---
-        const gameData = {
-            "unit1": {
-                title: "Unit 1: The Preamble",
-                studyGuideHTML: `
-                    <h4>The Preamble to the U.S. Constitution</h4>
-                    <p>The Preamble is the introduction to the United States Constitution. It outlines the goals and purposes of the government.</p>
-                    <p><strong>"We the People of the United States,"</strong> - Establishes that the power of government comes from the people.</p>
-                    <p><strong>"in Order to form a more perfect Union,"</strong> - To create a stronger, more unified country than existed under the Articles of Confederation.</p>
-                    <p><strong>"establish Justice,"</strong> - To create a fair legal system with courts and laws that apply to everyone equally.</p>
-                    <p><strong>"insure domestic Tranquility,"</strong> - To maintain peace and order within the country.</p>
-                    <p><strong>"provide for the common defence,"</strong> - To protect the country from outside threats with a military.</p>
-                    <p><strong>"promote the general Welfare,"</strong> - To support the well-being of citizens (e.g., through public health, safety, and education).</p>
-                    <p><strong>"and secure the Blessings of Liberty to ourselves and our Posterity,"</strong> - To protect freedom for current and future generations.</p>
-                    <p><strong>"do ordain and establish this Constitution for the United States of America."</strong> - Formally creates and enacts the Constitution.</p>`,
-                questions: [
-                    { question: "What does the phrase 'form a more perfect Union' mean?", answers: { a: "To create a stronger, more unified country", b: "To make the country geographically larger", c: "To have a perfect government with no flaws", d: "To establish trade with other nations" }, correct: "a", aks: "Preamble", studyGuideTerm: "more perfect Union" },
-                    { question: "What is the purpose of 'establish Justice'?", answers: { a: "To create a fair legal system", b: "To appoint a king", c: "To make sure everyone is rich", d: "To build more courthouses" }, correct: "a", aks: "Preamble", studyGuideTerm: "establish Justice" },
-                    { question: "How does the Constitution 'insure domestic Tranquility'?", answers: { a: "By maintaining peace and order within the country", b: "By ensuring everyone has a quiet home", c: "By controlling the weather", d: "By starting a national police force" }, correct: "a", aks: "Preamble", studyGuideTerm: "domestic Tranquility" },
-                    { question: "What does 'provide for the common defence' mean?", answers: { a: "To protect the country from outside threats", b: "To provide lawyers for everyone", c: "To build fences around cities", d: "To defend the rights of the common person" }, correct: "a", aks: "Preamble", studyGuideTerm: "common defence" },
-                    { question: "The goal to 'promote the general Welfare' means the government should:", answers: { a: "Support the well-being of its citizens", b: "Give welfare checks to everyone", c: "Control all businesses", d: "Promote generals in the army" }, correct: "a", aks: "Preamble", studyGuideTerm: "general Welfare" },
-                    { question: "What does 'secure the Blessings of Liberty to ourselves and our Posterity' mean?", answers: { a: "Protect freedom for current and future generations", b: "Give blessings to new ships", c: "Make sure everyone has a statue of liberty", d: "Secure money for future generations" }, correct: "a", aks: "Preamble", studyGuideTerm: "Blessings of Liberty" }
-                ]
-            },
-            "unit4": {
-                title: "Unit 4: Georgia's Beginnings",
-                studyGuideHTML: document.getElementById('unit-4-study-guide-content')?.innerHTML || `
-                    <h3>Unit 4: Georgia's Beginnings and Colonization</h3>
-                    <h4>8SS.D.31: Impact of European Exploration</h4>
-                    <p><b>31.a: Mississippian Indians:</b> Lived in large villages with defensive structures. Practiced agriculture with <b>maize</b> (corn) as the main crop. Used bow and arrow and chert knives.</p>
-                    <p><b>31.b: European Exploration:</b> <b>Spanish</b> sought 'God, Gold, and Glory'. <b>British</b> sought raw materials for <b>mercantilism</b> and a defensive buffer.</p>
-                    <p><b>31.c: Spanish Contact:</b> <b>Hernando de Soto</b>'s exploration brought devastating <b>European diseases</b> that killed many natives. <b>Spanish Missions</b> were built on the barrier islands to convert Indians to Catholicism.</p>
-                    <h4>8SS.E.32: Colonial Georgia</h4>
-                    <p><b>32.a: Charter of 1732:</b> Georgia was founded for <b>Defense</b> (primary reason), Economics, and Philanthropy. The charter had many <b>restrictions</b>, banning Catholics, lawyers, and slavery.</p>
-                    <p><b>32.b: Savannah's Founding:</b> A peaceful establishment due to the relationship between <b>James Oglethorpe</b>, Yamacraw chief <b>Tomochichi</b>, and interpreter <b>Mary Musgrove</b>.</p>
-                    <p><b>32.c: Diverse Groups:</b> The colony was settled by <b>Jews</b> (including a doctor who saved the colony), <b>Salzburgers</b> (Protestant refugees from Austria), <b>Highland Scots</b> (skilled soldiers for defense), and <b>Malcontents</b> (colonists unhappy with the Trustees' rules).</p>
-                    <p><b>32.d: Royal Colony:</b> After the Trustee Period, bans on <b>slavery</b> and alcohol were lifted. Land ownership rules were relaxed, and a Royal <b>Government</b> with a governor was established.</p>
-                    <p><b>32.e: Colonial Economy (W.R.I.S.T.):</b> The primary goods were Wine, Rice, Indigo, <b>Silk</b> (from mulberry trees), and Tobacco.</p>
-                `,
-                questions: [
-                    { question: "Which group of American Indians was living in Georgia at the time of first European contact?", answers: { a: "Mississippian", b: "Cherokee", c: "Creek", d: "Paleoindian" }, correct: "a", aks: "31.a", studyGuideTerm: "Mississippian" },
-                    { question: "What was the dominant agricultural crop for the Mississippian Indians?", answers: { a: "Maize (corn)", b: "Tobacco", c: "Cotton", d: "Potatoes" }, correct: "a", aks: "31.a", studyGuideTerm: "maize" },
-                    { question: "The Spanish reasons for exploration are often summarized as the '3 G's'. What are they?", answers: { a: "God, Gold, and Glory", b: "Guns, Germs, and Steel", c: "Georgia, Grains, and Grapes", d: "Government, Growth, and Greatness" }, correct: "a", aks: "31.b", studyGuideTerm: "Spanish" },
-                    { question: "What was the primary economic policy that motivated British colonization?", answers: { a: "Mercantilism", b: "Capitalism", c: "Socialism", d: "Feudalism" }, correct: "a", aks: "31.b", studyGuideTerm: "mercantilism" },
-                    { question: "Who led the first major Spanish expedition through Georgia?", answers: { a: "Hernando de Soto", b: "Christopher Columbus", c: "Ponce de León", d: "James Oglethorpe" }, correct: "a", aks: "31.c", studyGuideTerm: "Hernando de Soto" },
-                    { question: "What was the most significant negative impact of European contact on the American Indians?", answers: { a: "Death from new diseases brought by the Europeans", b: "The introduction of new weapons", c: "Forced conversion to a new religion", d: "Loss of trade partners" }, correct: "a", aks: "31.c", studyGuideTerm: "European diseases" },
-                    { question: "Where did the Spanish establish their missions in Georgia?", answers: { a: "Along the barrier islands", b: "In the northern mountains", c: "Near the city of Atlanta", d: "Along the Chattahoochee River" }, correct: "a", aks: "31.c", studyGuideTerm: "Spanish Missions" },
-                    { question: "What was the primary reason for the founding of the Georgia colony according to the Charter of 1732?", answers: { a: "Defense (to act as a buffer for South Carolina)", b: "Philanthropy (to help debtors)", c: "Economics (to grow cotton)", d: "Religious freedom for Catholics" }, correct: "a", aks: "32.a", studyGuideTerm: "Defense" },
-                    { question: "Which of the following groups was NOT banned from the Georgia colony by the Charter of 1732?", answers: { a: "Jews", b: "Lawyers", c: "Catholics", d: "Liquor dealers" }, correct: "a", aks: "32.a", studyGuideTerm: "restrictions" },
-                    { question: "The acronym W.R.I.S.T. helps remember the crops Georgia was supposed to produce. What does the 'S' stand for?", answers: { a: "Silk", b: "Squash", c: "Sugarcane", d: "Sunflowers" }, correct: "a", aks: "32.e", studyGuideTerm: "Silk" },
-                    { question: "Who was the Yamacraw chief who granted James Oglethorpe the land for Savannah?", answers: { a: "Tomochichi", b: "Pocahontas", c: "Sequoyah", d: "Sitting Bull" }, correct: "a", aks: "32.b", studyGuideTerm: "Tomochichi" },
-                    { question: "Who served as the vital interpreter between Oglethorpe and the Yamacraw Indians?", answers: { a: "Mary Musgrove", b: "Samuel Nunes", c: "King George II", d: "Hernando de Soto" }, correct: "a", aks: "32.b", studyGuideTerm: "Mary Musgrove" },
-                    { question: "Why was the arrival of the Jewish settlers in 1733 important for the colony?", answers: { a: "Their group included a doctor who helped save the colonists from a deadly sickness.", b: "They were the wealthiest group to arrive in Georgia.", c: "They were expert farmers who taught the colonists how to grow rice.", d: "They provided military defense against the Spanish." }, correct: "a", aks: "32.c", studyGuideTerm: "Jews" },
-                    { question: "The Salzburgers were Protestant refugees from which country?", answers: { a: "Austria", b: "Scotland", c: "Spain", d: "England" }, correct: "a", aks: "32.c", studyGuideTerm: "Salzburgers" },
-                    { question: "Which group of settlers was recruited specifically for their military skills to defend Georgia?", answers: { a: "Highland Scots", b: "Salzburgers", c: "Malcontents", d: "Jews" }, correct: "a", aks: "32.c", studyGuideTerm: "Highland Scots" },
-                    { question: "What were the 'Malcontents' unhappy about?", answers: { a: "The bans on slavery, rum, and land ownership rules.", b: "The friendly relationship with the Yamacraw Indians.", c: "The requirement to produce silk.", d: "The hot and humid Georgia climate." }, correct: "a", aks: "32.c", studyGuideTerm: "Malcontents" },
-                    { question: "What major change regarding labor happened when Georgia transitioned to a Royal Colony?", answers: { a: "Slavery became legal.", b: "All work was done by paid laborers.", c: "Indentured servitude was outlawed.", d: "Colonists were no longer required to work." }, correct: "a", aks: "32.d", studyGuideTerm: "slavery" },
-                    { question: "How did the government of Georgia change when it became a Royal Colony?", answers: { a: "A Royal Governor was appointed by the king and a limited self-government was introduced.", b: "James Oglethorpe was crowned king of Georgia.", c: "It became a direct democracy where all citizens voted on all laws.", d: "The Trustees were given even more power." }, correct: "a", aks: "32.d", studyGuideTerm: "Government" }
-                ]
-            }
-        };
-
-        // --- STATE ---
-        let gameState = {
-            currentScreen: 'main-menu',
-            currentUnitId: null,
-            score: 0,
-            originalQuestionCount: 0,
-            questionQueue: [],
-            currentQuestionIndex: -1,
-            questionsAnsweredCorrectly: 0,
-            questionsAnsweredThisSession: 0,
-            isRepeat: false,
-            soundEnabled: true,
-            highScores: {},
-            brainBreakInterval: null,
-            brainBreakTimer: 30,
-        };
-
-        // --- DOM ELEMENTS ---
-        const mainMenu = document.getElementById('main-menu');
-        const quizScreen = document.getElementById('quiz-screen');
-        const brainBreakScreen = document.getElementById('brain-break-screen');
-        const unitListContainer = document.getElementById('unit-list');
-        const finalExamBtn = document.getElementById('final-exam-btn');
-        const quizTitle = document.getElementById('quiz-title');
-        const backToMenuBtn = document.getElementById('back-to-menu-btn');
-        const questionCounter = document.getElementById('question-counter');
-        const scoreDisplay = document.getElementById('score');
-        const questionText = document.getElementById('question-text');
-        const answerGrid = document.getElementById('answer-grid');
-        const nextQuestionBtn = document.getElementById('next-question-btn');
-        const toggleStudyGuideBtn = document.getElementById('toggle-study-guide-btn');
-        const inQuizStudyGuide = document.getElementById('in-quiz-study-guide');
-        const modal = document.getElementById('study-guide-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalBody = document.getElementById('modal-body');
-        const closeModalBtn = document.querySelector('.close-btn');
-        const soundToggleBtn = document.getElementById('sound-toggle');
-        const footer = document.getElementById('footer');
-
-        // --- AUDIO ---
-        const correctSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'+Array(1e3).join('12121'));
-        const incorrectSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YWE'+Array(1e3).join('87878'));
-
-        // --- ICONS ---
-        const speakerIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>`;
-        const mutedIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>`;
-        const clipboardIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#34495e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>`;
-        const playIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#2ecc71" stroke="#2c3e50" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>`;
-
-        // --- INITIALIZATION ---
-        function init() {
-            loadState();
-            setupEventListeners();
-            showScreen('main-menu');
-            generateBuildNumber();
-        }
-
-        function generateBuildNumber() {
-            const now = new Date();
-            const year = now.getFullYear().toString().slice(-2);
-            const month = (now.getMonth() + 1).toString().padStart(2, '0');
-            const day = now.getDate().toString().padStart(2, '0');
-            footer.textContent = `MF Build: ${year}${month}${day}.1`;
-        }
-
-        function setupEventListeners() {
-            finalExamBtn.addEventListener('click', () => startQuiz('finalExam'));
-            backToMenuBtn.addEventListener('click', showMainMenu);
-            nextQuestionBtn.addEventListener('click', nextQuestion);
-            toggleStudyGuideBtn.addEventListener('click', toggleInQuizStudyGuide);
-            closeModalBtn.addEventListener('click', () => modal.style.display = 'none');
-            window.addEventListener('click', (event) => {
-                if (event.target == modal) modal.style.display = 'none';
-            });
-            soundToggleBtn.addEventListener('click', toggleSound);
-        }
-
-        // --- STATE & STORAGE ---
-        function saveState() {
-            localStorage.setItem('socialStudiesGameState', JSON.stringify({
-                highScores: gameState.highScores,
-                soundEnabled: gameState.soundEnabled
-            }));
-        }
-
-        function loadState() {
-            const savedState = JSON.parse(localStorage.getItem('socialStudiesGameState'));
-            if (savedState) {
-                gameState.highScores = savedState.highScores || {};
-                gameState.soundEnabled = typeof savedState.soundEnabled === 'boolean' ? savedState.soundEnabled : true;
-            }
-            updateSoundToggleIcon();
-        }
-
-        // --- SCREEN MANAGEMENT ---
-        function showScreen(screenId) {
-            mainMenu.style.display = 'none';
-            quizScreen.style.display = 'none';
-            brainBreakScreen.style.display = 'none';
-            document.getElementById(screenId).style.display = 'block';
-            gameState.currentScreen = screenId;
-            
-            if(screenId === 'main-menu') {
-                renderMainMenu();
-            }
-        }
-        
-        function showMainMenu() {
-            if (gameState.brainBreakInterval) {
-                clearInterval(gameState.brainBreakInterval);
-                gameState.brainBreakInterval = null;
-            }
-            if (window.brainBreakAnimationId) {
-                cancelAnimationFrame(window.brainBreakAnimationId);
-            }
-            showScreen('main-menu');
-        }
-        
-        // --- MAIN MENU ---
-        function renderMainMenu() {
-            unitListContainer.innerHTML = '';
-            for (const unitId in gameData) {
-                const unit = gameData[unitId];
-                const highScore = gameState.highScores[unitId] || 0;
-
-                const unitRow = document.createElement('div');
-                unitRow.className = 'unit-row';
-                unitRow.innerHTML = `
-                    <div class="unit-title">${unit.title}</div>
-                    <div class="unit-score">High Score: ${highScore}%</div>
-                    <div class="unit-actions">
-                        <button class="icon-btn view-guide-btn" data-unit-id="${unitId}">
-                            ${clipboardIconSVG}
-                            <span class="tooltip">View Study Guide for ${unit.title}</span>
-                        </button>
-                        <button class="icon-btn start-quiz-btn" data-unit-id="${unitId}">
-                            ${playIconSVG}
-                            <span class="tooltip">Start Quiz for ${unit.title}</span>
-                        </button>
-                    </div>
-                `;
-                unitListContainer.appendChild(unitRow);
-            }
-            
-            // Add final exam score
-            const highScore = gameState.highScores['finalExam'] || 0;
-            const finalExamRow = document.createElement('div');
-            finalExamRow.className = 'unit-row';
-            finalExamRow.innerHTML = `<div></div><div class="unit-score">High Score: ${highScore}%</div><div></div>`
-            finalExamBtn.insertAdjacentElement('beforebegin', finalExamRow);
-
-
-            document.querySelectorAll('.start-quiz-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => startQuiz(e.currentTarget.dataset.unitId));
-            });
-            document.querySelectorAll('.view-guide-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => showStudyGuideModal(e.currentTarget.dataset.unitId));
-            });
-        }
-        
-        function showStudyGuideModal(unitId) {
-            const unit = gameData[unitId];
-            modalTitle.textContent = `Study Guide - ${unit.title}`;
-            modalBody.innerHTML = unit.studyGuideHTML;
-            modal.style.display = 'block';
-        }
-
-        // --- QUIZ LOGIC ---
-        function startQuiz(unitId) {
-            gameState.currentUnitId = unitId;
-            let questions = [];
-            let title = '';
-
-            if (unitId === 'finalExam') {
-                title = 'Final Exam';
-                for (const id in gameData) {
-                    questions = questions.concat(gameData[id].questions);
+    // --- DATA ---
+    const studyUnits = [
+        {
+            title: "Unit 1: Georgia's Beginnings",
+            studyGuideHTML: `
+                <h3>AKS 30: Geographic Understanding</h3>
+                <p><strong data-aks="30a">AKS 30.a: Georgia's Location</strong> - Georgia is located in the Northern and Western hemispheres. It is on the continent of North America, in the country of the United States. Georgia is in the Southeastern region of the USA.</p>
+                <p><strong data-aks="30b">AKS 30.b: Georgia's Geographic Regions</strong> - Georgia has five distinct geographic regions: the Appalachian Plateau (smallest region, known for coal), the Ridge and Valley (known for carpets and textiles), the Blue Ridge (highest elevation, most rainfall, start of Appalachian Trail), the Piedmont (most populated, red clay, granite), and the Coastal Plain (largest region, agriculture, peanuts, peaches).</p>
+                <p><strong data-aks="30c">AKS 30.c: Key Physical Features</strong> - The Fall Line is a natural boundary separating the Piedmont and Coastal Plain regions, where waterfalls provided early power sources. The Okefenokee Swamp is the largest freshwater swamp in North America. The Appalachian Mountains are in the northern three regions. The Chattahoochee River forms Georgia's western border with Alabama. The Savannah River forms the eastern border with South Carolina. Barrier islands protect the mainland coast.</p>
+            `,
+            questions: [
+                {
+                    question: "In which two hemispheres is Georgia located?",
+                    options: ["Northern and Western", "Southern and Eastern", "Northern and Eastern", "Southern and Western"],
+                    correctAnswer: "Northern and Western",
+                    aks: "30a",
+                    aksName: "Georgia's Location"
+                },
+                {
+                    question: "Which geographic region of Georgia is the most populated and known for its red clay?",
+                    options: ["Piedmont", "Blue Ridge", "Coastal Plain", "Appalachian Plateau"],
+                    correctAnswer: "Piedmont",
+                    aks: "30b",
+                    aksName: "Georgia's Geographic Regions"
+                },
+                {
+                    question: "What is the largest freshwater swamp in North America, located in Georgia?",
+                    options: ["Okefenokee Swamp", "Everglades", "Great Dismal Swamp", "Atchafalaya Basin"],
+                    correctAnswer: "Okefenokee Swamp",
+                    aks: "30c",
+                    aksName: "Key Physical Features"
+                },
+                {
+                    question: "The Savannah River forms Georgia's border with which state?",
+                    options: ["South Carolina", "Alabama", "Florida", "Tennessee"],
+                    correctAnswer: "South Carolina",
+                    aks: "30c",
+                    aksName: "Key Physical Features"
+                },
+                {
+                    question: "What is the smallest geographic region in Georgia?",
+                    options: ["Appalachian Plateau", "Piedmont", "Blue Ridge", "Coastal Plain"],
+                    correctAnswer: "Appalachian Plateau",
+                    aks: "30b",
+                    aksName: "Georgia's Geographic Regions"
+                },
+                 {
+                    question: "Which continent contains the state of Georgia?",
+                    options: ["North America", "South America", "Europe", "Asia"],
+                    correctAnswer: "North America",
+                    aks: "30a",
+                    aksName: "Georgia's Location"
+                },
+                {
+                    question: "The highest elevation and most rainfall in Georgia can be found in which region?",
+                    options: ["Blue Ridge", "Piedmont", "Ridge and Valley", "Coastal Plain"],
+                    correctAnswer: "Blue Ridge",
+                    aks: "30b",
+                    aksName: "Georgia's Geographic Regions"
+                },
+                {
+                    question: "What natural boundary separates the Piedmont and Coastal Plain regions?",
+                    options: ["The Fall Line", "The Chattahoochee River", "The Appalachian Trail", "The Mason-Dixon Line"],
+                    correctAnswer: "The Fall Line",
+                    aks: "30c",
+                    aksName: "Key Physical Features"
                 }
-            } else {
-                questions = [...gameData[unitId].questions];
-                title = gameData[unitId].title;
-            }
+            ]
+        },
+        {
+            title: "Unit 2: Exploration & Colonization",
+            studyGuideHTML: `
+                <h3>AKS 31: European Exploration and Colonization</h3>
+                <p><strong data-aks="31a">AKS 31.a: Reasons for Exploration</strong> - The primary reasons for European exploration of the New World were summarized as "God, Gold, and Glory." Spain was primarily interested in finding gold and converting natives to Catholicism. Great Britain sought to establish colonies for raw materials (mercantilism) and religious freedom. France was focused on the fur trade.</p>
+                <p><strong data-aks="31b">AKS 31.b: James Oglethorpe & the Founding of Georgia</strong> - James Oglethorpe was the primary founder of the Georgia colony. The Charter of 1732, which officially created Georgia, outlined three main reasons for its founding: philanthropy (to help debtors), defense (a buffer colony against Spanish Florida), and economics (to produce goods England couldn't).</p>
+                <p><strong data-aks="31c">AKS 31.c: Trustee Georgia</strong> - During the Trustee Period, Georgia had strict rules, including prohibitions on slavery, rum, and Catholics. Key figures included Tomochichi (Yamacraw chief who allied with Oglethorpe) and Mary Musgrove (who served as the interpreter between them). The Salzburgers and Highland Scots were notable immigrant groups who settled in Georgia.</p>
+            `,
+            questions: [
+                {
+                    question: "Which of the following was NOT one of the three main reasons for the founding of Georgia according to the Charter of 1732?",
+                    options: ["Religious Freedom", "Philanthropy", "Defense", "Economics"],
+                    correctAnswer: "Religious Freedom",
+                    aks: "31b",
+                    aksName: "James Oglethorpe & the Founding of Georgia"
+                },
+                {
+                    question: "Who served as the crucial interpreter between James Oglethorpe and Tomochichi?",
+                    options: ["Mary Musgrove", "Pocahontas", "Sacagawea", "Nancy Hart"],
+                    correctAnswer: "Mary Musgrove",
+                    aks: "31c",
+                    aksName: "Trustee Georgia"
+                },
+                {
+                    question: "The phrase 'God, Gold, and Glory' best describes the motivations of which exploring country?",
+                    options: ["Spain", "France", "Great Britain", "Portugal"],
+                    correctAnswer: "Spain",
+                    aks: "31a",
+                    aksName: "Reasons for Exploration"
+                },
+                 {
+                    question: "During the Trustee Period, which of the following was banned in Georgia?",
+                    options: ["Slavery", "Tobacco", "Cotton", "Indigo"],
+                    correctAnswer: "Slavery",
+                    aks: "31c",
+                    aksName: "Trustee Georgia"
+                },
+                {
+                    question: "What was the primary economic interest of the French in North America?",
+                    options: ["Fur trading", "Gold mining", "Cotton farming", "Growing sugar"],
+                    correctAnswer: "Fur trading",
+                    aks: "31a",
+                    aksName: "Reasons for Exploration"
+                },
+                {
+                    question: "Georgia was established as a 'buffer' colony to protect the other English colonies from whom?",
+                    options: ["The Spanish in Florida", "The French in Louisiana", "Native American tribes", "Pirates in the Caribbean"],
+                    correctAnswer: "The Spanish in Florida",
+                    aks: "31b",
+                    aksName: "James Oglethorpe & the Founding of Georgia"
+                }
+            ]
+        }
+    ];
 
-            gameState.questionQueue = shuffleArray(questions);
-            gameState.originalQuestionCount = gameState.questionQueue.length;
-            gameState.score = 0;
-            gameState.currentQuestionIndex = -1;
-            gameState.questionsAnsweredCorrectly = 0;
-            gameState.questionsAnsweredThisSession = 0;
-            
-            quizTitle.textContent = title;
-            showScreen('quiz-screen');
-            nextQuestion();
+    // --- DOM ELEMENTS ---
+    const mainMenuScreen = document.getElementById('main-menu-screen');
+    const quizScreen = document.getElementById('quiz-screen');
+    const unitListContainer = document.getElementById('unit-list');
+    const questionTextEl = document.getElementById('question-text');
+    const aksReferenceEl = document.getElementById('aks-reference');
+    const answerButtonsEl = document.getElementById('answer-buttons');
+    const nextQuestionBtn = document.getElementById('next-question-btn');
+    const quizHeaderBar = document.getElementById('quiz-header-bar');
+    const quizHeaderTitle = document.getElementById('quiz-header-title');
+    const questionCounterEl = document.getElementById('question-counter');
+    const scoreCounterEl = document.getElementById('score-counter');
+    const backToMenuBtn = document.getElementById('back-to-menu-btn');
+    const finalExamBtn = document.getElementById('final-exam-btn');
+    const soundToggle = document.getElementById('sound-toggle');
+    const buildNumberEl = document.getElementById('build-number');
+
+    // Study Guide Elements
+    const studyGuideModal = document.getElementById('study-guide-modal');
+    const studyGuideModalTitle = document.getElementById('study-guide-modal-title');
+    const studyGuideModalContent = document.getElementById('study-guide-modal-content');
+    const toggleStudyGuideBtn = document.getElementById('toggle-study-guide-btn');
+    const studyGuideContainer = document.getElementById('study-guide-container');
+    const studyGuideContentQuiz = document.getElementById('study-guide-content-quiz');
+    
+    // Brain Break Elements
+    const brainBreakModal = document.getElementById('brain-break-modal');
+    const brainBreakCanvas = document.getElementById('brain-break-canvas');
+    const brainBreakTimerEl = document.getElementById('brain-break-timer');
+    const continueQuizBtn = document.getElementById('continue-quiz-btn');
+
+    // --- GAME STATE ---
+    let currentScreen = 'menu';
+    let currentUnitIndex = -1;
+    let questionQueue = [];
+    let originalQuestionCount = 0;
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let soundEnabled = true;
+    let questionsAnsweredInSession = 0;
+    let brainBreakCounter = 0;
+    let brainBreakInterval;
+    let currentBrainBreakAnimation;
+
+    // --- AUDIO CONTEXT for Sound Effects ---
+    let audioCtx;
+    const correctSound = () => playSound(523.25, 0.1, 'sine'); // C5
+    const incorrectSound = () => playSound(261.63, 0.2, 'square'); // C4
+
+    // --- INITIALIZATION ---
+    document.addEventListener('DOMContentLoaded', init);
+
+    function init() {
+        setBuildNumber();
+        loadPreferences();
+        showMainMenu();
+        setupEventListeners();
+        updateSoundToggleIcon();
+    }
+    
+    function setBuildNumber() {
+        const d = new Date();
+        const yy = d.getFullYear().toString().slice(-2);
+        const mm = (d.getMonth() + 1).toString().padStart(2, '0');
+        const dd = d.getDate().toString().padStart(2, '0');
+        buildNumberEl.textContent = `MF Build: ${yy}${mm}${dd}.1`;
+    }
+
+    function showScreen(screenId) {
+        mainMenuScreen.style.display = 'none';
+        quizScreen.style.display = 'none';
+        quizHeaderBar.style.display = 'none';
+        document.getElementById(screenId).style.display = 'block';
+        if (screenId === 'quiz-screen') {
+            quizHeaderBar.style.display = 'flex';
+        }
+    }
+
+    function setupEventListeners() {
+        finalExamBtn.addEventListener('click', () => startQuiz('final_exam'));
+        backToMenuBtn.addEventListener('click', showMainMenu);
+        nextQuestionBtn.addEventListener('click', nextQuestion);
+        soundToggle.addEventListener('click', toggleSound);
+        toggleStudyGuideBtn.addEventListener('click', toggleStudyGuideVisibility);
+        studyGuideModal.querySelector('.modal-close').addEventListener('click', () => studyGuideModal.style.display = 'none');
+        window.addEventListener('click', (event) => {
+            if (event.target == studyGuideModal) studyGuideModal.style.display = 'none';
+            if (event.target == brainBreakModal) return; // Prevent closing by clicking outside
+        });
+        continueQuizBtn.addEventListener('click', endBrainBreak);
+    }
+    
+    // --- MAIN MENU ---
+    function showMainMenu() {
+        currentScreen = 'menu';
+        showScreen('main-menu-screen');
+        renderUnitList();
+    }
+
+    function renderUnitList() {
+        unitListContainer.innerHTML = '';
+        studyUnits.forEach((unit, index) => {
+            const highScore = getCookie(`highscore_${index}`) || '0%';
+            const unitRow = document.createElement('div');
+            unitRow.className = 'unit-row';
+            unitRow.innerHTML = `
+                <div class="unit-title">${unit.title}</div>
+                <div class="unit-score">High Score: ${highScore}</div>
+                <div class="unit-actions">
+                    <button class="icon-button" data-unit-index="${index}" data-action="guide" title="View Study Guide for ${unit.title}">
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"></path></svg>
+                        <span class="tooltip">View Study Guide for ${unit.title}</span>
+                    </button>
+                    <button class="icon-button" data-unit-index="${index}" data-action="play" title="Start Quiz for ${unit.title}">
+                        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+                        <span class="tooltip">Start Quiz for ${unit.title}</span>
+                    </button>
+                </div>
+            `;
+            unitListContainer.appendChild(unitRow);
+        });
+
+        // Add event listeners for the newly created buttons
+        unitListContainer.querySelectorAll('.icon-button').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const button = e.currentTarget;
+                const index = button.dataset.unitIndex;
+                const action = button.dataset.action;
+                if (action === 'play') {
+                    startQuiz(parseInt(index));
+                } else if (action === 'guide') {
+                    showStudyGuideModal(parseInt(index));
+                }
+            });
+        });
+    }
+
+    // --- QUIZ LOGIC ---
+    function startQuiz(unitIndexOrIdentifier) {
+        currentScreen = 'quiz';
+        let questions;
+        let unitTitle;
+
+        if (unitIndexOrIdentifier === 'final_exam') {
+            currentUnitIndex = 'final_exam';
+            questions = studyUnits.flatMap(unit => unit.questions);
+            unitTitle = 'Final Exam';
+            studyGuideContentQuiz.innerHTML = studyUnits.map(u => u.studyGuideHTML).join('<hr>');
+        } else {
+            currentUnitIndex = unitIndexOrIdentifier;
+            const unit = studyUnits[currentUnitIndex];
+            questions = [...unit.questions];
+            unitTitle = unit.title;
+            studyGuideContentQuiz.innerHTML = unit.studyGuideHTML;
         }
 
-        function nextQuestion() {
-            // Check for Brain Break
-            if (gameState.questionsAnsweredThisSession > 0 && gameState.questionsAnsweredThisSession % 6 === 0) {
-                startBrainBreak();
+        questionQueue = shuffleArray(questions.map((q, i) => ({...q, originalIndex: i, isRepeat: false})));
+        originalQuestionCount = questionQueue.length;
+        currentQuestionIndex = 0;
+        score = 0;
+        questionsAnsweredInSession = 0;
+        
+        quizHeaderTitle.textContent = unitTitle;
+        showScreen('quiz-screen');
+        displayQuestion();
+        updateCounters();
+    }
+
+    function displayQuestion() {
+        if (currentQuestionIndex >= questionQueue.length) {
+            endQuiz();
+            return;
+        }
+
+        const questionData = questionQueue[currentQuestionIndex];
+        const questionNumber = currentQuestionIndex + 1;
+        const repeatText = questionData.isRepeat ? " (Repeat)" : "";
+        
+        questionTextEl.textContent = questionData.question;
+        aksReferenceEl.textContent = `AKS ${questionData.aks}: ${questionData.aksName}`;
+        questionCounterEl.textContent = `Q: ${questionNumber}/${originalQuestionCount}${repeatText}`;
+
+        answerButtonsEl.innerHTML = '';
+        const shuffledOptions = shuffleArray(questionData.options);
+        shuffledOptions.forEach(option => {
+            const button = document.createElement('button');
+            button.className = 'answer-btn';
+            button.innerHTML = `
+                <span class="icon-button tts-button" style="width:30px; height:30px; flex-shrink: 0;">
+                    <svg viewBox="0 0 24 24" style="width:16px; height:16px;"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg>
+                </span>
+                <span>${option}</span>
+            `;
+            button.addEventListener('click', () => selectAnswer(option, button));
+            button.querySelector('.tts-button').addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent answer selection
+                speak(option);
+            });
+            answerButtonsEl.appendChild(button);
+        });
+        
+        document.getElementById('tts-question').onclick = () => speak(questionData.question);
+
+        nextQuestionBtn.style.display = 'none';
+        updateCounters();
+    }
+
+    function selectAnswer(selectedOption, buttonElement) {
+        const questionData = questionQueue[currentQuestionIndex];
+        const isCorrect = selectedOption === questionData.correctAnswer;
+        
+        // Disable all buttons
+        const allButtons = answerButtonsEl.querySelectorAll('.answer-btn');
+        allButtons.forEach(btn => btn.disabled = true);
+
+        if (isCorrect) {
+            buttonElement.classList.add('correct');
+            if (!questionData.isRepeat) {
+                score++;
+            }
+            correctSound();
+            triggerConfetti();
+            setTimeout(nextQuestion, 3000);
+        } else {
+            score = Math.max(0, score - 1);
+            buttonElement.classList.add('incorrect');
+            allButtons.forEach(btn => {
+                if (btn.textContent.trim().includes(questionData.correctAnswer)) {
+                    btn.classList.add('correct');
+                } else {
+                    btn.classList.add('incorrect');
+                }
+            });
+            
+            const repeatQuestion = {...questionData, isRepeat: true};
+            questionQueue.push(repeatQuestion);
+            incorrectSound();
+            nextQuestionBtn.style.display = 'block';
+        }
+
+        updateCounters();
+        expandAndHighlightStudyGuide(questionData.aks);
+    }
+    
+    function nextQuestion() {
+        currentQuestionIndex++;
+        questionsAnsweredInSession++;
+
+        if (questionsAnsweredInSession > 0 && questionsAnsweredInSession % 6 === 0 && currentQuestionIndex < questionQueue.length) {
+            startBrainBreak();
+        } else {
+            displayQuestion();
+        }
+    }
+
+    function endQuiz() {
+        const finalScorePercent = (score / originalQuestionCount * 100).toFixed(0);
+        const oldHighScore = parseInt(getCookie(`highscore_${currentUnitIndex}`) || '0');
+
+        let message = `<h2>Quiz Complete!</h2><p>Your final score is: <strong>${finalScorePercent}%</strong></p>`;
+        if (parseInt(finalScorePercent) > oldHighScore) {
+            message += "<p>Congratulations! You set a new high score!</p>";
+            setCookie(`highscore_${currentUnitIndex}`, `${finalScorePercent}%`, 365);
+        }
+
+        quizScreen.innerHTML = `<div style="text-align: center;">${message}<button id="return-home-btn" class="animated-gradient-button"><span>Return to Main Menu</span></button></div>`;
+        document.getElementById('return-home-btn').addEventListener('click', () => {
+             location.reload(); // Simple way to reset state
+        });
+    }
+
+    function updateCounters() {
+        scoreCounterEl.textContent = `Score: ${score}`;
+    }
+
+    // --- STUDY GUIDE ---
+    function showStudyGuideModal(index) {
+        const unit = studyUnits[index];
+        studyGuideModalTitle.textContent = unit.title;
+        studyGuideModalContent.innerHTML = unit.studyGuideHTML;
+        studyGuideModal.style.display = 'flex';
+    }
+
+    function toggleStudyGuideVisibility() {
+        studyGuideContainer.classList.toggle('visible');
+    }
+
+    function expandAndHighlightStudyGuide(aksCode) {
+        // Clear previous highlights
+        studyGuideContentQuiz.querySelectorAll('.highlight').forEach(el => {
+            el.outerHTML = el.innerHTML; 
+        });
+
+        const targetEl = studyGuideContentQuiz.querySelector(`[data-aks="${aksCode}"]`);
+        if (targetEl) {
+            targetEl.classList.add('highlight');
+            studyGuideContainer.classList.add('visible');
+            targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+    
+    // --- BRAIN BREAK ---
+    function startBrainBreak() {
+        brainBreakModal.style.display = 'flex';
+        let timeLeft = 30;
+        brainBreakTimerEl.textContent = timeLeft;
+
+        brainBreakInterval = setInterval(() => {
+            timeLeft--;
+            brainBreakTimerEl.textContent = timeLeft;
+            if (timeLeft <= 0) {
+                endBrainBreak();
+            }
+        }, 1000);
+        
+        // Cycle through animations
+        brainBreakCounter = (brainBreakCounter + 1) % 3;
+        if(currentBrainBreakAnimation) cancelAnimationFrame(currentBrainBreakAnimation);
+        
+        if (brainBreakCounter === 1) {
+            initBouncingBalls();
+        } else if (brainBreakCounter === 2) {
+            init3DStarfield();
+        } else {
+            initParticleTrail();
+        }
+    }
+    
+    function endBrainBreak() {
+        clearInterval(brainBreakInterval);
+        brainBreakModal.style.display = 'none';
+        if(currentBrainBreakAnimation) cancelAnimationFrame(currentBrainBreakAnimation);
+        displayQuestion();
+    }
+    
+    // --- UTILITIES & HELPERS ---
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
+    }
+
+    function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    function loadPreferences() {
+        const soundPref = getCookie('soundEnabled');
+        if (soundPref !== null) {
+            soundEnabled = soundPref === 'true';
+        }
+    }
+
+    // --- AUDIO ---
+    function playSound(frequency, duration, type) {
+        if (!soundEnabled) return;
+        if (!audioCtx) {
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            } catch (e) {
+                console.error("Web Audio API is not supported in this browser");
                 return;
             }
-        
-            gameState.currentQuestionIndex++;
-            nextQuestionBtn.style.display = 'none';
-            toggleStudyGuideBtn.style.display = 'block';
-            inQuizStudyGuide.classList.remove('show');
-            inQuizStudyGuide.innerHTML = '';
-
-
-            if (gameState.currentQuestionIndex < gameState.questionQueue.length) {
-                const questionData = gameState.questionQueue[gameState.currentQuestionIndex];
-                gameState.isRepeat = questionData.isRepeat || false;
-                displayQuestion(questionData);
-            } else {
-                endQuiz();
-            }
         }
-        
-        function displayQuestion(questionData) {
-            const repeatText = gameState.isRepeat ? " (Repeat)" : "";
-            questionCounter.textContent = `Question ${gameState.questionsAnsweredCorrectly + 1} of ${gameState.originalQuestionCount}${repeatText}`;
-            scoreDisplay.textContent = `Score: ${gameState.score}`;
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        oscillator.type = type;
+        oscillator.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + duration);
+    }
+    
+    function speak(text) {
+        if (!soundEnabled || !('speechSynthesis' in window)) return;
+        speechSynthesis.cancel(); // Cancel any previous speech
+        const utterance = new SpeechSynthesisUtterance(text);
+        speechSynthesis.speak(utterance);
+    }
 
-            questionText.innerHTML = `${questionData.question} <small style="display: block; color: #555; margin-top: 5px;">(AKS: ${questionData.aks})</small> <span class="speaker-icon">${speakerIconSVG}</span>`;
-            questionText.querySelector('.speaker-icon').onclick = () => readAloud(questionData.question);
-
-            answerGrid.innerHTML = '';
-            const shuffledAnswers = shuffleArray(Object.entries(questionData.answers));
-
-            shuffledAnswers.forEach(([key, text]) => {
-                const button = document.createElement('button');
-                button.className = 'answer-btn';
-                button.dataset.key = key;
-                button.innerHTML = `<span>${text}</span> <span class="speaker-icon">${speakerIconSVG}</span>`;
-                button.onclick = () => selectAnswer(key, button);
-                button.querySelector('.speaker-icon').onclick = (e) => {
-                    e.stopPropagation();
-                    readAloud(text);
-                };
-                answerGrid.appendChild(button);
-            });
+    function toggleSound() {
+        soundEnabled = !soundEnabled;
+        setCookie('soundEnabled', soundEnabled, 365);
+        updateSoundToggleIcon();
+        if(!soundEnabled) {
+            speechSynthesis.cancel();
         }
-        
-        function selectAnswer(selectedKey) {
-            const questionData = gameState.questionQueue[gameState.currentQuestionIndex];
-            const isCorrect = selectedKey === questionData.correct;
-            
-            disableAnswerButtons();
-            
-            gameState.questionsAnsweredThisSession++;
+    }
 
-            if (isCorrect) {
-                handleCorrectAnswer();
-            } else {
-                handleIncorrectAnswer();
-            }
+    function updateSoundToggleIcon() {
+        soundToggle.innerHTML = soundEnabled 
+            ? '<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg>'
+            : '<svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"></path></svg>';
+    }
 
-            // Show study guide related to this question
-            showInQuizStudyGuide(questionData.studyGuideTerm);
+    // --- ANIMATIONS ---
+    function triggerConfetti() {
+        for (let i = 0; i < 100; i++) {
+            createConfetti();
         }
-        
-        function handleCorrectAnswer() {
-            playSound(correctSound);
-            triggerConfetti();
+    }
 
-            const selectedBtn = Array.from(answerGrid.children).find(btn => btn.dataset.key === gameState.questionQueue[gameState.currentQuestionIndex].correct);
-            selectedBtn.classList.add('correct');
+    function createConfetti() {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        const colors = ['#f00', '#0f0', '#00f', '#ff0', '#0ff', '#f0f'];
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.top = '-10px';
+        confetti.style.animationDuration = Math.random() * 2 + 3 + 's';
+        confetti.style.transform = `translateX(${Math.random() * 200 - 100}px)`;
+        document.body.appendChild(confetti);
+        setTimeout(() => {
+            confetti.remove();
+        }, 5000);
+    }
+    
+    // --- BRAIN BREAK CANVAS ANIMATIONS ---
+    let bbCtx, bbWidth, bbHeight;
+    
+    function setupCanvas() {
+        bbCtx = brainBreakCanvas.getContext('2d');
+        bbWidth = brainBreakCanvas.width = brainBreakCanvas.offsetWidth;
+        bbHeight = brainBreakCanvas.height = brainBreakCanvas.offsetHeight;
+    }
 
-            if (!gameState.isRepeat) {
-                gameState.score++;
-                gameState.questionsAnsweredCorrectly++;
-            }
-            
-            setTimeout(nextQuestion, 3000);
+    // 1. Bouncing Balls
+    let balls = [];
+    function initBouncingBalls() {
+        setupCanvas();
+        balls = [];
+        for (let i = 0; i < 15; i++) {
+            addBall();
         }
-        
-        function handleIncorrectAnswer() {
-            playSound(incorrectSound);
-            
-            gameState.score = Math.max(0, gameState.score - 1);
-            
-            const questionToRepeat = { ...gameState.questionQueue[gameState.currentQuestionIndex], isRepeat: true };
-            gameState.questionQueue.push(questionToRepeat);
-            
-            const correctKey = gameState.questionQueue[gameState.currentQuestionIndex].correct;
-            
-            Array.from(answerGrid.children).forEach(btn => {
-                if(btn.dataset.key === correctKey) {
-                    btn.classList.add('correct'); // Highlight correct answer
-                } else {
-                    btn.classList.add('disabled'); // Gray out incorrect
-                }
-            });
-
-            nextQuestionBtn.style.display = 'block';
-            toggleStudyGuideBtn.style.display = 'none';
-        }
-
-        function endQuiz() {
-            const finalScorePercent = Math.round((gameState.score / gameState.originalQuestionCount) * 100);
-            const currentHighScore = gameState.highScores[gameState.currentUnitId] || 0;
-            
-            let message = `Quiz Complete!\nYour Score: ${gameState.score} out of ${gameState.originalQuestionCount} (${finalScorePercent}%).`;
-
-            if(finalScorePercent > currentHighScore) {
-                gameState.highScores[gameState.currentUnitId] = finalScorePercent;
-                message += `\n\nCongratulations! A new high score!`;
-                saveState();
-            }
-            
-            // Using a simple alert for now, can be replaced with a custom modal
-            setTimeout(() => {
-                alert(message);
-                showMainMenu();
-            }, 500);
-        }
-
-        // --- UI & UX ---
-        function disableAnswerButtons() {
-            Array.from(answerGrid.children).forEach(button => button.disabled = true);
-        }
-        
-        function showInQuizStudyGuide(term) {
-            const unitId = gameState.currentUnitId === 'finalExam' ? findUnitIdForQuestion(gameState.questionQueue[gameState.currentQuestionIndex]) : gameState.currentUnitId;
-            if (!unitId) return;
-
-            const unit = gameData[unitId];
-            let studyGuideContent = unit.studyGuideHTML;
-            
-            if (term) {
-                const regex = new RegExp(`\\b(${term})\\b`, 'gi');
-                studyGuideContent = studyGuideContent.replace(regex, `<span class="highlight">$1</span>`);
-            }
-            
-            inQuizStudyGuide.innerHTML = studyGuideContent;
-            inQuizStudyGuide.classList.add('show');
-            
-            const highlightedElement = inQuizStudyGuide.querySelector('.highlight');
-            if(highlightedElement) {
-                highlightedElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-        
-        function toggleInQuizStudyGuide() {
-            inQuizStudyGuide.classList.toggle('show');
-        }
-
-        function triggerConfetti() {
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
-        }
-        
-        function toggleSound() {
-            gameState.soundEnabled = !gameState.soundEnabled;
-            updateSoundToggleIcon();
-            saveState();
-        }
-        
-        function updateSoundToggleIcon() {
-            soundToggleBtn.innerHTML = gameState.soundEnabled ? speakerIconSVG : mutedIconSVG;
-        }
-
-        function playSound(sound) {
-            if (gameState.soundEnabled) {
-                sound.currentTime = 0;
-                sound.play();
-            }
-        }
-        
-        function readAloud(text) {
-            if (gameState.soundEnabled && 'speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                speechSynthesis.cancel(); // Stop any previous speech
-                speechSynthesis.speak(utterance);
-            }
-        }
-
-        // --- UTILITIES ---
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-        
-        function findUnitIdForQuestion(question) {
-            for (const unitId in gameData) {
-                if (gameData[unitId].questions.some(q => q.question === question.question)) {
-                    return unitId;
+        brainBreakCanvas.onclick = (e) => {
+            const rect = brainBreakCanvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            let ballClicked = false;
+            for (let i = balls.length - 1; i >= 0; i--) {
+                const dist = Math.hypot(mouseX - balls[i].x, mouseY - balls[i].y);
+                if (dist < balls[i].radius) {
+                    balls.splice(i, 1);
+                    ballClicked = true;
                 }
             }
-            return null;
-        }
-        
-        // --- BRAIN BREAK ---
-        const brainBreakCanvas = document.getElementById('brain-break-canvas');
-        const brainBreakTimerDisplay = document.getElementById('brain-break-timer');
-        const continueQuizBtn = document.getElementById('continue-quiz-btn');
-        const bbCtx = brainBreakCanvas.getContext('2d');
-        
-        const brainBreakAnimations = [runBouncingBalls, runStarfield, runParticleTrail];
-        let currentBrainBreakAnimation;
-
-        function startBrainBreak() {
-            showScreen('brain-break-screen');
-            gameState.brainBreakTimer = 30;
-            brainBreakTimerDisplay.textContent = gameState.brainBreakTimer;
-
-            // Stop previous animation if any
-            if (window.brainBreakAnimationId) {
-                cancelAnimationFrame(window.brainBreakAnimationId);
-            }
-
-            // Start new random animation
-            currentBrainBreakAnimation = brainBreakAnimations[Math.floor(Math.random() * brainBreakAnimations.length)];
-            currentBrainBreakAnimation.init();
-
-
-            gameState.brainBreakInterval = setInterval(() => {
-                gameState.brainBreakTimer--;
-                brainBreakTimerDisplay.textContent = gameState.brainBreakTimer;
-                if (gameState.brainBreakTimer <= 0) {
-                    endBrainBreak();
-                }
-            }, 1000);
-            
-            continueQuizBtn.onclick = endBrainBreak;
-        }
-
-        function endBrainBreak() {
-            clearInterval(gameState.brainBreakInterval);
-            gameState.brainBreakInterval = null;
-            if (window.brainBreakAnimationId) {
-                cancelAnimationFrame(window.brainBreakAnimationId);
-            }
-            showScreen('quiz-screen');
-            nextQuestion(); // Proceed to the question after the break
-        }
-        
-        // --- Brain Break Animations ---
-        // Animation 1: Bouncing Balls
-        const runBouncingBalls = {
-            balls: [],
-            init() {
-                brainBreakCanvas.width = brainBreakCanvas.clientWidth;
-                brainBreakCanvas.height = brainBreakCanvas.clientHeight;
-                this.balls = [];
-                for(let i = 0; i < 15; i++) this.createBall();
-                brainBreakCanvas.onclick = (e) => this.handleClick(e);
-                this.animate();
-            },
-            createBall(x = Math.random() * brainBreakCanvas.width, y = Math.random() * brainBreakCanvas.height) {
-                 this.balls.push({
-                    x, y,
-                    radius: Math.random() * 20 + 10,
-                    dx: (Math.random() - 0.5) * 4,
-                    dy: (Math.random() - 0.5) * 4,
-                    color: `hsl(${Math.random() * 360}, 70%, 60%)`
-                });
-            },
-            handleClick(e) {
-                const rect = brainBreakCanvas.getBoundingClientRect();
-                const mouseX = e.clientX - rect.left;
-                const mouseY = e.clientY - rect.top;
-                let clickedOnBall = false;
-                for(let i = this.balls.length - 1; i >= 0; i--) {
-                    const ball = this.balls[i];
-                    const dist = Math.hypot(mouseX - ball.x, mouseY - ball.y);
-                    if (dist < ball.radius) {
-                        this.balls.splice(i, 1);
-                        clickedOnBall = true;
-                    }
-                }
-                if (!clickedOnBall) this.createBall(mouseX, mouseY);
-            },
-            animate() {
-                bbCtx.clearRect(0, 0, brainBreakCanvas.width, brainBreakCanvas.height);
-                this.balls.forEach(ball => {
-                    bbCtx.beginPath();
-                    bbCtx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-                    bbCtx.fillStyle = ball.color;
-                    bbCtx.fill();
-                    
-                    if (ball.x + ball.radius > brainBreakCanvas.width || ball.x - ball.radius < 0) ball.dx *= -1;
-                    if (ball.y + ball.radius > brainBreakCanvas.height || ball.y - ball.radius < 0) ball.dy *= -1;
-                    
-                    ball.x += ball.dx;
-                    ball.y += ball.dy;
-                });
-                window.brainBreakAnimationId = requestAnimationFrame(() => this.animate());
+            if (!ballClicked) {
+                addBall(mouseX, mouseY);
             }
         };
-
-        // Animation 2: 3D Starfield
-        const runStarfield = {
-            stars: [],
-            mouse: { x: 0, y: 0},
-            init() {
-                brainBreakCanvas.width = brainBreakCanvas.clientWidth;
-                brainBreakCanvas.height = brainBreakCanvas.clientHeight;
-                this.stars = [];
-                for (let i = 0; i < 500; i++) {
-                    this.stars.push({
-                        x: Math.random() * brainBreakCanvas.width - brainBreakCanvas.width / 2,
-                        y: Math.random() * brainBreakCanvas.height - brainBreakCanvas.height / 2,
-                        z: Math.random() * brainBreakCanvas.width
-                    });
-                }
-                brainBreakCanvas.onmousemove = (e) => {
-                    const rect = brainBreakCanvas.getBoundingClientRect();
-                    this.mouse.x = e.clientX - rect.left;
-                    this.mouse.y = e.clientY - rect.top;
-                };
-                brainBreakCanvas.onclick = null;
-                this.animate();
-            },
-            animate() {
-                const width = brainBreakCanvas.width;
-                const height = brainBreakCanvas.height;
-                const centerX = width / 2;
-                const centerY = height / 2;
-                
-                bbCtx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-                bbCtx.fillRect(0, 0, width, height);
-
-                const focalLength = width;
-                const mouseX = this.mouse.x - centerX;
-                const mouseY = this.mouse.y - centerY;
-
-                this.stars.forEach(star => {
-                    star.z -= 1.25;
-                    if (star.z <= 0) {
-                        star.z = width;
-                    }
-
-                    const scale = focalLength / (focalLength + star.z);
-                    const x = (star.x - mouseX) * scale + centerX;
-                    const y = (star.y - mouseY) * scale + centerY;
-                    const r = Math.max(0, scale * 2);
-
-                    bbCtx.beginPath();
-                    bbCtx.arc(x, y, r, 0, Math.PI * 2);
-                    bbCtx.fillStyle = 'white';
-                    bbCtx.fill();
-                });
-                window.brainBreakAnimationId = requestAnimationFrame(() => this.animate());
-            }
+        animateBouncingBalls();
+    }
+    function addBall(x = Math.random() * bbWidth, y = Math.random() * bbHeight) {
+        balls.push({
+            x: x, y: y,
+            vx: Math.random() * 4 - 2,
+            vy: Math.random() * 4 - 2,
+            radius: Math.random() * 10 + 10,
+            color: `hsl(${Math.random() * 360}, 70%, 60%)`
+        });
+    }
+    function animateBouncingBalls() {
+        bbCtx.clearRect(0, 0, bbWidth, bbHeight);
+        balls.forEach(ball => {
+            ball.x += ball.vx;
+            ball.y += ball.vy;
+            if (ball.x + ball.radius > bbWidth || ball.x - ball.radius < 0) ball.vx *= -1;
+            if (ball.y + ball.radius > bbHeight || ball.y - ball.radius < 0) ball.vy *= -1;
+            bbCtx.beginPath();
+            bbCtx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            bbCtx.fillStyle = ball.color;
+            bbCtx.fill();
+        });
+        currentBrainBreakAnimation = requestAnimationFrame(animateBouncingBalls);
+    }
+    
+    // 2. 3D Starfield
+    let stars = [], mouse = {x:0, y:0};
+    function init3DStarfield() {
+        setupCanvas();
+        stars = [];
+        mouse.x = bbWidth / 2;
+        mouse.y = bbHeight / 2;
+        for (let i=0; i < 500; i++) {
+            stars.push({
+                x: Math.random() * bbWidth * 2 - bbWidth,
+                y: Math.random() * bbHeight * 2 - bbHeight,
+                z: Math.random() * bbWidth
+            });
+        }
+        brainBreakCanvas.onmousemove = (e) => {
+            const rect = brainBreakCanvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
         };
+        animateStarfield();
+    }
+    function animateStarfield() {
+        bbCtx.fillStyle = 'black';
+        bbCtx.fillRect(0,0,bbWidth,bbHeight);
+        let centerX = bbWidth / 2;
+        let centerY = bbHeight / 2;
+        let focalLength = bbWidth;
+        let targetX = (mouse.x - centerX) * 0.1;
+        let targetY = (mouse.y - centerY) * 0.1;
 
-        // Animation 3: Particle Trail
-        const runParticleTrail = {
-            particles: [],
-            mouse: { x: 0, y: 0 },
-            hue: 0,
-            init() {
-                brainBreakCanvas.width = brainBreakCanvas.clientWidth;
-                brainBreakCanvas.height = brainBreakCanvas.clientHeight;
-                this.particles = [];
-                this.hue = 0;
-                brainBreakCanvas.onmousemove = (e) => {
-                    const rect = brainBreakCanvas.getBoundingClientRect();
-                    this.mouse.x = e.clientX - rect.left;
-                    this.mouse.y = e.clientY - rect.top;
-                };
-                brainBreakCanvas.onclick = null;
-                this.animate();
-            },
-            animate() {
-                bbCtx.fillStyle = 'rgba(0,0,0,0.1)';
-                bbCtx.fillRect(0, 0, brainBreakCanvas.width, brainBreakCanvas.height);
-                this.hue++;
+        bbCtx.save();
+        bbCtx.translate(centerX, centerY);
 
-                for (let i = 0; i < 5; i++) {
-                    this.particles.push({
-                        x: this.mouse.x,
-                        y: this.mouse.y,
-                        size: Math.random() * 5 + 1,
-                        speedX: Math.random() * 3 - 1.5,
-                        speedY: Math.random() * 3 - 1.5,
-                        color: `hsl(${this.hue}, 100%, 50%)`
-                    });
-                }
-                
-                for(let i = this.particles.length - 1; i >= 0; i--) {
-                    const p = this.particles[i];
-                    p.x += p.speedX;
-                    p.y += p.speedY;
-                    p.size -= 0.1;
-                    
-                    if (p.size <= 0.1) {
-                        this.particles.splice(i, 1);
-                    } else {
-                        bbCtx.fillStyle = p.color;
-                        bbCtx.beginPath();
-                        bbCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                        bbCtx.fill();
-                    }
-                }
-                window.brainBreakAnimationId = requestAnimationFrame(() => this.animate());
+        stars.forEach(star => {
+            star.z -= 1.25; // Speed
+            if (star.z <= 0) {
+                 star.z = bbWidth;
             }
-        };
+            let scale = focalLength / (focalLength + star.z);
+            let r = star.z / 20;
+            let px = (star.x - targetX) * scale;
+            let py = (star.y - targetY) * scale;
+            
+            bbCtx.beginPath();
+            bbCtx.arc(px, py, r * scale, 0, 2*Math.PI);
+            bbCtx.fillStyle = 'white';
+            bbCtx.fill();
+        });
+        bbCtx.restore();
+        currentBrainBreakAnimation = requestAnimationFrame(animateStarfield);
+    }
 
+    // 3. Particle Trail
+    let particles = [], hue = 0, ptMouse = {x:0, y:0, down:false};
+    function initParticleTrail() {
+        setupCanvas();
+        particles = [];
+        ptMouse.x = bbWidth/2;
+        ptMouse.y = bbHeight/2;
+        
+        const moveHandler = (e) => {
+             const rect = brainBreakCanvas.getBoundingClientRect();
+             ptMouse.x = e.clientX - rect.left;
+             ptMouse.y = e.clientY - rect.top;
+        }
+        brainBreakCanvas.onmousedown = () => ptMouse.down = true;
+        brainBreakCanvas.onmouseup = () => ptMouse.down = false;
+        brainBreakCanvas.onmousemove = moveHandler;
+        
+        animateParticleTrail();
+    }
 
-        // --- START GAME ---
-        // Hidden div to load study guide content for JS
-        const hiddenStudyGuide = document.createElement('div');
-        hiddenStudyGuide.id = 'unit-4-study-guide-content';
-        hiddenStudyGuide.style.display = 'none';
-        hiddenStudyGuide.innerHTML = `
-            <h3>Unit 4: Georgia's Beginnings and Colonization</h3>
-            <h4>8SS.D.31: Evaluate the impact of European exploration and settlement on American Indians in Georgia</h4>
-            <p><b>31.a: Characteristics of Mississippian Indians:</b> Lived in large villages with a central plaza, residential zones, and <b>defensive structures</b> like palisades and moats. They had a complex chiefdom society with elites and commoners and participated in a large trade network. Earthen mounds were used for religious, social, and burial purposes.</p>
-            <p><b>Food:</b> Practiced large-scale agriculture, with <b>maize</b> (corn) as the main crop, supplemented by squash, sunflowers, and beans. They hunted deer, rabbit, and turkey, and also ate fish, turtles, fruits, and nuts.</p>
-            <p><b>Weapons/Tools:</b> Their primary weapon was the bow and arrow. They used chert (sedimentary rock) knives and improved upon the stone tools of earlier groups.</p>
-            <h4>31.b: Reasons for European Exploration</h4>
-            <p><b>Spanish (The 3 G's):</b> God, Gold, and Glory.</p>
-            <p><b>British:</b> Used colonies for <b>mercantilism</b> and to create a defensive buffer to protect profitable colonies from threats.</p>
-            <h4>31.c: Impact of Spanish Contact</h4>
-            <p><b>Hernando de Soto:</b> Led the first major European exploration of Georgia in the mid-1500s searching for gold.</p>
-            <p><b>Impact on Natives:</b> Devastating due to <b>European diseases</b> like smallpox and influenza, which killed a vast number of Mississippian Indians.</p>
-            <p><b>Spanish Missions:</b> Established along Georgia's barrier islands (Guale) to convert natives to Catholicism.</p>
-            <h4>8SS.E.32: Analyze the colonial period of Georgia's history</h4>
-            <p><b>32.a: The Charter of 1732:</b> Primary reason for settlement was <b>Defense</b>. Other reasons were Economics and Philanthropy. Had many <b>restrictions</b> (no Catholics, lawyers, liquor, slaves).</p>
-            <p><b>32.b: Establishing Savannah:</b> A peaceful founding thanks to <b>James Oglethorpe</b>, chief <b>Tomochichi</b>, and interpreter <b>Mary Musgrove</b>.</p>
-            <p><b>32.c: Diverse Groups:</b> Included <b>Jews</b> (Dr. Samuel Nunes), <b>Salzburgers</b> (Protestant refugees), <b>Highland Scots</b> (soldiers), and <b>Malcontents</b> (unhappy with rules).</p>
-            <p><b>32.d: Transition to a Royal Colony:</b> The ban on <b>slavery</b> and alcohol was lifted. Land ownership was relaxed. A Royal <b>Government</b> was established.</p>
-            <p><b>32.e: Goods and Services (W.R.I.S.T.):</b> Wine, Rice, Indigo, <b>Silk</b>, and Tobacco.</p>
-        `;
-        document.body.appendChild(hiddenStudyGuide);
-        init();
-
-    </script>
+    class Particle {
+        constructor() {
+            this.x = ptMouse.x;
+            this.y = ptMouse.y;
+            this.size = Math.random() * 5 + 1;
+            this.speedX = Math.random() * 3 - 1.5;
+            this.speedY = Math.random() * 3 - 1.5;
+            this.color = 'hsl(' + hue + ', 100%, 50%)';
+        }
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            if (this.size > 0.2) this.size -= 0.1;
+        }
+        draw() {
+            bbCtx.fillStyle = this.color;
+            bbCtx.beginPath();
+            bbCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            bbCtx.fill();
+        }
+    }
+    function handleParticles() {
+        for(let i=0; i<5; i++) {
+            particles.push(new Particle());
+        }
+        for (let i = 0; i < particles.length; i++) {
+            particles[i].update();
+            particles[i].draw();
+            if (particles[i].size <= 0.3) {
+                particles.splice(i, 1);
+                i--;
+            }
+        }
+    }
+    function animateParticleTrail() {
+        bbCtx.fillStyle = 'rgba(0,0,0,0.1)';
+        bbCtx.fillRect(0, 0, bbWidth, bbHeight);
+        handleParticles();
+        hue+=2;
+        currentBrainBreakAnimation = requestAnimationFrame(animateParticleTrail);
+    }
+    
+</script>
 </body>
-
 </html>
