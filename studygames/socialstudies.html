@@ -94,7 +94,7 @@
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center p-4">
+<body class="flex flex-col items-center justify-start pt-16 px-4 pb-4 min-h-screen">
 
     <div id="floating-title" class="w-full max-w-4xl mx-auto bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-3 text-center mb-4 hidden">
         <h1 id="unit-title-text" class="text-2xl font-bold text-purple-600"></h1>
@@ -202,7 +202,7 @@
             <svg id="sound-on-icon" class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
             <svg id="sound-off-icon" class="w-5 h-5 text-gray-700 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2 2m2-2l2 2"></path></svg>
         </button>
-        <span>MF Build: 250923.30</span>
+        <span>MF Build: 251003.3</span>
     </footer>
 
     <!-- Audio Elements -->
@@ -361,9 +361,68 @@
                                 </div>
                             </div>
                         </div>`
+                },
+                unit4: {
+                    title: "Unit 4: Georgia's Colonization",
+                    questions: [
+                        { question: "Mississippian societies were organized into complex political units known as...", reference: "AKS 31.a: Mississippian Culture", answers: [{ text: "Tribes", correct: false }, { text: "Chiefdoms", correct: true }, { text: "Democracies", correct: false }], highlightTerm: "Chiefdoms" },
+                        { question: "What defensive structures, like high walls and water-filled ditches, did the Mississippians build around their villages?", reference: "AKS 31.a: Mississippian Culture", answers: [{ text: "Forts and trenches", correct: false }, { text: "Palisades and moats", correct: true }, { text: "Castles and ramparts", correct: false }], highlightTerm: "palisades and moats" },
+                        { question: "What was the main economic reason for British colonization under the policy of mercantilism?", reference: "AKS 31.b: European Exploration", answers: [{ text: "To spread their language", correct: false }, { text: "To acquire raw materials for England", correct: true }, { text: "To create military alliances", correct: false }], highlightTerm: "mercantilism" },
+                        { question: "Besides smallpox, what other European diseases were devastating to the American Indians?", reference: "AKS 31.c: Spanish Impact", answers: [{ text: "Chickenpox and mumps", correct: false }, { text: "Influenza and measles", correct: true }, { text: "The common cold", correct: false }], highlightTerm: "influenza, and measles" },
+                        { question: "What specific group of impoverished people was the Georgia colony intended to help, according to the principle of philanthropy?", reference: "AKS 32.a: Charter of 1732", answers: [{ text: "All poor people", correct: false }, { text: "The 'worthy poor'", correct: true }, { text: "Only farmers", correct: false }], highlightTerm: "worthy poor" },
+                        { question: "What specific raw material, used for luxury fabric, did the Trustees hope colonists would produce in Georgia?", reference: "AKS 32.a: Charter of 1732", answers: [{ text: "Cotton", correct: false }, { text: "Silk", correct: true }, { text: "Wool", correct: false }], highlightTerm: "Silk" },
+                        { question: "The group of Jewish settlers was allowed to stay in Georgia largely because one of them, Dr. Samuel Nunes, helped stop an outbreak of what disease?", reference: "AKS 32.c: Diverse Groups", answers: [{ text: "Smallpox", correct: false }, { text: "Yellow Fever", correct: true }, { text: "Influenza", correct: false }], highlightTerm: "yellow fever" },
+                        { question: "The Highland Scots were crucial in helping James Oglethorpe win which key battle against the Spanish?", reference: "AKS 32.c: Diverse Groups", answers: [{ text: "The Battle of Savannah", correct: false }, { text: "The Battle of Bloody Marsh", correct: true }, { text: "The Battle of Ebenezer", correct: false }], highlightTerm: "Battle of Bloody Marsh" },
+                        { question: "What was a key characteristic of the 'Malcontents' that set them apart from many other colonists?", reference: "AKS 32.c: Diverse Groups", answers: [{ text: "They were not religious", correct: false }, { text: "They paid their own way to Georgia", correct: true }, { text: "They were all soldiers", correct: false }], highlightTerm: "paid their own way" },
+                        { question: "When Georgia became a Royal Colony, what new right was granted to white, male landowners, introducing a form of self-government?", reference: "AKS 32.d: Royal Colony Transition", answers: [{ text: "The right to free speech", correct: false }, { text: "The right to vote and hold office", correct: true }, { text: "The right to refuse taxes", correct: false }], highlightTerm: "self-government" },
+                        { question: "The end of land ownership restrictions in the Royal period led to the creation of large farms, dependent on slavery, called what?", reference: "AKS 32.d: Royal Colony Transition", answers: [{ text: "Manors", correct: false }, { text: "Plantations", correct: true }, { text: "Homesteads", correct: false }], highlightTerm: "plantations" },
+                        { question: "Who was the Yamacraw chief who granted James Oglethorpe the land for Savannah?", reference: "AKS 32.b: Establishing Savannah", answers: [{ text: "Pocahontas", correct: false }, { text: "Tomochichi", correct: true }, { text: "Sequoyah", correct: false }], highlightTerm: "Tomochichi" },
+                        { question: "Who served as the crucial translator between Oglethorpe and the Yamacraw Indians?", reference: "AKS 32.b: Establishing Savannah", answers: [{ text: "A Spanish missionary", correct: false }, { text: "Mary Musgrove", correct: true }, { text: "A French fur trader", correct: false }], highlightTerm: "Mary Musgrove" },
+                        { question: "Which group of Protestant refugees from Austria settled in New Ebenezer and were against slavery?", reference: "AKS 32.c: Diverse Groups", answers: [{ text: "Malcontents", correct: false }, { text: "Salzburgers", correct: true }, { text: "Highland Scots", correct: false }], highlightTerm: "Salzburgers" },
+                        { question: "What valuable blue dye was a profitable crop for colonial Georgia?", reference: "AKS 32.e: Colonial Goods", answers: [{ text: "Silk", correct: false }, { text: "Indigo", correct: true }, { text: "Wine", correct: false }], highlightTerm: "Indigo" },
+                        { question: "What materials were primarily used to construct a 'wattle and daub' shelter?", reference: "AKS 31.a: Mississippian Culture", answers: [{ text: "Bricks and Mortar", correct: false }, { text: "River cane and clay", correct: true }, { text: "Logs and mud", correct: false }], highlightTerm: "wattle & daub" },
+                        { question: "What was the primary religious motivation for Spanish exploration in North America?", reference: "AKS 31.b: European Exploration", answers: [{ text: "To escape religious persecution", correct: false }, { text: "To convert natives to Catholicism", correct: true }, { text: "To find sacred artifacts", correct: false }], highlightTerm: "God, Gold, and Glory" },
+                        { question: "Where in Georgia were the Spanish missions primarily established?", reference: "AKS 31.c: Spanish Impact", answers: [{ text: "Along the Fall Line", correct: false }, { text: "On the Barrier Islands", correct: true }, { text: "Near the mountains", correct: false }], highlightTerm: "missions" },
+                        { question: "Who was the British king that granted the Charter of 1732 to the Trustees?", reference: "AKS 32.a: Charter of 1732", answers: [{ text: "King James I", correct: false }, { text: "King George II", correct: true }, { text: "King Henry VIII", correct: false }], highlightTerm: "King George II" },
+                        { question: "Which group was explicitly banned from the Georgia colony by the Charter of 1732, besides lawyers and slaves?", reference: "AKS 32.a: Charter of 1732", answers: [{ text: "Protestants", correct: false }, { text: "Catholics", correct: true }, { text: "Jews", correct: false }], highlightTerm: "Philanthropy" },
+                        { question: "What was Mary Musgrove's unique heritage that made her an effective translator?", reference: "AKS 32.b: Establishing Savannah", answers: [{ text: "Spanish and Yamacraw", correct: false }, { text: "Half-Creek and half-English", correct: true }, { text: "French and Cherokee", correct: false }], highlightTerm: "Mary Musgrove" },
+                        { question: "What product were the Salzburgers famously successful at producing?", reference: "AKS 32.c: Diverse Groups", answers: [{ text: "Rice", correct: false }, { text: "Silk", correct: true }, { text: "Indigo", correct: false }], highlightTerm: "Salzburgers" },
+                        { question: "The Malcontents were most upset with the strict rules established by which group?", reference: "AKS 32.c: Diverse Groups", answers: [{ text: "The British Parliament", correct: false }, { text: "The Trustees", correct: true }, { text: "The Royal Governor", correct: false }], highlightTerm: "Malcontents" },
+                        { question: "What was the main reason mulberry trees were required to be planted in colonial Georgia?", reference: "AKS 32.e: Colonial Goods", answers: [{ text: "To provide shade", correct: false }, { text: "As a food source for silkworms", correct: true }, { text: "For lumber", correct: false }], highlightTerm: "Silk" },
+                        { question: "After slavery became legal, which coastal crop became extremely profitable?", reference: "AKS 32.e: Colonial Goods", answers: [{ text: "Tobacco", correct: false }, { text: "Rice", correct: true }, { text: "Cotton", correct: false }], highlightTerm: "Rice" }
+                    ],
+                    studyGuideHTML: `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-blue-50 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-blue-800 text-lg">AKS 31: European Contact & Impact</h3>
+                                <p><strong>Mississippian Culture (31.a):</strong> Organized into complex <strong>Chiefdoms</strong>. Lived in large villages with mounds, defensive <strong>palisades and moats</strong>. They grew much of their food in gardens, with <strong>Maize (corn)</strong> as the main crop. They used the <strong>Bow & arrow</strong> and lived in <strong>wattle & daub</strong> shelters.</p>
+                                <p><strong>European Motives (31.b):</strong> The Spanish were motivated by 'God, Gold, and Glory'. The British used the policy of <strong>mercantilism</strong>, wanting colonies to produce <strong>raw materials</strong> for England.</p>
+                                <p><strong>Spanish Impact (31.c):</strong> <strong>Hernando de Soto</strong>'s exploration led to the killing of many natives and the spread of devastating diseases like <strong>smallpox, influenza, and measles</strong>. Spain also established <strong>missions</strong> on the barrier islands to convert natives to Catholicism.</p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-green-800 text-lg">AKS 32.a & 32.b: Founding of Georgia</h3>
+                                <p><strong>Charter of 1732 (32.a):</strong> Granted by <strong>King George II</strong>, this charter established Georgia for three reasons: <strong>Philanthropy</strong> (to help the <strong>"worthy poor"</strong>), <strong>Economics</strong> (to produce raw materials like <strong>Silk</strong>), and <strong>Defense</strong> (a buffer to protect South Carolina from the Spanish).</p>
+                                <p><strong>Establishing Savannah (32.b):</strong> James Oglethorpe befriended Yamacraw chief <strong>Tomochichi</strong>, who granted land at Yamacraw Bluff. <strong>Mary Musgrove</strong> (half-Creek, half-English) served as the essential translator.</p>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-yellow-800 text-lg">AKS 32.c: Diverse Groups</h3>
+                                 <ul class="list-disc list-inside ml-4">
+                                    <li><strong>Jews:</strong> Arrived without permission; a doctor among them, <strong>Samuel Nunes</strong>, helped stop a <strong>yellow fever</strong> outbreak, so Oglethorpe let them stay.</li>
+                                    <li><strong>Salzburgers:</strong> German-speaking Protestants from Austria who settled New Ebenezer. They were industrious, famously successful at producing <strong>Silk</strong>, and opposed slavery.</li>
+                                    <li><strong>Highland Scots:</strong> Recruited for their fighting skills, they settled Darien and helped Oglethorpe win the <strong>Battle of Bloody Marsh</strong>. They also opposed slavery.</li>
+                                    <li><strong>Malcontents:</strong> Colonists who <strong>paid their own way</strong> and were unhappy with the rules on land, slavery, and rum.</li>
+                                 </ul>
+                            </div>
+                             <div class="bg-red-50 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-red-800 text-lg">AKS 32.d & 32.e: Royal Colony & Economy</h3>
+                                <p><strong>Royal Colony Transition (32.d):</strong> After 1752, the King appointed a Royal Governor. Land restrictions were lifted, leading to large <strong>plantations</strong>. Alcohol was allowed, and slavery became legal. A limited form of <strong>self-government</strong> was introduced (white, male landowners could vote and hold office).</p>
+                                <p><strong>Colonial Goods (32.e):</strong> Main products (<strong>W.R.I.S.T.</strong>) were Wine, Rice, <strong>Indigo</strong> (blue dye), Silk, and Tobacco. Cotton was NOT yet a major crop.</p>
+                            </div>
+                        </div>`
                 }
             };
             
+            // --- DOM Element Selection ---
             const mainMenuScreen = document.getElementById('main-menu-screen');
             const quizScreen = document.getElementById('quiz-screen');
             const endScreen = document.getElementById('end-screen');
@@ -379,8 +438,6 @@
             const soundOnIcon = document.getElementById('sound-on-icon');
             const soundOffIcon = document.getElementById('sound-off-icon');
             const questionCounterDisplay = document.getElementById('question-counter-display');
-            const questionNumberEl = document.getElementById('question-number');
-            const totalQuestionsEl = document.getElementById('total-questions');
             const scoreEl = document.getElementById('score');
             const questionContainer = document.getElementById('question-container');
             const questionReferenceEl = document.getElementById('question-reference');
@@ -404,6 +461,7 @@
             const backToMenuBtn = document.getElementById('back-to-menu-btn');
             const backToMenuBtnQuiz = document.getElementById('back-to-menu-btn-quiz');
             
+            // --- Game State Variables ---
             let shuffledQuestions, currentQuestionIndex;
             let score = 0;
             let questionsSinceBreak = 0;
@@ -419,12 +477,11 @@
             let currentUnitId = null;
             let totalOriginalQuestions = 0;
             
-            // --- ALL OTHER FUNCTIONS GO HERE ---
-            
              // --- Cookie Helper Functions ---
             function setCookie(name, value, days) { let expires = ""; if (days) { const date = new Date(); date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); expires = "; expires=" + date.toUTCString(); } document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax"; }
             function getCookie(name) { const nameEQ = name + "="; const ca = document.cookie.split(';'); for (let i = 0; i < ca.length; i++) { let c = ca[i]; while (c.charAt(0) == ' ') c = c.substring(1, c.length); if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length); } return null; }
 
+            // --- UI Population and Navigation ---
              function populateMainMenu() {
                 unitSelectionContainer.innerHTML = '';
                 for (const unitId in gameData) {
@@ -484,6 +541,7 @@
                 if(breakTimerInterval) clearInterval(breakTimerInterval);
             }
             
+            // --- Game Logic ---
             function startGame(unitId) {
                 currentUnitId = unitId;
                 let questions;
@@ -513,93 +571,9 @@
                 questionsAnsweredFirstTry = 0;
                 brainBreakCounter = 0;
                 scoreEl.innerText = score;
-                totalQuestionsEl.innerText = totalOriginalQuestions;
                 setNextQuestion();
             }
-
-            function initialize() {
-                populateMainMenu();
-                finalExamBtn.addEventListener('click', () => startGame('final_exam'));
-                backToMenuBtn.addEventListener('click', showMainMenu);
-                backToMenuBtnQuiz.addEventListener('click', showMainMenu);
-                closeModalBtn.addEventListener('click', () => studyGuideModal.classList.add('hidden'));
-                nextBtn.addEventListener('click', prepareNextStep);
-                resumeQuizBtn.addEventListener('click', resumeQuiz);
-                infoBtn.addEventListener('click', () => {
-                    studyGuideContent.classList.toggle('expanded');
-                });
-                soundToggleBtn.addEventListener('click', () => {
-                    soundsEnabled = !soundsEnabled;
-                    soundOnIcon.classList.toggle('hidden');
-                    soundOffIcon.classList.toggle('hidden');
-                    setCookie('soundEnabled', soundsEnabled, 365);
-                    if (!soundsEnabled) {
-                        window.speechSynthesis.cancel();
-                    }
-                });
-
-                const soundPreference = getCookie('soundEnabled');
-                if (soundPreference === 'false') {
-                    soundsEnabled = false;
-                    soundOnIcon.classList.add('hidden');
-                    soundOffIcon.classList.remove('hidden');
-                }
-
-                generateAndSetAudio();
-            }
             
-            function prepareNextStep() {
-                if (questionsSinceBreak > 0 && questionsSinceBreak % 6 === 0 && currentQuestionIndex < shuffledQuestions.length) {
-                    showArtBreak();
-                } else {
-                    setNextQuestion();
-                }
-            }
-            
-            function showArtBreak() {
-                quizScreen.classList.add('hidden');
-                brainBreakScreen.classList.remove('hidden');
-                
-                const breakType = brainBreakCounter % 3; 
-                cleanupBreakAnimation(); 
-
-                switch(breakType) {
-                    case 0:
-                        setupBouncingBalls();
-                        break;
-                    case 1:
-                        setupStarfield();
-                        break;
-                    case 2:
-                        setupFollower();
-                        break;
-                }
-                brainBreakCounter++;
-                
-                let timeLeft = 30;
-                timerDisplay.textContent = `Time left: ${timeLeft}s`;
-                breakTimerInterval = setInterval(() => {
-                    timeLeft--;
-                    timerDisplay.textContent = `Time left: ${timeLeft}s`;
-                    if (timeLeft <= 0) {
-                        resumeQuiz();
-                    }
-                }, 1000);
-            }
-            
-            function resumeQuiz() {
-                if(breakTimerInterval) clearInterval(breakTimerInterval);
-                if(animationFrameId) cancelAnimationFrame(animationFrameId);
-                breakTimerInterval = null;
-                animationFrameId = null;
-                
-                cleanupBreakAnimation();
-
-                brainBreakScreen.classList.add('hidden');
-                quizScreen.classList.remove('hidden');
-                setNextQuestion();
-            }
-
             function setNextQuestion() {
                 resetState();
                 if (currentQuestionIndex < shuffledQuestions.length) {
@@ -652,7 +626,6 @@
                     answerButtonsEl.appendChild(button);
                 });
             }
-
 
             function resetState() {
                 if (advanceTimeout) {
@@ -712,11 +685,14 @@
                     button.disabled = true;
                     button.classList.remove('hover:bg-blue-100');
                     if (button.dataset.correct) {
+                        // Always highlight the correct answer in green
                         button.classList.remove('text-gray-800');
                         button.classList.add('flash-correct', 'bg-green-400', 'text-black', 'font-bold');
                     } else if (button === selectedBtn) {
-                        button.classList.add('bg-gray-300', 'text-gray-500', 'border-gray-400');
+                        // If an incorrect button was selected, highlight it in red
+                        button.classList.add('flash-incorrect', 'bg-red-400', 'text-black', 'font-bold');
                     } else {
+                        // Fade out other incorrect options
                         button.classList.add('bg-gray-300', 'text-gray-500', 'border-gray-400');
                     }
                 });
@@ -758,26 +734,60 @@
                     }
                 }
             }
-            
-             function speakText(text) {
-                if ('speechSynthesis' in window && soundsEnabled) {
-                    window.speechSynthesis.cancel(); 
-                    const utterance = new SpeechSynthesisUtterance(text);
-                    window.speechSynthesis.speak(utterance);
+
+            // --- Brain Breaks ---
+             function prepareNextStep() {
+                if (questionsSinceBreak > 0 && questionsSinceBreak % 6 === 0 && currentQuestionIndex < shuffledQuestions.length) {
+                    showArtBreak();
+                } else {
+                    setNextQuestion();
                 }
             }
+            
+            function showArtBreak() {
+                quizScreen.classList.add('hidden');
+                brainBreakScreen.classList.remove('hidden');
+                
+                const breakType = brainBreakCounter % 3; 
+                cleanupBreakAnimation(); 
 
-            function createSpeakerButton(textToSpeak) {
-                const button = document.createElement('button');
-                button.classList.add('p-2', 'rounded-full', 'hover:bg-gray-200', 'transition-colors', 'duration-200', 'flex-shrink-0');
-                button.innerHTML = `<svg class="w-6 h-6 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>`;
-                button.addEventListener('click', (e) => {
-                    e.stopPropagation(); 
-                    speakText(textToSpeak);
-                });
-                return button;
+                switch(breakType) {
+                    case 0:
+                        setupBouncingBalls();
+                        break;
+                    case 1:
+                        setupStarfield();
+                        break;
+                    case 2:
+                        setupFollower();
+                        break;
+                }
+                brainBreakCounter++;
+                
+                let timeLeft = 30;
+                timerDisplay.textContent = `Time left: ${timeLeft}s`;
+                breakTimerInterval = setInterval(() => {
+                    timeLeft--;
+                    timerDisplay.textContent = `Time left: ${timeLeft}s`;
+                    if (timeLeft <= 0) {
+                        resumeQuiz();
+                    }
+                }, 1000);
             }
             
+            function resumeQuiz() {
+                if(breakTimerInterval) clearInterval(breakTimerInterval);
+                if(animationFrameId) cancelAnimationFrame(animationFrameId);
+                breakTimerInterval = null;
+                animationFrameId = null;
+                
+                cleanupBreakAnimation();
+
+                brainBreakScreen.classList.add('hidden');
+                quizScreen.classList.remove('hidden');
+                setNextQuestion();
+            }
+
             function cleanupBreakAnimation() {
                 currentBreakListeners.forEach(({ event, handler }) => {
                     breakCanvas.removeEventListener(event, handler);
@@ -942,6 +952,7 @@
                 animate();
             }
 
+            // --- Effects & Audio ---
             function triggerConfetti() {
                 const rect = confettiCanvas.parentElement.getBoundingClientRect();
                 confettiCanvas.width = rect.width;
@@ -954,7 +965,7 @@
             }
 
             function createConfettiPiece() {
-                const colors = ['#ef4444', '#f97316', '#eab308', '#84cc16', '#22c55e', '#14b8a6', '#3b82f6', '#8b5cf6', '#d946ef'];
+                const colors = ['#ef4444', '#f97316', '#eab308', '#84cc16', '#22c55e', '#14b8a6', '#06b6d4', '#3b82f6', '#8b5cf6', '#d946ef'];
                 const x = confettiCanvas.width / 2;
                 const y = confettiCanvas.height / 2;
                 return { x: x, y: y, size: Math.random() * 8 + 5, color: colors[Math.floor(Math.random() * colors.length)], vx: (Math.random() - 0.5) * 10, vy: (Math.random() - 0.7) * 12, gravity: 0.3, opacity: 1, angle: Math.random() * Math.PI * 2, spin: (Math.random() - 0.5) * 0.2 };
@@ -984,15 +995,36 @@
                 else confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
             }
             
+             function speakText(text) {
+                if ('speechSynthesis' in window && soundsEnabled) {
+                    window.speechSynthesis.cancel(); 
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    window.speechSynthesis.speak(utterance);
+                }
+            }
+
+            function createSpeakerButton(textToSpeak) {
+                const button = document.createElement('button');
+                button.classList.add('p-2', 'rounded-full', 'hover:bg-gray-200', 'transition-colors', 'duration-200', 'flex-shrink-0');
+                button.innerHTML = `<svg class="w-6 h-6 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>`;
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation(); 
+                    speakText(textToSpeak);
+                });
+                return button;
+            }
+
             function generateAndSetAudio() {
                 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                function createSound(frequency, duration) {
+                function createSound(frequency, duration, type = 'sine') {
                     const sampleRate = audioContext.sampleRate;
                     const numFrames = sampleRate * duration;
                     const buffer = audioContext.createBuffer(1, numFrames, sampleRate);
                     const data = buffer.getChannelData(0);
                     for (let i = 0; i < numFrames; i++) {
-                        data[i] = Math.sin(2 * Math.PI * frequency * i / sampleRate) * Math.exp(-i / sampleRate / (duration/4));
+                        const time = i / sampleRate;
+                        const envelope = Math.exp(-time / (duration / 4));
+                        data[i] = Math.sin(2 * Math.PI * frequency * time) * envelope;
                     } return buffer;
                 }
                 function bufferToWave(buffer) {
@@ -1011,8 +1043,48 @@
                         }
                     } return new Blob([view], { type: 'audio/wav' });
                 }
-                correctSound.src = URL.createObjectURL(bufferToWave(createSound(523.25, 0.2)));
-                incorrectSound.src = URL.createObjectURL(bufferToWave(createSound(261.63, 0.3)));
+                const correctBuffer = audioContext.createBuffer(1, audioContext.sampleRate * 0.3, audioContext.sampleRate);
+                const correctData = correctBuffer.getChannelData(0);
+                for (let i = 0; i < correctData.length; i++) {
+                    const time = i / audioContext.sampleRate;
+                    correctData[i] = Math.sin(2 * Math.PI * 659.25 * time) * Math.exp(-time * 8) + Math.sin(2 * Math.PI * 880 * time) * Math.exp(-time * 6) * 0.5;
+                }
+                correctSound.src = URL.createObjectURL(bufferToWave(correctBuffer));
+                
+                const incorrectBuffer = createSound(220, 0.4);
+                incorrectSound.src = URL.createObjectURL(bufferToWave(incorrectBuffer));
+            }
+
+            // --- Initialization ---
+            function initialize() {
+                populateMainMenu();
+                finalExamBtn.addEventListener('click', () => startGame('final_exam'));
+                backToMenuBtn.addEventListener('click', showMainMenu);
+                backToMenuBtnQuiz.addEventListener('click', showMainMenu);
+                closeModalBtn.addEventListener('click', () => studyGuideModal.classList.add('hidden'));
+                nextBtn.addEventListener('click', prepareNextStep);
+                resumeQuizBtn.addEventListener('click', resumeQuiz);
+                infoBtn.addEventListener('click', () => {
+                    studyGuideContent.classList.toggle('expanded');
+                });
+                soundToggleBtn.addEventListener('click', () => {
+                    soundsEnabled = !soundsEnabled;
+                    soundOnIcon.classList.toggle('hidden');
+                    soundOffIcon.classList.toggle('hidden');
+                    setCookie('soundEnabled', soundsEnabled, 365);
+                    if (!soundsEnabled) {
+                        window.speechSynthesis.cancel();
+                    }
+                });
+
+                const soundPreference = getCookie('soundEnabled');
+                if (soundPreference === 'false') {
+                    soundsEnabled = false;
+                    soundOnIcon.classList.add('hidden');
+                    soundOffIcon.classList.remove('hidden');
+                }
+
+                generateAndSetAudio();
             }
 
             initialize();
@@ -1020,4 +1092,7 @@
     </script>
 </body>
 </html>
+
+
+
 
