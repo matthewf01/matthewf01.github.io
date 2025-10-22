@@ -21,6 +21,7 @@
                 radial-gradient(at 0% 100%, hsla(100, 95%, 85%, 1) 0px, transparent 50%),
                 radial-gradient(at 100% 100%, hsla(290, 95%, 85%, 1) 0px, transparent 50%);
         }
+
         .font-title {
             font-family: 'Playfair Display', serif;
         }
@@ -107,8 +108,8 @@
         <div id="main-menu-screen" class="text-center">
             <h1 class="font-title text-4xl md:text-5xl font-bold text-purple-600 mb-2">Anleigh's Social Studies Review</h1>
             <p class="text-gray-600 mb-8">Choose a unit below to play a game!</p>
-            <div id="unit-selection-container" class="space-y-4 glass-effect rounded-2xl p-6">
-                <div class="grid grid-cols-[minmax(0,_1fr)_auto_auto] gap-4 px-4 pb-2 border-b-2 font-bold text-gray-600">
+            <div id="unit-selection-container" class="space-y-4 rounded-2xl p-6">
+                <div class="grid grid-cols-[minmax(0,_1fr)_auto_auto] gap-4 px-4 pb-2 border-b-2 font-bold text-gray-600 border-gray-200">
                     <div class="text-left">Unit</div>
                     <div class="text-center">Study Guide</div>
                     <div class="text-center">Play Game</div>
@@ -117,7 +118,7 @@
                     <!-- Unit selection buttons will be populated here -->
                 </div>
             </div>
-             <div class="mt-8 pt-4 border-t-2">
+             <div class="mt-8 pt-4 border-t-2 border-gray-200">
                 <button id="final-exam-btn" class="w-full text-white font-bold py-3 px-6 rounded-lg text-lg transform hover:scale-105 rainbow-btn">
                     Final Exam (All Units)
                 </button>
@@ -144,7 +145,7 @@
                     Toggle Study Guide
                 </button>
             </div>
-            <div class="bg-gray-50 p-4 rounded-lg mb-6">
+            <div class="bg-gray-100 p-4 rounded-lg mb-6">
                 <p id="question-reference" class="text-xs text-gray-500 mb-2 font-medium uppercase"></p>
                 <div id="question-container" class="flex items-center justify-between gap-2">
                     <h2 id="question-text" class="text-xl md:text-2xl font-semibold text-gray-800 flex-grow"></h2>
@@ -157,14 +158,14 @@
                 Next Question
             </button>
             
-            <div id="study-guide-content" class="pt-6 border-t-2"></div>
+            <div id="study-guide-content" class="pt-6 border-t-2 border-gray-200"></div>
         </div>
         
         <!-- Brain Break Screen -->
         <div id="brain-break-screen" class="hidden text-center">
             <h2 class="text-3xl font-bold text-pink-500 mb-2">Brain Break!</h2>
             <p id="break-instructions" class="text-gray-600 mb-4">Relax for a moment.</p>
-            <canvas id="break-canvas" class="bg-black rounded-lg shadow-inner border-2 border-gray-200 mx-auto" width="500" height="300"></canvas>
+            <canvas id="break-canvas" class="bg-white rounded-lg shadow-inner border-2 border-gray-200 mx-auto" width="500" height="300"></canvas>
             <p id="timer-display" class="text-lg text-gray-700 my-4 font-semibold"></p>
             <button id="resume-quiz-btn" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg text-lg">
                 Continue Quiz!
@@ -202,7 +203,7 @@
             <svg id="sound-on-icon" class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
             <svg id="sound-off-icon" class="w-5 h-5 text-gray-700 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2 2m2-2l2 2"></path></svg>
         </button>
-        <span>MF Build: 251003.3</span>
+        <span>MF Build: 251022.2</span>
     </footer>
 
     <!-- Audio Elements -->
@@ -238,11 +239,11 @@
                     ],
                     studyGuideHTML: `
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="bg-blue-50 p-4 rounded-lg space-y-3 text-sm">
+                            <div class="bg-blue-100 p-4 rounded-lg space-y-3 text-sm">
                                 <h3 class="font-bold text-blue-800 text-lg">AKS 30.a: Georgia's Location</h3>
-                                <p>Georgia is in the <strong>Northern and Western</strong> hemispheres, on the continent of <strong>North America</strong>, in the nation of the <strong>United States of America</strong>, in the <strong>Southeast</strong> region.</p>
+                                <p class="text-gray-700">Georgia is in the <strong>Northern and Western</strong> hemispheres, on the continent of <strong>North America</strong>, in the nation of the <strong>United States of America</strong>, in the <strong>Southeast</strong> region.</p>
                                 <h3 class="font-bold text-blue-800 text-lg mt-4">AKS 30.b: Geographic Regions</h3>
-                                <ul class="list-disc list-inside ml-4">
+                                <ul class="list-disc list-inside ml-4 text-gray-700">
                                     <li><strong>Appalachian Plateau:</strong> Smallest region (TAG corner). Economy based on tourism and forestry.</li>
                                     <li><strong>Ridge and Valley:</strong> Known for long ridges and fertile valleys. Economy based on textiles and carpet (Dalton).</li>
                                     <li><strong>Blue Ridge:</strong> Contains the highest peaks (Brasstown Bald) and gets the most rain. Source of major rivers.</li>
@@ -250,9 +251,9 @@
                                     <li><strong>Coastal Plain:</strong> Largest region (60% of state). Agricultural heartland.</li>
                                 </ul>
                             </div>
-                            <div class="bg-green-50 p-4 rounded-lg space-y-3 text-sm">
+                            <div class="bg-green-100 p-4 rounded-lg space-y-3 text-sm">
                                 <h3 class="font-bold text-green-800 text-lg">AKS 30.c: Physical Features</h3>
-                                 <ul class="list-disc list-inside ml-4">
+                                 <ul class="list-disc list-inside ml-4 text-gray-700">
                                     <li><strong>Fall Line:</strong> Separates Piedmont and Coastal Plain.</li>
                                     <li><strong>Okefenokee Swamp:</strong> Largest freshwater swamp in North America.</li>
                                     <li><strong>Chattahoochee River:</strong> Forms Georgia's western border with Alabama.</li>
@@ -260,18 +261,18 @@
                                     <li><strong>Barrier Islands:</strong> Protect the mainland from hurricanes and erosion.</li>
                                 </ul>
                                 <h3 class="font-bold text-green-800 text-lg mt-4">AKS 30.d: Importance of Water</h3>
-                                <p>Rivers (like at the <strong>Fall Line</strong>) and ports are vital for transportation, drinking water, power, and recreation, shaping historical settlement and economic growth.</p>
+                                <p class="text-gray-700">Rivers (like at the <strong>Fall Line</strong>) and ports are vital for transportation, drinking water, power, and recreation, shaping historical settlement and economic growth.</p>
                             </div>
-                            <div class="bg-yellow-50 p-4 rounded-lg space-y-3 text-sm">
+                            <div class="bg-yellow-100 p-4 rounded-lg space-y-3 text-sm">
                                 <h3 class="font-bold text-yellow-800 text-lg">AKS 31: Early Inhabitants & Exploration</h3>
-                                <p><strong>Mississippian Indians (AKS 31.a):</strong> Lived in large villages with mounds. They were farmers, with <strong>Maize (corn)</strong> as their main crop. Used bow & arrow and lived in <strong>wattle & daub</strong> shelters.</p>
-                                <p><strong>European Motives (AKS 31.b):</strong> Spanish sought <strong>God, Gold, and Glory</strong>. British sought economic gain through <strong>mercantilism</strong>.</p>
-                                <p><strong>Spanish Impact (AKS 31.c):</strong> Hernando de Soto's exploration led to the death of many natives from <strong>diseases such as smallpox</strong>. <strong>Spanish missions</strong> were built on the barrier islands to convert natives to Christianity.</p>
+                                <p class="text-gray-700"><strong>Mississippian Indians (AKS 31.a):</strong> Lived in large villages with mounds. They were farmers, with <strong>Maize (corn)</strong> as their main crop. Used bow & arrow and lived in <strong>wattle & daub</strong> shelters.</p>
+                                <p class="text-gray-700"><strong>European Motives (AKS 31.b):</strong> Spanish sought <strong>God, Gold, and Glory</strong>. British sought economic gain through <strong>mercantilism</strong>.</p>
+                                <p class="text-gray-700"><strong>Spanish Impact (AKS 31.c):</strong> Hernando de Soto's exploration led to the death of many natives from <strong>diseases such as smallpox</strong>. <strong>Spanish missions</strong> were built on the barrier islands to convert natives to Christianity.</p>
                             </div>
-                             <div class="bg-red-50 p-4 rounded-lg space-y-3 text-sm">
+                             <div class="bg-red-100 p-4 rounded-lg space-y-3 text-sm">
                                 <h3 class="font-bold text-red-800 text-lg">AKS 49: Transportation Systems</h3>
-                                <p><strong>Four Systems:</strong> Interstate Highway System, <strong>Hartsfield-Jackson International Airport</strong>, Deepwater Ports (Savannah, Brunswick), and Railroads.</p>
-                                <p><strong>Economic Impact:</strong> These systems work together to move goods and people, providing jobs and connecting Georgia to the global economy.</p>
+                                <p class="text-gray-700"><strong>Four Systems:</strong> Interstate Highway System, <strong>Hartsfield-Jackson International Airport</strong>, Deepwater Ports (Savannah, Brunswick), and Railroads.</p>
+                                <p class="text-gray-700"><strong>Economic Impact:</strong> These systems work together to move goods and people, providing jobs and connecting Georgia to the global economy.</p>
                             </div>
                         </div>`
                 },
@@ -296,25 +297,25 @@
                     ],
                     studyGuideHTML: `
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="bg-blue-50 p-4 rounded-lg space-y-3 text-sm">
+                            <div class="bg-blue-100 p-4 rounded-lg space-y-3 text-sm">
                                 <h3 class="font-bold text-blue-800 text-lg">AKS 43: Government Basics</h3>
-                                <p><strong>Checks & Balances (43.b):</strong> Each branch can limit the others. (e.g., Governor can veto, but legislature can <strong>override</strong>. The Judicial Branch can declare laws unconstitutional).</p>
-                                <p><strong>Pledge Principles (43.e):</strong> Wisdom, Justice, and Moderation.</p>
-                                <p><strong>Citizen Responsibilities (43.c):</strong> Paying taxes, serving on juries, obeying laws, voting.</p>
-                                <p><strong>Voting Qualifications (43.d):</strong> Must be a U.S. citizen, a resident of GA, and <strong>18 years of age</strong>.</p>
+                                <p class="text-gray-700"><strong>Checks & Balances (43.b):</strong> Each branch can limit the others. (e.g., Governor can veto, but legislature can <strong>override</strong>. The Judicial Branch can declare laws unconstitutional).</p>
+                                <p class="text-gray-700"><strong>Pledge Principles (43.e):</strong> Wisdom, Justice, and Moderation.</p>
+                                <p class="text-gray-700"><strong>Citizen Responsibilities (43.c):</strong> Paying taxes, serving on juries, obeying laws, voting.</p>
+                                <p class="text-gray-700"><strong>Voting Qualifications (43.d):</strong> Must be a U.S. citizen, a resident of GA, and <strong>18 years of age</strong>.</p>
                             </div>
-                            <div class="bg-yellow-50 p-4 rounded-lg space-y-3 text-sm">
+                            <div class="bg-yellow-100 p-4 rounded-lg space-y-3 text-sm">
                                 <h3 class="font-bold text-yellow-800 text-lg">AKS 44: Legislative Branch</h3>
-                                <p><strong>General Assembly:</strong> Makes laws. Made of House of Reps & Senate. Meets for 40 work days. Bills need a <strong>51% majority</strong> to pass. Can override a veto with a 2/3 vote.</p>
-                                <p><strong>Qualifications (44.a):</strong> Reps must be 21; Senators must be <strong>at least 25 years old</strong>. Both serve a <strong>2-year term</strong>.</p>
-                                <p><strong>Organization (44.b):</strong> <strong>Lieutenant Governor</strong> presides over Senate. Most work is done in <strong>committees</strong>.</p>
-                                <p><strong>Lawmaking (44.c):</strong> If the Governor doesn't sign or veto, a bill <strong>becomes law</strong> automatically.</p>
+                                <p class="text-gray-700"><strong>General Assembly:</strong> Makes laws. Made of House of Reps & Senate. Meets for 40 work days. Bills need a <strong>51% majority</strong> to pass. Can override a veto with a 2/3 vote.</p>
+                                <p class="text-gray-700"><strong>Qualifications (44.a):</strong> Reps must be 21; Senators must be <strong>at least 25 years old</strong>. Both serve a <strong>2-year term</strong>.</p>
+                                <p class="text-gray-700"><strong>Organization (44.b):</strong> <strong>Lieutenant Governor</strong> presides over Senate. Most work is done in <strong>committees</strong>.</p>
+                                <p class="text-gray-700"><strong>Lawmaking (44.c):</strong> If the Governor doesn't sign or veto, a bill <strong>becomes law</strong> automatically.</p>
                             </div>
-                            <div class="bg-green-50 p-4 rounded-lg space-y-3 text-sm md:col-span-2">
+                            <div class="bg-green-100 p-4 rounded-lg space-y-3 text-sm md:col-span-2">
                                 <h3 class="font-bold text-green-800 text-lg">AKS 45: Executive Branch</h3>
-                                <p><strong>Role:</strong> <strong>Enforcing state laws</strong>. It is the largest branch. Headed by the Governor.</p>
-                                <p><strong>Governor Qualifications (45.a):</strong> Must be <strong>30 years of age</strong>, a GA resident for 6 years, and a US Citizen for 15 years.</p>
-                                <p><strong>State Agencies (45.b):</strong> The <strong>executive branch is the largest</strong> in the state because it includes numerous agencies that administer programs and enforce laws.</p>
+                                <p class="text-gray-700"><strong>Role:</strong> <strong>Enforcing state laws</strong>. It is the largest branch. Headed by the Governor.</p>
+                                <p class="text-gray-700"><strong>Governor Qualifications (45.a):</strong> Must be <strong>30 years of age</strong>, a GA resident for 6 years, and a US Citizen for 15 years.</p>
+                                <p class="text-gray-700"><strong>State Agencies (45.b):</strong> The <strong>executive branch is the largest</strong> in the state because it includes numerous agencies that administer programs and enforce laws.</p>
                             </div>
                         </div>`
                 },
@@ -337,25 +338,25 @@
                     ],
                     studyGuideHTML: `
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="bg-blue-50 p-4 rounded-lg space-y-3 text-sm">
+                            <div class="bg-blue-100 p-4 rounded-lg space-y-3 text-sm">
                                 <h3 class="font-bold text-blue-800 text-lg mb-2 border-b-2 border-blue-200 pb-2">AKS 46: Judicial Branch</h3>
-                                <p><strong class="font-semibold text-blue-700">Highest Court:</strong> Georgia's Supreme Court</p>
-                                <p><strong class="font-semibold text-blue-700">Supreme Court's Role:</strong> To determine if actions are constitutional and interpret laws.</p>
-                                <p><strong class="font-semibold text-blue-700">Justice Elections:</strong> Justices are elected in a state-wide election for a 6-year term.</p>
-                                <div><strong class="font-semibold text-blue-700">Types of Law:</strong><ul class="list-disc list-inside mt-1 pl-2"><li><strong>Civil:</strong> Disputes between people (e.g., lawsuits).</li><li><strong>Criminal:</strong> Deals with violations of the law (felonies and misdemeanors).</li></ul></div>
-                                <div><strong class="font-semibold text-blue-700">Adult Criminal Justice Steps:</strong><ol class="list-decimal list-inside mt-1 pl-2"><li>Arrest</li><li>Booking</li><li>Charging (formal word is Indicting)</li><li>Trial</li><li>Sentencing</li><li>Appeal (if a fair trial is questioned)</li></ol></div>
+                                <p class="text-gray-700"><strong class="font-semibold text-blue-700">Highest Court:</strong> Georgia's Supreme Court</p>
+                                <p class="text-gray-700"><strong class="font-semibold text-blue-700">Supreme Court's Role:</strong> To determine if actions are constitutional and interpret laws.</p>
+                                <p class="text-gray-700"><strong class="font-semibold text-blue-700">Justice Elections:</strong> Justices are elected in a state-wide election for a 6-year term.</p>
+                                <div class="text-gray-700"><strong class="font-semibold text-blue-700">Types of Law:</strong><ul class="list-disc list-inside mt-1 pl-2"><li><strong>Civil:</strong> Disputes between people (e.g., lawsuits).</li><li><strong>Criminal:</strong> Deals with violations of the law (felonies and misdemeanors).</li></ul></div>
+                                <div class="text-gray-700"><strong class="font-semibold text-blue-700">Adult Criminal Justice Steps:</strong><ol class="list-decimal list-inside mt-1 pl-2"><li>Arrest</li><li>Booking</li><li>Charging (formal word is Indicting)</li><li>Trial</li><li>Sentencing</li><li>Appeal (if a fair trial is questioned)</li></ol></div>
                             </div>
-                            <div class="bg-green-50 p-4 rounded-lg space-y-3 text-sm">
+                            <div class="bg-green-100 p-4 rounded-lg space-y-3 text-sm">
                                 <h3 class="font-bold text-green-800 text-lg mb-2 border-b-2 border-green-200 pb-2">AKS 47: Juvenile Justice</h3>
-                                <p><strong class="font-semibold text-green-700">Who is a Juvenile?</strong> Anyone under 17 years old.</p>
-                                <p><strong class="font-semibold text-green-700">Goal of Court:</strong> To protect and rehabilitate.</p>
-                                <div><strong class="font-semibold text-green-700">Types of Acts:</strong><ul class="list-disc list-inside mt-1 pl-2"><li><strong>Delinquent:</strong> A crime if done by an adult (e.g., theft).</li><li><strong>Unruly (Status Offense):</strong> Only wrong for a juvenile (e.g., skipping school).</li></ul></div>
-                                <p><strong class="font-semibold text-green-700">No Juries:</strong> The judge makes the decisions.</p>
-                                <div><strong class="font-semibold text-green-700">Juvenile Justice Steps:</strong><ol class="list-decimal list-inside mt-1 pl-2"><li><strong>Intake:</strong> Taken into custody, parents notified.</li><li><strong>Released or Detained:</strong> Released to parents or held (detained) at a YDC if there is enough evidence.</li><li><strong>Informal Adjustment:</strong> Optional for first-timers who admit guilt; supervised for 90 days.</li><li><strong>Adjudicatory Hearing:</strong> Judge determines guilt or innocence.</li><li><strong>Dispositional Hearing:</strong> Judge hears witnesses and determines consequences.</li><li><strong>Sentencing:</strong> Judge rules on consequences (e.g., boot camp, probation, fines).</li><li><strong>Appeal:</strong> Can appeal if there is evidence of innocence.</li></ol></div>
+                                <p class="text-gray-700"><strong class="font-semibold text-green-700">Who is a Juvenile?</strong> Anyone under 17 years old.</p>
+                                <p class="text-gray-700"><strong class="font-semibold text-green-700">Goal of Court:</strong> To protect and rehabilitate.</p>
+                                <div class="text-gray-700"><strong class="font-semibold text-green-700">Types of Acts:</strong><ul class="list-disc list-inside mt-1 pl-2"><li><strong>Delinquent:</strong> A crime if done by an adult (e.g., theft).</li><li><strong>Unruly (Status Offense):</strong> Only wrong for a juvenile (e.g., skipping school).</li></ul></div>
+                                <p class="text-gray-700"><strong class="font-semibold text-green-700">No Juries:</strong> The judge makes the decisions.</p>
+                                <div class="text-gray-700"><strong class="font-semibold text-green-700">Juvenile Justice Steps:</strong><ol class="list-decimal list-inside mt-1 pl-2"><li><strong>Intake:</strong> Taken into custody, parents notified.</li><li><strong>Released or Detained:</strong> Released to parents or held (detained) at a YDC if there is enough evidence.</li><li><strong>Informal Adjustment:</strong> Optional for first-timers who admit guilt; supervised for 90 days.</li><li><strong>Adjudicatory Hearing:</strong> Judge determines guilt or innocence.</li><li><strong>Dispositional Hearing:</strong> Judge hears witnesses and determines consequences.</li><li><strong>Sentencing:</strong> Judge rules on consequences (e.g., boot camp, probation, fines).</li><li><strong>Appeal:</strong> Can appeal if there is evidence of innocence.</li></ol></div>
                             </div>
-                            <div class="bg-yellow-50 p-4 rounded-lg space-y-3 text-sm md:col-span-2">
+                            <div class="bg-yellow-100 p-4 rounded-lg space-y-3 text-sm md:col-span-2">
                                 <h3 class="font-bold text-yellow-800 text-lg mb-2 border-b-2 border-yellow-200 pb-2">AKS 48: Local Government</h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
                                     <div><strong class="font-semibold text-yellow-700">Main Types:</strong><ul class="list-disc list-inside mt-1 pl-2"><li><strong>City (Municipality):</strong> Provides services like police, trash pickup. Established by a Municipal Charter.</li><li><strong>County:</strong> Carries out state programs (e.g., courts). Mandated by the GA Constitution.</li><li><strong>Special-Purpose:</strong> Has one specific job (e.g., school district, MARTA). Created to benefit citizens.</li></ul></div>
                                     <div><strong class="font-semibold text-yellow-700">How They're Funded:</strong><ul class="list-disc list-inside mt-1 pl-2"><li>Sales Taxes (like SPLOST)</li><li>Ad Valorem (Property) Taxes</li><li>User Fees and Fines</li></ul></div>
                                 </div>
@@ -368,7 +369,7 @@
                         { question: "Mississippian societies were organized into complex political units known as...", reference: "AKS 31.a: Mississippian Culture", answers: [{ text: "Tribes", correct: false }, { text: "Chiefdoms", correct: true }, { text: "Democracies", correct: false }], highlightTerm: "Chiefdoms" },
                         { question: "What defensive structures, like high walls and water-filled ditches, did the Mississippians build around their villages?", reference: "AKS 31.a: Mississippian Culture", answers: [{ text: "Forts and trenches", correct: false }, { text: "Palisades and moats", correct: true }, { text: "Castles and ramparts", correct: false }], highlightTerm: "palisades and moats" },
                         { question: "What was the main economic reason for British colonization under the policy of mercantilism?", reference: "AKS 31.b: European Exploration", answers: [{ text: "To spread their language", correct: false }, { text: "To acquire raw materials for England", correct: true }, { text: "To create military alliances", correct: false }], highlightTerm: "mercantilism" },
-                        { question: "Besides smallpox, what other European diseases were devastating to the American Indians?", reference: "AKS 31.c: Spanish Impact", answers: [{ text: "Chickenpox and mumps", correct: false }, { text: "Influenza and measles", correct: true }, { text: "The common cold", correct: false }], highlightTerm: "influenza, and measles" },
+                        { question: "Which European diseases, other than smallpox, devastated American Indian populations?", reference: "AKS 31.c: Spanish Impact", answers: [{ text: "Chickenpox, Mumps, Polio", correct: false }, { text: "Influenza, Measles, Typhus", correct: true }, { text: "Common Cold, Flu, Strep Throat", correct: false }], highlightTerm: "influenza, and measles" },
                         { question: "What specific group of impoverished people was the Georgia colony intended to help, according to the principle of philanthropy?", reference: "AKS 32.a: Charter of 1732", answers: [{ text: "All poor people", correct: false }, { text: "The 'worthy poor'", correct: true }, { text: "Only farmers", correct: false }], highlightTerm: "worthy poor" },
                         { question: "What specific raw material, used for luxury fabric, did the Trustees hope colonists would produce in Georgia?", reference: "AKS 32.a: Charter of 1732", answers: [{ text: "Cotton", correct: false }, { text: "Silk", correct: true }, { text: "Wool", correct: false }], highlightTerm: "Silk" },
                         { question: "The group of Jewish settlers was allowed to stay in Georgia largely because one of them, Dr. Samuel Nunes, helped stop an outbreak of what disease?", reference: "AKS 32.c: Diverse Groups", answers: [{ text: "Smallpox", correct: false }, { text: "Yellow Fever", correct: true }, { text: "Influenza", correct: false }], highlightTerm: "yellow fever" },
@@ -384,39 +385,38 @@
                         { question: "What was the primary religious motivation for Spanish exploration in North America?", reference: "AKS 31.b: European Exploration", answers: [{ text: "To escape religious persecution", correct: false }, { text: "To convert natives to Catholicism", correct: true }, { text: "To find sacred artifacts", correct: false }], highlightTerm: "God, Gold, and Glory" },
                         { question: "Where in Georgia were the Spanish missions primarily established?", reference: "AKS 31.c: Spanish Impact", answers: [{ text: "Along the Fall Line", correct: false }, { text: "On the Barrier Islands", correct: true }, { text: "Near the mountains", correct: false }], highlightTerm: "missions" },
                         { question: "Who was the British king that granted the Charter of 1732 to the Trustees?", reference: "AKS 32.a: Charter of 1732", answers: [{ text: "King James I", correct: false }, { text: "King George II", correct: true }, { text: "King Henry VIII", correct: false }], highlightTerm: "King George II" },
-                        { question: "Which group was explicitly banned from the Georgia colony by the Charter of 1732, besides lawyers and slaves?", reference: "AKS 32.a: Charter of 1732", answers: [{ text: "Protestants", correct: false }, { text: "Catholics", correct: true }, { text: "Jews", correct: false }], highlightTerm: "Philanthropy" },
+                        { question: "Which group was explicitly banned from the Georgia colony by the Charter of 1732?", reference: "AKS 32.a: Charter of 1732", answers: [{ text: "Protestants", correct: false }, { text: "Catholics", correct: true }, { text: "Jews", correct: false }], highlightTerm: "Philanthropy" },
                         { question: "What was Mary Musgrove's unique heritage that made her an effective translator?", reference: "AKS 32.b: Establishing Savannah", answers: [{ text: "Spanish and Yamacraw", correct: false }, { text: "Half-Creek and half-English", correct: true }, { text: "French and Cherokee", correct: false }], highlightTerm: "Mary Musgrove" },
-                        { question: "What product were the Salzburgers famously successful at producing?", reference: "AKS 32.c: Diverse Groups", answers: [{ text: "Rice", correct: false }, { text: "Silk", correct: true }, { text: "Indigo", correct: false }], highlightTerm: "Salzburgers" },
                         { question: "The Malcontents were most upset with the strict rules established by which group?", reference: "AKS 32.c: Diverse Groups", answers: [{ text: "The British Parliament", correct: false }, { text: "The Trustees", correct: true }, { text: "The Royal Governor", correct: false }], highlightTerm: "Malcontents" },
                         { question: "What was the main reason mulberry trees were required to be planted in colonial Georgia?", reference: "AKS 32.e: Colonial Goods", answers: [{ text: "To provide shade", correct: false }, { text: "As a food source for silkworms", correct: true }, { text: "For lumber", correct: false }], highlightTerm: "Silk" },
-                        { question: "After slavery became legal, which coastal crop became extremely profitable?", reference: "AKS 32.e: Colonial Goods", answers: [{ text: "Tobacco", correct: false }, { text: "Rice", correct: true }, { text: "Cotton", correct: false }], highlightTerm: "Rice" }
+                        { question: "Which list correctly identifies the main colonial goods produced in Georgia (W.R.I.S.T.)?", reference: "AKS 32.e: Colonial Goods", answers: [{ text: "Wine, Rice, Indigo, Silk, Cotton", correct: false }, { text: "Wine, Rice, Indigo, Silk, Tobacco", correct: true }, { text: "Wheat, Rice, Indigo, Silk, Tobacco", correct: false }], highlightTerm: "W.R.I.S.T." }
                     ],
                     studyGuideHTML: `
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="bg-blue-50 p-4 rounded-lg space-y-3 text-sm">
+                            <div class="bg-blue-100 p-4 rounded-lg space-y-3 text-sm">
                                 <h3 class="font-bold text-blue-800 text-lg">AKS 31: European Contact & Impact</h3>
-                                <p><strong>Mississippian Culture (31.a):</strong> Organized into complex <strong>Chiefdoms</strong>. Lived in large villages with mounds, defensive <strong>palisades and moats</strong>. They grew much of their food in gardens, with <strong>Maize (corn)</strong> as the main crop. They used the <strong>Bow & arrow</strong> and lived in <strong>wattle & daub</strong> shelters.</p>
-                                <p><strong>European Motives (31.b):</strong> The Spanish were motivated by 'God, Gold, and Glory'. The British used the policy of <strong>mercantilism</strong>, wanting colonies to produce <strong>raw materials</strong> for England.</p>
-                                <p><strong>Spanish Impact (31.c):</strong> <strong>Hernando de Soto</strong>'s exploration led to the killing of many natives and the spread of devastating diseases like <strong>smallpox, influenza, and measles</strong>. Spain also established <strong>missions</strong> on the barrier islands to convert natives to Catholicism.</p>
+                                <p class="text-gray-700"><strong>Mississippian Culture (31.a):</strong> Organized into complex <strong>Chiefdoms</strong>. Lived in large villages with mounds, defensive <strong>palisades and moats</strong>. They grew much of their food in gardens, with <strong>Maize (corn)</strong> as the main crop. They used the <strong>Bow & arrow</strong> and lived in <strong>wattle & daub</strong> shelters.</p>
+                                <p class="text-gray-700"><strong>European Motives (31.b):</strong> The Spanish were motivated by 'God, Gold, and Glory'. The British used the policy of <strong>mercantilism</strong>, wanting colonies to produce <strong>raw materials</strong> for England.</p>
+                                <p class="text-gray-700"><strong>Spanish Impact (31.c):</strong> <strong>Hernando de Soto</strong>'s exploration led to the killing of many natives and the spread of devastating diseases like <strong>smallpox, influenza, and measles</strong>. Spain also established <strong>missions</strong> on the barrier islands to convert natives to Catholicism.</p>
                             </div>
-                            <div class="bg-green-50 p-4 rounded-lg space-y-3 text-sm">
+                            <div class="bg-green-100 p-4 rounded-lg space-y-3 text-sm">
                                 <h3 class="font-bold text-green-800 text-lg">AKS 32.a & 32.b: Founding of Georgia</h3>
-                                <p><strong>Charter of 1732 (32.a):</strong> Granted by <strong>King George II</strong>, this charter established Georgia for three reasons: <strong>Philanthropy</strong> (to help the <strong>"worthy poor"</strong>), <strong>Economics</strong> (to produce raw materials like <strong>Silk</strong>), and <strong>Defense</strong> (a buffer to protect South Carolina from the Spanish).</p>
-                                <p><strong>Establishing Savannah (32.b):</strong> James Oglethorpe befriended Yamacraw chief <strong>Tomochichi</strong>, who granted land at Yamacraw Bluff. <strong>Mary Musgrove</strong> (half-Creek, half-English) served as the essential translator.</p>
+                                <p class="text-gray-700"><strong>Charter of 1732 (32.a):</strong> Granted by <strong>King George II</strong>, this charter established Georgia for three reasons: <strong>Philanthropy</strong> (to help the <strong>"worthy poor"</strong>), <strong>Economics</strong> (to produce raw materials like <strong>Silk</strong>), and <strong>Defense</strong> (a buffer to protect South Carolina from the Spanish).</p>
+                                <p class="text-gray-700"><strong>Establishing Savannah (32.b):</strong> James Oglethorpe befriended Yamacraw chief <strong>Tomochichi</strong>, who granted land at Yamacraw Bluff. <strong>Mary Musgrove</strong> (half-Creek, half-English) served as the essential translator.</p>
                             </div>
-                            <div class="bg-yellow-50 p-4 rounded-lg space-y-3 text-sm">
+                            <div class="bg-yellow-100 p-4 rounded-lg space-y-3 text-sm">
                                 <h3 class="font-bold text-yellow-800 text-lg">AKS 32.c: Diverse Groups</h3>
-                                 <ul class="list-disc list-inside ml-4">
+                                 <ul class="list-disc list-inside ml-4 text-gray-700">
                                     <li><strong>Jews:</strong> Arrived without permission; a doctor among them, <strong>Samuel Nunes</strong>, helped stop a <strong>yellow fever</strong> outbreak, so Oglethorpe let them stay.</li>
                                     <li><strong>Salzburgers:</strong> German-speaking Protestants from Austria who settled New Ebenezer. They were industrious, famously successful at producing <strong>Silk</strong>, and opposed slavery.</li>
                                     <li><strong>Highland Scots:</strong> Recruited for their fighting skills, they settled Darien and helped Oglethorpe win the <strong>Battle of Bloody Marsh</strong>. They also opposed slavery.</li>
                                     <li><strong>Malcontents:</strong> Colonists who <strong>paid their own way</strong> and were unhappy with the rules on land, slavery, and rum.</li>
                                  </ul>
                             </div>
-                             <div class="bg-red-50 p-4 rounded-lg space-y-3 text-sm">
+                             <div class="bg-red-100 p-4 rounded-lg space-y-3 text-sm">
                                 <h3 class="font-bold text-red-800 text-lg">AKS 32.d & 32.e: Royal Colony & Economy</h3>
-                                <p><strong>Royal Colony Transition (32.d):</strong> After 1752, the King appointed a Royal Governor. Land restrictions were lifted, leading to large <strong>plantations</strong>. Alcohol was allowed, and slavery became legal. A limited form of <strong>self-government</strong> was introduced (white, male landowners could vote and hold office).</p>
-                                <p><strong>Colonial Goods (32.e):</strong> Main products (<strong>W.R.I.S.T.</strong>) were Wine, Rice, <strong>Indigo</strong> (blue dye), Silk, and Tobacco. Cotton was NOT yet a major crop.</p>
+                                <p class="text-gray-700"><strong>Royal Colony Transition (32.d):</strong> After 1752, the King appointed a Royal Governor. Land restrictions were lifted, leading to large <strong>plantations</strong>. Alcohol was allowed, and slavery became legal. A limited form of <strong>self-government</strong> was introduced (white, male landowners could vote and hold office).</p>
+                                <p class="text-gray-700"><strong>Colonial Goods (32.e):</strong> Main products (<strong>W.R.I.S.T.</strong>) were Wine, Rice, <strong>Indigo</strong> (blue dye), Silk, and Tobacco. Cotton was NOT yet a major crop.</p>
                             </div>
                         </div>`
                 }
@@ -487,7 +487,7 @@
                 for (const unitId in gameData) {
                     const unit = gameData[unitId];
                     const unitContainer = document.createElement('div');
-                    unitContainer.classList.add('p-4', 'rounded-lg', 'bg-white/80', 'shadow', 'grid', 'grid-cols-[minmax(0,_1fr)_auto_auto]', 'gap-4', 'items-center');
+                    unitContainer.classList.add('p-4', 'rounded-lg', 'bg-white', 'shadow', 'grid', 'grid-cols-[minmax(0,_1fr)_auto_auto]', 'gap-4', 'items-center');
                     
                     const titleAndScore = document.createElement('div');
                     titleAndScore.classList.add('text-left');
@@ -999,7 +999,7 @@
                 if ('speechSynthesis' in window && soundsEnabled) {
                     window.speechSynthesis.cancel(); 
                     const utterance = new SpeechSynthesisUtterance(text);
-                    window.speechSynthesis.speak(utterance);
+                    window.speechSynthesis.speak( utterance);
                 }
             }
 
@@ -1054,7 +1054,7 @@
                 const incorrectBuffer = createSound(220, 0.4);
                 incorrectSound.src = URL.createObjectURL(bufferToWave(incorrectBuffer));
             }
-
+            
             // --- Initialization ---
             function initialize() {
                 populateMainMenu();
@@ -1083,7 +1083,7 @@
                     soundOnIcon.classList.add('hidden');
                     soundOffIcon.classList.remove('hidden');
                 }
-
+                
                 generateAndSetAudio();
             }
 
@@ -1092,7 +1092,4 @@
     </script>
 </body>
 </html>
-
-
-
 
