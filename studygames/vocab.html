@@ -251,7 +251,7 @@
     </div>
     
     <div class="fixed bottom-2 right-4 text-xs text-gray-500">
-        MF Version: 250914.3
+        MF Version: 250914.5
     </div>
 
     <script>
@@ -298,6 +298,19 @@
             },
             "Language Arts": {
                 emoji: "📚",
+                "Week 5": [
+                    { id: '1', text: "articles", type: "word" }, { id: '1', text: "small words used before nouns: a, an, the (in English grammar)", type: "definition" },
+                    { id: '2', text: "radiant", type: "word" }, { id: '2', text: "glowing or emitting warmth", type: "definition" },
+                    { id: '3', text: "ponder", type: "word" }, { id: '3', text: "to think about carefully", type: "definition" },
+                    { id: '4', text: "trough", type: "word" }, { id: '4', text: "a long, narrow open container for animals to eat or drink out of", type: "definition" },
+                    { id: '5', text: "vanished", type: "word" }, { id: '5', text: "to pass quickly from sight", type: "definition" },
+                    { id: '6', text: "humble", type: "word" }, { id: '6', text: "having a modest estimate of one's own importance", type: "definition" },
+                    { id: '7', text: "appetite", type: "word" }, { id: '7', text: "the desire to eat", type: "definition" },
+                    { id: '8', text: "gullible", type: "word" }, { id: '8', text: "someone easy to fool or trick", type: "definition" },
+                    { id: '9', text: "commotion", type: "word" }, { id: '9', text: "a confused and noisy disturbance or event", type: "definition" },
+                    { id: '10', text: "injustice", type: "word" }, { id: '10', text: "the practice of being unfair or unjust", type: "definition" },
+                    { id: '11', text: "sensible", type: "word" }, { id: '11', text: "having a good sense of reason", type: "definition" }
+                ],
                 "Week 4": [
                     { id: '1', text: "gentle", type: "word" }, { id: '1', text: "to be calm, kind and considerate in your actions", type: "definition" },
                     { id: '2', text: "polite", type: "word" }, { id: '2', text: "showing good manners and respect for others", type: "definition" },
@@ -375,7 +388,7 @@
         let fullVocabulary = [];
         let currentVocabulary = [];
         let currentBatchIndex = 0;
-        const BATCH_SIZE = 12;
+        const BATCH_SIZE = 10;
         
         let matchedPairsInBatch = 0;
         let totalMatchedPairs = 0;
@@ -853,7 +866,7 @@
             const selectedBank = keepSelection ? document.querySelector('#word-bank-menu .menu-item.selected')?.dataset.bank : null;
             wordBankMenu.innerHTML = '';
             let wordBanks = Object.keys(subjects[subjectName]).filter(key => key !== 'emoji');
-            wordBanks.sort().reverse();
+            wordBanks.sort().reverse(); // Sort weeks descending (Week 5, Week 4, ...)
 
             let bankToSelect = selectedBank || wordBanks[0];
 
@@ -1019,7 +1032,8 @@
 
             renderSubjectMenu();
             const initialSubject = document.querySelector('#subject-menu .menu-item.selected').dataset.subject;
-            const wordBanksForInitialSubject = Object.keys(subjects[initialSubject]).filter(key => key !== 'emoji');
+            let wordBanksForInitialSubject = Object.keys(subjects[initialSubject]).filter(key => key !== 'emoji');
+            wordBanksForInitialSubject.sort().reverse(); // Sort to get highest week first
             renderWordBankMenu(initialSubject);
             if (wordBanksForInitialSubject.length > 0) {
                 const initialBank = wordBanksForInitialSubject[0];
@@ -1032,3 +1046,5 @@
     </script>
 </body>
 </html>
+
+
