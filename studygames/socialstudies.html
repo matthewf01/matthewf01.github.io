@@ -64,11 +64,11 @@
             background-position: right center;
         }
 
-        #info-btn, #resume-quiz-btn, #next-btn {
+        #info-btn, #resume-quiz-btn, #next-btn, #continue-round-btn {
             background-size: 200% auto;
             transition: background-position 0.4s ease-in-out;
         }
-        #info-btn:hover, #resume-quiz-btn:hover, #next-btn:hover {
+        #info-btn:hover, #resume-quiz-btn:hover, #next-btn:hover, #continue-round-btn:hover {
             background-position: right center;
         }
 
@@ -119,19 +119,21 @@
                 </div>
             </div>
              <div class="mt-8 pt-4 border-t-2 border-gray-200">
+                <button id="resume-exam-btn" class="hidden w-full text-white font-bold py-3 px-6 rounded-lg text-lg transform hover:scale-105 bg-gradient-to-r from-blue-500 to-indigo-600 mb-4 shadow-lg border-2 border-indigo-300">
+                    Resume Final Exam
+                </button>
                 <button id="final-exam-btn" class="w-full text-white font-bold py-3 px-6 rounded-lg text-lg transform hover:scale-105 rainbow-btn">
-                    Final Exam (All Units)
+                    Start New Final Exam (All Units)
                 </button>
                 <p id="final-exam-high-score" class="text-sm text-gray-500 mt-2 hidden">High Score: <span></span></p>
             </div>
         </div>
 
-
         <!-- Quiz Screen -->
         <div id="quiz-screen" class="hidden">
             <div class="flex justify-between items-center mb-4">
                  <div class="flex items-center gap-4">
-                    <button id="back-to-menu-btn-quiz" title="Back to Main Menu" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold p-2 rounded-full transition duration-300">
+                    <button id="back-to-menu-btn-quiz" title="Save & Exit" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold p-2 rounded-full transition duration-300">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
@@ -146,7 +148,7 @@
                 </button>
             </div>
             <div class="bg-gray-100 p-4 rounded-lg mb-6">
-                <p id="question-reference" class="text-xs text-gray-500 mb-2 font-medium uppercase"></p>
+                <p id="question-reference" class="text-xs text-gray-500 mb-2 font-medium uppercase tracking-wide"></p>
                 <div id="question-container" class="flex items-center justify-between gap-2">
                     <h2 id="question-text" class="text-xl md:text-2xl font-semibold text-gray-800 flex-grow"></h2>
                 </div>
@@ -161,6 +163,26 @@
             <div id="study-guide-content" class="pt-6 border-t-2 border-gray-200"></div>
         </div>
         
+        <!-- Round Summary Screen (For Final Exam Batches) -->
+        <div id="round-summary-screen" class="hidden text-center p-4">
+            <h2 class="text-3xl font-bold text-indigo-600 mb-4">Round Complete!</h2>
+            <div class="bg-indigo-50 rounded-xl p-6 mb-8">
+                <p class="text-gray-600 text-lg mb-2">Questions Completed So Far</p>
+                <p id="round-progress-text" class="text-4xl font-bold text-indigo-800 mb-4">20 / 100</p>
+                <p class="text-gray-600 text-lg mb-2">Current Score</p>
+                <p id="round-score-text" class="text-4xl font-bold text-green-600">85%</p>
+            </div>
+            <p class="text-gray-500 italic mb-8">Progress has been saved automatically.</p>
+            <div class="space-y-4">
+                <button id="continue-round-btn" class="w-full text-white font-bold py-3 px-6 rounded-lg text-lg rainbow-btn transform hover:scale-105">
+                    Continue to Next Round
+                </button>
+                <button id="save-quit-btn" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 px-6 rounded-lg text-lg transition">
+                    Save & Return to Menu
+                </button>
+            </div>
+        </div>
+
         <!-- Brain Break Screen -->
         <div id="brain-break-screen" class="hidden text-center">
             <h2 class="text-3xl font-bold text-pink-500 mb-2">Brain Break!</h2>
@@ -171,7 +193,6 @@
                 Continue Quiz!
             </button>
         </div>
-
 
         <!-- End Screen -->
         <div id="end-screen" class="hidden text-center">
@@ -203,7 +224,7 @@
             <svg id="sound-on-icon" class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
             <svg id="sound-off-icon" class="w-5 h-5 text-gray-700 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2 2m2-2l2 2"></path></svg>
         </button>
-        <span>MF Build: 260113.01</span>
+        <span>MF Build: 260113.02</span>
     </footer>
 
     <!-- Audio Elements -->
@@ -540,7 +561,7 @@
                                 <p class="text-gray-700"><strong>Removal:</strong> <strong>John Ross</strong> fought in courts but failed. <strong>Dahlonega Gold Rush</strong> sped up the desire for land. The forced march to OK is the <strong>Trail of Tears</strong>.</p>
                             </div>
                         </div>`
-                }
+                },
                 unit7: {
     title: "Unit 7: American Civil War",
     questions: [
@@ -620,6 +641,7 @@
             const quizScreen = document.getElementById('quiz-screen');
             const endScreen = document.getElementById('end-screen');
             const brainBreakScreen = document.getElementById('brain-break-screen');
+            const roundSummaryScreen = document.getElementById('round-summary-screen');
             const breakCanvas = document.getElementById('break-canvas');
             const breakInstructions = document.getElementById('break-instructions');
             const timerDisplay = document.getElementById('timer-display');
@@ -644,6 +666,7 @@
             const incorrectSound = document.getElementById('incorrect-sound');
             const unitSelectionContainer = document.getElementById('unit-selection');
             const finalExamBtn = document.getElementById('final-exam-btn');
+            const resumeExamBtn = document.getElementById('resume-exam-btn');
             const finalExamHighScore = document.getElementById('final-exam-high-score');
             const floatingTitle = document.getElementById('floating-title');
             const unitTitleText = document.getElementById('unit-title-text');
@@ -653,6 +676,8 @@
             const closeModalBtn = document.getElementById('close-modal-btn');
             const backToMenuBtn = document.getElementById('back-to-menu-btn');
             const backToMenuBtnQuiz = document.getElementById('back-to-menu-btn-quiz');
+            const continueRoundBtn = document.getElementById('continue-round-btn');
+            const saveQuitBtn = document.getElementById('save-quit-btn');
             
             // --- Game State Variables ---
             let shuffledQuestions, currentQuestionIndex;
@@ -669,14 +694,46 @@
             let currentBreakListeners = [];
             let currentUnitId = null;
             let totalOriginalQuestions = 0;
-            
-             // --- Cookie Helper Functions ---
+            const BATCH_SIZE = 20;
+
+             // --- Cookie & LocalStorage Helper Functions ---
             function setCookie(name, value, days) { let expires = ""; if (days) { const date = new Date(); date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); expires = "; expires=" + date.toUTCString(); } document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax"; }
             function getCookie(name) { const nameEQ = name + "="; const ca = document.cookie.split(';'); for (let i = 0; i < ca.length; i++) { let c = ca[i]; while (c.charAt(0) == ' ') c = c.substring(1, c.length); if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length); } return null; }
+            
+            function saveExamProgress() {
+                const state = {
+                    currentUnitId: 'final_exam',
+                    questions: shuffledQuestions,
+                    index: currentQuestionIndex,
+                    score: score,
+                    total: totalOriginalQuestions,
+                    answeredFirstTry: questionsAnsweredFirstTry
+                };
+                localStorage.setItem('ss_review_game_state', JSON.stringify(state));
+            }
+
+            function clearExamProgress() {
+                localStorage.removeItem('ss_review_game_state');
+            }
+
+            function loadExamProgress() {
+                const saved = localStorage.getItem('ss_review_game_state');
+                return saved ? JSON.parse(saved) : null;
+            }
 
             // --- UI Population and Navigation ---
              function populateMainMenu() {
                 unitSelectionContainer.innerHTML = '';
+                
+                // Check for saved exam state
+                const savedState = loadExamProgress();
+                if (savedState) {
+                    resumeExamBtn.classList.remove('hidden');
+                    resumeExamBtn.innerHTML = `Resume Final Exam (Question ${savedState.index + 1})`;
+                } else {
+                    resumeExamBtn.classList.add('hidden');
+                }
+
                 for (const unitId in gameData) {
                     const unit = gameData[unitId];
                     const unitContainer = document.createElement('div');
@@ -729,30 +786,66 @@
                 mainMenuScreen.classList.remove('hidden');
                 quizScreen.classList.add('hidden');
                 endScreen.classList.add('hidden');
+                roundSummaryScreen.classList.add('hidden');
                 floatingTitle.classList.add('hidden');
                 if(animationFrameId) cancelAnimationFrame(animationFrameId);
                 if(breakTimerInterval) clearInterval(breakTimerInterval);
+                populateMainMenu(); // Refresh menu to show resume button state
             }
             
             // --- Game Logic ---
-            function startGame(unitId) {
+            function startGame(unitId, isResume = false) {
                 currentUnitId = unitId;
                 let questions;
                 let studyGuideHTML;
 
+                mainMenuScreen.classList.add('hidden');
+                quizScreen.classList.remove('hidden');
+                floatingTitle.classList.remove('hidden');
+
+                if (isResume) {
+                     const savedState = loadExamProgress();
+                     if (savedState) {
+                        shuffledQuestions = savedState.questions;
+                        currentQuestionIndex = savedState.index;
+                        score = savedState.score;
+                        totalOriginalQuestions = savedState.total;
+                        questionsAnsweredFirstTry = savedState.answeredFirstTry || 0;
+                        questionsSinceBreak = 0;
+                        unitTitleText.textContent = "Final Exam (Resumed)";
+                        
+                        // Populate study guide for all units in resume mode
+                        studyGuideHTML = Object.values(gameData).map(unit => `<div><h2 class="text-2xl font-bold mt-4">${unit.title}</h2>${unit.studyGuideHTML}</div>`).join('');
+                        document.getElementById('study-guide-content').innerHTML = studyGuideHTML;
+                        
+                        scoreEl.innerText = score;
+                        setNextQuestion();
+                        return;
+                     }
+                }
+
                 if (unitId === 'final_exam') {
-                    questions = Object.values(gameData).flatMap(unit => unit.questions);
+                    // Flatten questions and tag them with their Unit title
+                    questions = [];
+                    Object.values(gameData).forEach(unit => {
+                        const unitLabel = unit.title.split(':')[0]; // e.g. "Unit 1"
+                        unit.questions.forEach(q => {
+                            questions.push({
+                                ...q,
+                                unitLabel: unitLabel
+                            });
+                        });
+                    });
                     studyGuideHTML = Object.values(gameData).map(unit => `<div><h2 class="text-2xl font-bold mt-4">${unit.title}</h2>${unit.studyGuideHTML}</div>`).join('');
                     unitTitleText.textContent = "Final Exam (All Units)";
+                    
+                    // Clear any old progress when starting new
+                    clearExamProgress();
                 } else {
                     questions = gameData[unitId].questions;
                     studyGuideHTML = gameData[unitId].studyGuideHTML;
                     unitTitleText.textContent = gameData[unitId].title;
                 }
-
-                mainMenuScreen.classList.add('hidden');
-                quizScreen.classList.remove('hidden');
-                floatingTitle.classList.remove('hidden');
 
                 document.getElementById('study-guide-content').innerHTML = studyGuideHTML;
 
@@ -769,11 +862,32 @@
             
             function setNextQuestion() {
                 resetState();
+                
+                // Final Exam Batch Check
+                if (currentUnitId === 'final_exam' && currentQuestionIndex > 0 && currentQuestionIndex % BATCH_SIZE === 0 && !advanceTimeout) {
+                    showRoundSummary();
+                    return;
+                }
+
                 if (currentQuestionIndex < shuffledQuestions.length) {
                     showQuestion(shuffledQuestions[currentQuestionIndex]);
                 } else {
+                    if (currentUnitId === 'final_exam') clearExamProgress();
                     showEndScreen();
                 }
+            }
+
+            function showRoundSummary() {
+                quizScreen.classList.add('hidden');
+                roundSummaryScreen.classList.remove('hidden');
+                
+                const percentage = Math.round((score / currentQuestionIndex) * 100) || 0;
+                
+                document.getElementById('round-progress-text').innerText = `${currentQuestionIndex} / ${totalOriginalQuestions}`;
+                document.getElementById('round-score-text').innerText = `${percentage}%`;
+                
+                // It's already saved by selectAnswer, but safe to save here too
+                saveExamProgress();
             }
             
             function showQuestion(question) {
@@ -783,7 +897,12 @@
                     questionCounterDisplay.innerHTML = `Question <span id="question-number">${questionsAnsweredFirstTry + 1}</span> of <span id="total-questions">${totalOriginalQuestions}</span>`;
                 }
 
-                questionReferenceEl.innerText = question.reference;
+                // Add Unit Label if it exists (Final Exam mode)
+                let referenceText = question.reference;
+                if (question.unitLabel) {
+                    referenceText = `<span class="text-indigo-600 font-bold mr-2 border-r-2 border-gray-300 pr-2">${question.unitLabel}</span> ${question.reference}`;
+                }
+                questionReferenceEl.innerHTML = referenceText;
 
                 questionContainer.innerHTML = ''; 
                 const questionTextEl = document.createElement('h2');
@@ -859,7 +978,18 @@
                     feedbackEl.classList.remove('text-red-500');
                     feedbackEl.classList.add('text-green-500');
                     triggerConfetti();
-                    advanceTimeout = setTimeout(prepareNextStep, 3000); 
+                    
+                    // Delay next step to show feedback
+                    advanceTimeout = setTimeout(() => {
+                        currentQuestionIndex++;
+                        
+                        // Save Progress if in Final Exam Mode
+                        if (currentUnitId === 'final_exam') {
+                            saveExamProgress();
+                        }
+
+                        prepareNextStep();
+                    }, 2500); 
                 } else {
                     if(soundsEnabled) incorrectSound.play();
                     score--;
@@ -870,6 +1000,11 @@
                     currentQuestion.isRetry = true;
                     shuffledQuestions.push(currentQuestion);
                     nextBtn.classList.remove('hidden'); 
+                    
+                    // On incorrect, we don't advance index yet, but save score update
+                    if (currentUnitId === 'final_exam') {
+                        saveExamProgress();
+                    }
                 }
 
                 scoreEl.innerText = score;
@@ -898,8 +1033,15 @@
                     const regex = new RegExp(`(${escapedTerm})`, 'gi');
                     studyGuideContent.innerHTML = studyGuideContent.innerHTML.replace(regex, `<span class="bg-yellow-200 rounded font-bold px-1">$1</span>`);
                 }
-
-                currentQuestionIndex++;
+                
+                // Note: We increment currentQuestionIndex inside the timeout for correct answers
+                // For incorrect answers, user must click Next, which calls prepareNextStep -> setNextQuestion
+                // But we need to increment for incorrect manually if they hit "Next"
+                nextBtn.onclick = () => {
+                     currentQuestionIndex++;
+                     if (currentUnitId === 'final_exam') saveExamProgress();
+                     prepareNextStep();
+                };
             }
 
             function showEndScreen() {
@@ -928,9 +1070,9 @@
                 }
             }
 
-            // --- Brain Breaks ---
+            // --- Brain Breaks & Batches ---
              function prepareNextStep() {
-                if (questionsSinceBreak > 0 && questionsSinceBreak % 6 === 0 && currentQuestionIndex < shuffledQuestions.length) {
+                if (currentUnitId !== 'final_exam' && questionsSinceBreak > 0 && questionsSinceBreak % 6 === 0 && currentQuestionIndex < shuffledQuestions.length) {
                     showArtBreak();
                 } else {
                     setNextQuestion();
@@ -1254,6 +1396,12 @@
                 finalExamBtn.addEventListener('click', () => startGame('final_exam'));
                 backToMenuBtn.addEventListener('click', showMainMenu);
                 backToMenuBtnQuiz.addEventListener('click', showMainMenu);
+                saveQuitBtn.addEventListener('click', showMainMenu);
+                continueRoundBtn.addEventListener('click', () => {
+                    roundSummaryScreen.classList.add('hidden');
+                    quizScreen.classList.remove('hidden');
+                    setNextQuestion();
+                });
                 closeModalBtn.addEventListener('click', () => studyGuideModal.classList.add('hidden'));
                 nextBtn.addEventListener('click', prepareNextStep);
                 resumeQuizBtn.addEventListener('click', resumeQuiz);
