@@ -149,7 +149,7 @@
             </div>
             <div class="bg-gray-100 p-4 rounded-lg mb-6">
                 <p id="question-reference" class="text-xs text-gray-500 mb-2 font-medium uppercase tracking-wide"></p>
-                <div id="question-container" class="flex items-center justify-between gap-2">
+                <div id="question-container" class="flex items-start justify-between gap-2">
                     <h2 id="question-text" class="text-xl md:text-2xl font-semibold text-gray-800 flex-grow"></h2>
                 </div>
             </div>
@@ -224,7 +224,7 @@
             <svg id="sound-on-icon" class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
             <svg id="sound-off-icon" class="w-5 h-5 text-gray-700 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2 2m2-2l2 2"></path></svg>
         </button>
-        <span>MF Build: 260129.01</span>
+        <span>MF Build: 260224.01</span>
     </footer>
 
     <!-- Audio Elements -->
@@ -563,222 +563,203 @@
                         </div>`
                 },
                 unit7: {
-    title: "Unit 7: American Civil War",
-    questions: [
-        // --- AKS 35.a: Causes of the Civil War ---
-        { question: "Why did the South want slavery to expand?", reference: "AKS 35.a: Slavery", answers: [{ text: "For industrial growth", correct: false }, { text: "High profits and wealth from agriculture", correct: true }, { text: "To increase population", correct: false }], highlightTerm: "profits and wealth" },
-        { question: "What was the North's general opinion on slavery?", reference: "AKS 35.a: Slavery", answers: [{ text: "They wanted it to be limited or abolished", correct: true }, { text: "They wanted it to expand", correct: false }, { text: "They were neutral", correct: false }], highlightTerm: "limited or abolished" },
-        { question: "Why did the South's economy rely on slavery?", reference: "AKS 35.a: Slavery", answers: [{ text: "It was a tradition", correct: false }, { text: "It provided cheap labor for profitable agriculture", correct: true }, { text: "Factories required slave labor", correct: false }], highlightTerm: "cheap labor" },
-        { question: "What was the Southern view on States' Rights?", reference: "AKS 35.a: States' Rights", answers: [{ text: "Federal laws are supreme", correct: false }, { text: "States could ignore federal laws if they didn't benefit the state", correct: true }, { text: "States should have no power", correct: false }], highlightTerm: "ignore federal laws" },
-        { question: "What is Federalism?", reference: "AKS 35.a: States' Rights", answers: [{ text: "State laws are always supreme", correct: false }, { text: "Federal laws take priority over state laws", correct: true }, { text: "Only the President makes laws", correct: false }], highlightTerm: "Federal laws take priority" },
-        { question: "What is Nullification?", reference: "AKS 35.a: Nullification", answers: [{ text: "The right to invalidate unconstitutional federal laws", correct: true }, { text: "The right to secede", correct: false }, { text: "The right to create new states", correct: false }], highlightTerm: "null and void (invalidate)" },
-        { question: "What was a major goal of the Compromise of 1850?", reference: "AKS 35.a: Compromise of 1850", answers: [{ text: "To declare war on Mexico", correct: false }, { text: "To determine how states enter as free or slave", correct: true }, { text: "To elect a new President", correct: false }], highlightTerm: "how states would enter" },
-        { question: "Which state joined the Union as a free state under the Compromise of 1850?", reference: "AKS 35.a: Compromise of 1850", answers: [{ text: "Texas", correct: false }, { text: "California", correct: true }, { text: "Georgia", correct: false }], highlightTerm: "California" },
-        { question: "What was the Fugitive Slave Law?", reference: "AKS 35.a: Compromise of 1850", answers: [{ text: "Slaves were free in the North", correct: false }, { text: "The North must return runaway slaves to the South", correct: true }, { text: "Slaves could buy their freedom", correct: false }], highlightTerm: "Fugitive Slave Law" },
-        { question: "What did the Georgia Platform support?", reference: "AKS 35.a: Georgia Platform", answers: [{ text: "Immediate secession", correct: false }, { text: "Acceptance of the Compromise of 1850", correct: true }, { text: "Abolition of slavery", correct: false }], highlightTerm: "Georgia Platform supported acceptance" },
-        { question: "Why was the Georgia Platform important?", reference: "AKS 35.a: Georgia Platform", answers: [{ text: "It started the Civil War", correct: false }, { text: "It prevented immediate secession and saved the Union temporarily", correct: true }, { text: "It elected a new governor", correct: false }], highlightTerm: "Georgia Platform" },
-        { question: "Who was a key author of the Georgia Platform who argued to preserve the Union?", reference: "AKS 35.a: Georgia Platform", answers: [{ text: "Alexander Stephens", correct: true }, { text: "Jefferson Davis", correct: false }, { text: "Robert E. Lee", correct: false }], highlightTerm: "Alexander Stephens" },
-        { question: "What was Dred Scott's claim in the Supreme Court case?", reference: "AKS 35.a: Dred Scott Case", answers: [{ text: "He was a citizen", correct: false }, { text: "His time on free soil made him free", correct: true }, { text: "He wanted to buy land", correct: false }], highlightTerm: "time on free soil made him free" },
-        { question: "What was the Supreme Court's ruling in the Dred Scott case?", reference: "AKS 35.a: Dred Scott Case", answers: [{ text: "Slaves are property, not citizens", correct: true }, { text: "Dred Scott was free", correct: false }, { text: "Slavery is illegal", correct: false }], highlightTerm: "Slaves are property" },
-        { question: "What was the goal of Abraham Lincoln and the Republican Party in 1860?", reference: "AKS 35.a: Election of 1860", answers: [{ text: "To expand slavery", correct: false }, { text: "To limit and eventually end slavery", correct: true }, { text: "To support states' rights", correct: false }], highlightTerm: "limit and then put an end to slavery" },
-        { question: "How did the South react to Lincoln's election in 1860?", reference: "AKS 35.a: Election of 1860", answers: [{ text: "They celebrated", correct: false }, { text: "Southern slave states seceded", correct: true }, { text: "They voted for him again", correct: false }], highlightTerm: "Southern slave states seceded" },
-        { question: "Which group in Georgia generally opposed secession?", reference: "AKS 35.a: Debate over Secession", answers: [{ text: "Large plantation owners", correct: false }, { text: "Small farmers and northern county reps", correct: true }, { text: "Governor Brown", correct: false }], highlightTerm: "small farmers" },
-
-        // --- AKS 35.b: Civil War Strategies & Key Battles ---
-        { question: "What was the South's 'King Cotton' diplomacy strategy?", reference: "AKS 35.b: Civil War Strategies", answers: [{ text: "To grow more cotton", correct: false }, { text: "Exchange cotton with Europe for war supplies", correct: true }, { text: "Use cotton for uniforms", correct: false }], highlightTerm: "King Cotton diplomacy" },
-        { question: "What was the North's 'Anaconda Plan'?", reference: "AKS 35.b: Civil War Strategies", answers: [{ text: "To attack from the air", correct: false }, { text: "Naval blockade to strangle Southern trade", correct: true }, { text: "To burn all cotton", correct: false }], highlightTerm: "Anaconda Plan" },
-        { question: "What were 'Blockade Runners'?", reference: "AKS 35.b: Civil War Strategies", answers: [{ text: "Private ships that slipped past the Union Blockade", correct: true }, { text: "Union soldiers", correct: false }, { text: "Trains carrying supplies", correct: false }], highlightTerm: "Naval blockade" },
-        { question: "What was the bloodiest ONE-DAY battle of the Civil War?", reference: "AKS 35.b: Key Battles", answers: [{ text: "Battle of Gettysburg", correct: false }, { text: "Battle of Antietam", correct: true }, { text: "Battle of Chickamauga", correct: false }], highlightTerm: "Antietam" },
-        { question: "What did Abraham Lincoln issue after the Battle of Antietam?", reference: "AKS 35.b: Emancipation Proclamation", answers: [{ text: "The Declaration of Independence", correct: false }, { text: "The Emancipation Proclamation", correct: true }, { text: "The Treaty of Paris", correct: false }], highlightTerm: "Emancipation Proclamation" },
-        { question: "What was the purpose of the Emancipation Proclamation?", reference: "AKS 35.b: Emancipation Proclamation", answers: [{ text: "To free all slaves instantly", correct: false }, { text: "To free slaves in rebelling states (CSA)", correct: true }, { text: "To elect a new president", correct: false }], highlightTerm: "free slaves in rebelling states" },
-        { question: "Why did the Emancipation Proclamation only free a few slaves initially?", reference: "AKS 35.b: Emancipation Proclamation", answers: [{ text: "Lincoln changed his mind", correct: false }, { text: "The Union army couldn't enforce it in many areas", correct: true }, { text: "Slaves didn't want to leave", correct: false }], highlightTerm: "unable to enforce" },
-        { question: "What was the turning point of the war and the bloodiest battle OVERALL (3 days)?", reference: "AKS 35.b: Key Battles", answers: [{ text: "Battle of Gettysburg", correct: true }, { text: "Battle of Antietam", correct: false }, { text: "Battle of Atlanta", correct: false }], highlightTerm: "Gettysburg" },
-        { question: "What was the significance of the Battle of Chickamauga?", reference: "AKS 35.b: Key Battles", answers: [{ text: "First battle of the war", correct: false }, { text: "Largest battle in GA and a Union defeat", correct: true }, { text: "Sherman's greatest victory", correct: false }], highlightTerm: "Battle of Chickamauga" },
-        { question: "What mistake did the South make after Chickamauga?", reference: "AKS 35.b: Key Battles", answers: [{ text: "They surrendered", correct: false }, { text: "Failed to push North out of Chattanooga", correct: true }, { text: "They retreated to Atlanta", correct: false }], highlightTerm: "failed to follow through" },
-        { question: "What was the goal of Sherman's Atlanta Campaign?", reference: "AKS 35.b: Sherman's Campaigns", answers: [{ text: "To find gold", correct: false }, { text: "To capture the railroad hub and weaken the South", correct: true }, { text: "To rebuild the city", correct: false }], highlightTerm: "capture the city of Atlanta" },
-        { question: "How did Sherman's victory in Atlanta impact the 1864 election?", reference: "AKS 35.b: Sherman's Campaigns", answers: [{ text: "Lincoln lost", correct: false }, { text: "It assured Lincoln's victory", correct: true }, { text: "It had no effect", correct: false }], highlightTerm: "assured Lincoln a victory" },
-        { question: "What was the goal of Sherman's March to the Sea?", reference: "AKS 35.b: Sherman's Campaigns", answers: [{ text: "To reach the beach", correct: false }, { text: "Break Southerners' will to fight and destroy infrastructure", correct: true }, { text: "To recruit soldiers", correct: false }], highlightTerm: "Break the Southerners' will" },
-        { question: "Why didn't Sherman destroy Savannah?", reference: "AKS 35.b: Sherman's Campaigns", answers: [{ text: "He ran out of ammo", correct: false }, { text: "He gave it to Lincoln as a Christmas gift", correct: true }, { text: "The Confederate army stopped him", correct: false }], highlightTerm: "Christmas gift" },
-        { question: "What was Andersonville Prison?", reference: "AKS 35.b: Andersonville", answers: [{ text: "A Union fort", correct: false }, { text: "A Confederate POW camp for Union soldiers", correct: true }, { text: "A hospital", correct: false }], highlightTerm: "Confederate prison camp" },
-        { question: "Why was Captain Henry Wirz executed?", reference: "AKS 35.b: Andersonville", answers: [{ text: "For treason", correct: false }, { text: "For war crimes due to conditions at Andersonville", correct: true }, { text: "For losing a battle", correct: false }], highlightTerm: "executed for war crimes" }
-    ],
-    studyGuideHTML: `
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-blue-100 p-4 rounded-lg space-y-3 text-sm">
-                <h3 class="font-bold text-blue-800 text-lg">AKS 35.a: Causes of Civil War</h3>
-                <p class="text-gray-700"><strong>Slavery:</strong> South wanted expansion for <strong>profits and wealth</strong> (cheap labor). North wanted it <strong>limited or abolished</strong>.</p>
-                <p class="text-gray-700"><strong>States' Rights:</strong> South believed they could <strong>ignore federal laws</strong>. North believed <strong>Federal laws take priority</strong> (Federalism).</p>
-                <p class="text-gray-700"><strong>Nullification:</strong> Belief states could declare federal laws <strong>null and void (invalidate)</strong>.</p>
-                <p class="text-gray-700"><strong>Compromise of 1850:</strong> <strong>California</strong> entered as free. Fugitive Slave Law: North must return runaway slaves.</p>
-                <p class="text-gray-700"><strong>Georgia Platform:</strong> Led by <strong>Alexander Stephens</strong>, GA agreed to Compromise of 1850 to save the Union.</p>
-                <p class="text-gray-700"><strong>Dred Scott:</strong> Court ruled <strong>Slaves are property</strong> and not citizens.</p>
-            </div>
-            <div class="bg-green-100 p-4 rounded-lg space-y-3 text-sm">
-                <h3 class="font-bold text-green-800 text-lg">AKS 35.a: Secession</h3>
-                <p class="text-gray-700"><strong>Election of 1860:</strong> Lincoln won. South feared he would end slavery. Result: <strong>Southern slave states seceded</strong>.</p>
-                <p class="text-gray-700"><strong>Debate:</strong> <strong>Small farmers</strong> and Alexander Stephens opposed secession. Plantation owners supported it.</p>
-            </div>
-            <div class="bg-yellow-100 p-4 rounded-lg space-y-3 text-sm">
-                <h3 class="font-bold text-yellow-800 text-lg">AKS 35.b: Civil War Strategies</h3>
-                <p class="text-gray-700"><strong>South:</strong> <strong>King Cotton diplomacy</strong> (trade for supplies).</p>
-                <p class="text-gray-700"><strong>North:</strong> <strong>Anaconda Plan</strong> (naval blockade to strangle trade).</p>
-                <p class="text-gray-700"><strong>Emancipation Proclamation:</strong> Issued after <strong>Antietam</strong>. Freed slaves in rebelling states. Hard to enforce.</p>
-                <p class="text-gray-700"><strong>Gettysburg:</strong> Turning point. 3-day battle.</p>
-            </div>
-            <div class="bg-red-100 p-4 rounded-lg space-y-3 text-sm">
-                <h3 class="font-bold text-red-800 text-lg">AKS 35.b: Key Events in GA</h3>
-                <p class="text-gray-700"><strong>Chickamauga:</strong> Largest battle in GA. Union defeat. South <strong>failed to follow through</strong>.</p>
-                <p class="text-gray-700"><strong>Atlanta Campaign:</strong> Sherman captured the RR hub. <strong>Assured Lincoln a victory</strong> in 1864.</p>
-                <p class="text-gray-700"><strong>March to the Sea:</strong> Destroyed infrastructure to <strong>break the Southerners' will</strong>. Savannah saved as a <strong>Christmas gift</strong>.</p>
-                <p class="text-gray-700"><strong>Andersonville:</strong> Brutal POW camp. Commander Wirz <strong>executed for war crimes</strong>.</p>
-            </div>
-        </div>`
-},
+                    title: "Unit 7: American Civil War",
+                    questions: [
+                        { question: "Why did the South want slavery to expand?", reference: "AKS 35.a: Slavery", answers: [{ text: "For industrial growth", correct: false }, { text: "High profits and wealth from agriculture", correct: true }, { text: "To increase population", correct: false }], highlightTerm: "profits and wealth" },
+                        { question: "What was the North's general opinion on slavery?", reference: "AKS 35.a: Slavery", answers: [{ text: "They wanted it to be limited or abolished", correct: true }, { text: "They wanted it to expand", correct: false }, { text: "They were neutral", correct: false }], highlightTerm: "limited or abolished" },
+                        { question: "Why did the South's economy rely on slavery?", reference: "AKS 35.a: Slavery", answers: [{ text: "It was a tradition", correct: false }, { text: "It provided cheap labor for profitable agriculture", correct: true }, { text: "Factories required slave labor", correct: false }], highlightTerm: "cheap labor" },
+                        { question: "What was the Southern view on States' Rights?", reference: "AKS 35.a: States' Rights", answers: [{ text: "Federal laws are supreme", correct: false }, { text: "States could ignore federal laws if they didn't benefit the state", correct: true }, { text: "States should have no power", correct: false }], highlightTerm: "ignore federal laws" },
+                        { question: "What is Federalism?", reference: "AKS 35.a: States' Rights", answers: [{ text: "State laws are always supreme", correct: false }, { text: "Federal laws take priority over state laws", correct: true }, { text: "Only the President makes laws", correct: false }], highlightTerm: "Federal laws take priority" },
+                        { question: "What is Nullification?", reference: "AKS 35.a: Nullification", answers: [{ text: "The right to invalidate unconstitutional federal laws", correct: true }, { text: "The right to secede", correct: false }, { text: "The right to create new states", correct: false }], highlightTerm: "null and void (invalidate)" },
+                        { question: "What was a major goal of the Compromise of 1850?", reference: "AKS 35.a: Compromise of 1850", answers: [{ text: "To declare war on Mexico", correct: false }, { text: "To determine how states enter as free or slave", correct: true }, { text: "To elect a new President", correct: false }], highlightTerm: "how states would enter" },
+                        { question: "Which state joined the Union as a free state under the Compromise of 1850?", reference: "AKS 35.a: Compromise of 1850", answers: [{ text: "Texas", correct: false }, { text: "California", correct: true }, { text: "Georgia", correct: false }], highlightTerm: "California" },
+                        { question: "What was the Fugitive Slave Law?", reference: "AKS 35.a: Compromise of 1850", answers: [{ text: "Slaves were free in the North", correct: false }, { text: "The North must return runaway slaves to the South", correct: true }, { text: "Slaves could buy their freedom", correct: false }], highlightTerm: "Fugitive Slave Law" },
+                        { question: "What did the Georgia Platform support?", reference: "AKS 35.a: Georgia Platform", answers: [{ text: "Immediate secession", correct: false }, { text: "Acceptance of the Compromise of 1850", correct: true }, { text: "Abolition of slavery", correct: false }], highlightTerm: "Georgia Platform supported acceptance" },
+                        { question: "Why was the Georgia Platform important?", reference: "AKS 35.a: Georgia Platform", answers: [{ text: "It started the Civil War", correct: false }, { text: "It prevented immediate secession and saved the Union temporarily", correct: true }, { text: "It elected a new governor", correct: false }], highlightTerm: "Georgia Platform" },
+                        { question: "Who was a key author of the Georgia Platform who argued to preserve the Union?", reference: "AKS 35.a: Georgia Platform", answers: [{ text: "Alexander Stephens", correct: true }, { text: "Jefferson Davis", correct: false }, { text: "Robert E. Lee", correct: false }], highlightTerm: "Alexander Stephens" },
+                        { question: "What was Dred Scott's claim in the Supreme Court case?", reference: "AKS 35.a: Dred Scott Case", answers: [{ text: "He was a citizen", correct: false }, { text: "His time on free soil made him free", correct: true }, { text: "He wanted to buy land", correct: false }], highlightTerm: "time on free soil made him free" },
+                        { question: "What was the Supreme Court's ruling in the Dred Scott case?", reference: "AKS 35.a: Dred Scott Case", answers: [{ text: "Slaves are property, not citizens", correct: true }, { text: "Dred Scott was free", correct: false }, { text: "Slavery is illegal", correct: false }], highlightTerm: "Slaves are property" },
+                        { question: "What was the goal of Abraham Lincoln and the Republican Party in 1860?", reference: "AKS 35.a: Election of 1860", answers: [{ text: "To expand slavery", correct: false }, { text: "To limit and eventually end slavery", correct: true }, { text: "To support states' rights", correct: false }], highlightTerm: "limit and then put an end to slavery" },
+                        { question: "How did the South react to Lincoln's election in 1860?", reference: "AKS 35.a: Election of 1860", answers: [{ text: "They celebrated", correct: false }, { text: "Southern slave states seceded", correct: true }, { text: "They voted for him again", correct: false }], highlightTerm: "Southern slave states seceded" },
+                        { question: "Which group in Georgia generally opposed secession?", reference: "AKS 35.a: Debate over Secession", answers: [{ text: "Large plantation owners", correct: false }, { text: "Small farmers and northern county reps", correct: true }, { text: "Governor Brown", correct: false }], highlightTerm: "small farmers" },
+                        { question: "What was the South's 'King Cotton' diplomacy strategy?", reference: "AKS 35.b: Civil War Strategies", answers: [{ text: "To grow more cotton", correct: false }, { text: "Exchange cotton with Europe for war supplies", correct: true }, { text: "Use cotton for uniforms", correct: false }], highlightTerm: "King Cotton diplomacy" },
+                        { question: "What was the North's 'Anaconda Plan'?", reference: "AKS 35.b: Civil War Strategies", answers: [{ text: "To attack from the air", correct: false }, { text: "Naval blockade to strangle Southern trade", correct: true }, { text: "To burn all cotton", correct: false }], highlightTerm: "Anaconda Plan" },
+                        { question: "What were 'Blockade Runners'?", reference: "AKS 35.b: Civil War Strategies", answers: [{ text: "Private ships that slipped past the Union Blockade", correct: true }, { text: "Union soldiers", correct: false }, { text: "Trains carrying supplies", correct: false }], highlightTerm: "Naval blockade" },
+                        { question: "What was the bloodiest ONE-DAY battle of the Civil War?", reference: "AKS 35.b: Key Battles", answers: [{ text: "Battle of Gettysburg", correct: false }, { text: "Battle of Antietam", correct: true }, { text: "Battle of Chickamauga", correct: false }], highlightTerm: "Antietam" },
+                        { question: "What did Abraham Lincoln issue after the Battle of Antietam?", reference: "AKS 35.b: Emancipation Proclamation", answers: [{ text: "The Declaration of Independence", correct: false }, { text: "The Emancipation Proclamation", correct: true }, { text: "The Treaty of Paris", correct: false }], highlightTerm: "Emancipation Proclamation" },
+                        { question: "What was the purpose of the Emancipation Proclamation?", reference: "AKS 35.b: Emancipation Proclamation", answers: [{ text: "To free all slaves instantly", correct: false }, { text: "To free slaves in rebelling states (CSA)", correct: true }, { text: "To elect a new president", correct: false }], highlightTerm: "free slaves in rebelling states" },
+                        { question: "Why did the Emancipation Proclamation only free a few slaves initially?", reference: "AKS 35.b: Emancipation Proclamation", answers: [{ text: "Lincoln changed his mind", correct: false }, { text: "The Union army couldn't enforce it in many areas", correct: true }, { text: "Slaves didn't want to leave", correct: false }], highlightTerm: "unable to enforce" },
+                        { question: "What was the turning point of the war and the bloodiest battle OVERALL (3 days)?", reference: "AKS 35.b: Key Battles", answers: [{ text: "Battle of Gettysburg", correct: true }, { text: "Battle of Antietam", correct: false }, { text: "Battle of Atlanta", correct: false }], highlightTerm: "Gettysburg" },
+                        { question: "What was the significance of the Battle of Chickamauga?", reference: "AKS 35.b: Key Battles", answers: [{ text: "First battle of the war", correct: false }, { text: "Largest battle in GA and a Union defeat", correct: true }, { text: "Sherman's greatest victory", correct: false }], highlightTerm: "Battle of Chickamauga" },
+                        { question: "What mistake did the South make after Chickamauga?", reference: "AKS 35.b: Key Battles", answers: [{ text: "They surrendered", correct: false }, { text: "Failed to push North out of Chattanooga", correct: true }, { text: "They retreated to Atlanta", correct: false }], highlightTerm: "failed to follow through" },
+                        { question: "What was the goal of Sherman's Atlanta Campaign?", reference: "AKS 35.b: Sherman's Campaigns", answers: [{ text: "To find gold", correct: false }, { text: "To capture the railroad hub and weaken the South", correct: true }, { text: "To rebuild the city", correct: false }], highlightTerm: "capture the city of Atlanta" },
+                        { question: "How did Sherman's victory in Atlanta impact the 1864 election?", reference: "AKS 35.b: Sherman's Campaigns", answers: [{ text: "Lincoln lost", correct: false }, { text: "It assured Lincoln's victory", correct: true }, { text: "It had no effect", correct: false }], highlightTerm: "assured Lincoln a victory" },
+                        { question: "What was the goal of Sherman's March to the Sea?", reference: "AKS 35.b: Sherman's Campaigns", answers: [{ text: "To reach the beach", correct: false }, { text: "Break Southerners' will to fight and destroy infrastructure", correct: true }, { text: "To recruit soldiers", correct: false }], highlightTerm: "Break the Southerners' will" },
+                        { question: "Why didn't Sherman destroy Savannah?", reference: "AKS 35.b: Sherman's Campaigns", answers: [{ text: "He ran out of ammo", correct: false }, { text: "He gave it to Lincoln as a Christmas gift", correct: true }, { text: "The Confederate army stopped him", correct: false }], highlightTerm: "Christmas gift" },
+                        { question: "What was Andersonville Prison?", reference: "AKS 35.b: Andersonville", answers: [{ text: "A Union fort", correct: false }, { text: "A Confederate POW camp for Union soldiers", correct: true }, { text: "A hospital", correct: false }], highlightTerm: "Confederate prison camp" },
+                        { question: "Why was Captain Henry Wirz executed?", reference: "AKS 35.b: Andersonville", answers: [{ text: "For treason", correct: false }, { text: "For war crimes due to conditions at Andersonville", correct: true }, { text: "For losing a battle", correct: false }], highlightTerm: "executed for war crimes" }
+                    ],
+                    studyGuideHTML: `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-blue-100 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-blue-800 text-lg">AKS 35.a: Causes of Civil War</h3>
+                                <p class="text-gray-700"><strong>Slavery:</strong> South wanted expansion for <strong>profits and wealth</strong> (cheap labor). North wanted it <strong>limited or abolished</strong>.</p>
+                                <p class="text-gray-700"><strong>States' Rights:</strong> South believed they could <strong>ignore federal laws</strong>. North believed <strong>Federal laws take priority</strong> (Federalism).</p>
+                                <p class="text-gray-700"><strong>Nullification:</strong> Belief states could declare federal laws <strong>null and void (invalidate)</strong>.</p>
+                                <p class="text-gray-700"><strong>Compromise of 1850:</strong> <strong>California</strong> entered as free. Fugitive Slave Law: North must return runaway slaves.</p>
+                                <p class="text-gray-700"><strong>Georgia Platform:</strong> Led by <strong>Alexander Stephens</strong>, GA agreed to Compromise of 1850 to save the Union.</p>
+                                <p class="text-gray-700"><strong>Dred Scott:</strong> Court ruled <strong>Slaves are property</strong> and not citizens.</p>
+                            </div>
+                            <div class="bg-green-100 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-green-800 text-lg">AKS 35.a: Secession</h3>
+                                <p class="text-gray-700"><strong>Election of 1860:</strong> Lincoln won. South feared he would end slavery. Result: <strong>Southern slave states seceded</strong>.</p>
+                                <p class="text-gray-700"><strong>Debate:</strong> <strong>Small farmers</strong> and Alexander Stephens opposed secession. Plantation owners supported it.</p>
+                            </div>
+                            <div class="bg-yellow-100 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-yellow-800 text-lg">AKS 35.b: Civil War Strategies</h3>
+                                <p class="text-gray-700"><strong>South:</strong> <strong>King Cotton diplomacy</strong> (trade for supplies).</p>
+                                <p class="text-gray-700"><strong>North:</strong> <strong>Anaconda Plan</strong> (naval blockade to strangle trade).</p>
+                                <p class="text-gray-700"><strong>Emancipation Proclamation:</strong> Issued after <strong>Antietam</strong>. Freed slaves in rebelling states. Hard to enforce.</p>
+                                <p class="text-gray-700"><strong>Gettysburg:</strong> Turning point. 3-day battle.</p>
+                            </div>
+                            <div class="bg-red-100 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-red-800 text-lg">AKS 35.b: Key Events in GA</h3>
+                                <p class="text-gray-700"><strong>Chickamauga:</strong> Largest battle in GA. Union defeat. South <strong>failed to follow through</strong>.</p>
+                                <p class="text-gray-700"><strong>Atlanta Campaign:</strong> Sherman captured the RR hub. <strong>Assured Lincoln a victory</strong> in 1864.</p>
+                                <p class="text-gray-700"><strong>March to the Sea:</strong> Destroyed infrastructure to <strong>break the Southerners' will</strong>. Savannah saved as a <strong>Christmas gift</strong>.</p>
+                                <p class="text-gray-700"><strong>Andersonville:</strong> Brutal POW camp. Commander Wirz <strong>executed for war crimes</strong>.</p>
+                            </div>
+                        </div>`
+                },
                 unit8: {
-    title: "Unit 8: Reconstruction",
-    questions: [
-        // --- AKS 36.a: Amendments ---
-        { question: "What was the primary purpose of the 13th Amendment?", reference: "AKS 36.a: Amendments", answers: [{ text: "To grant citizenship", correct: false }, { text: "To officially end slavery in the US", correct: true }, { text: "To give women the right to vote", correct: false }], highlightTerm: "Ended slavery" },
-        { question: "Which amendment was created in direct response to the Black Codes?", reference: "AKS 36.a: Amendments", answers: [{ text: "13th Amendment", correct: false }, { text: "14th Amendment", correct: true }, { text: "15th Amendment", correct: false }], highlightTerm: "response to Southern black codes" },
-        { question: "What does the 14th Amendment guarantee to all persons born in the US?", reference: "AKS 36.a: Amendments", answers: [{ text: "Citizenship and equal protection", correct: true }, { text: "40 acres and a mule", correct: false }, { text: "The right to hold office", correct: false }], highlightTerm: "citizenship" },
-        { question: "What specific group was granted voting rights by the 15th Amendment?", reference: "AKS 36.a: Amendments", answers: [{ text: "All women", correct: false }, { text: "African American males", correct: true }, { text: "Native Americans", correct: false }], highlightTerm: "voting rights" },
-        { question: "How did the Georgia legislature initially respond to the 15th Amendment?", reference: "AKS 36.a: Amendments", answers: [{ text: "They ratified it immediately", correct: false }, { text: "They refused to pass/accept it", correct: true }, { text: "They ignored it", correct: false }], highlightTerm: "refused to pass" },
-        { question: "Which amendment overturned the Dred Scott decision by defining citizenship?", reference: "AKS 36.a: Amendments", answers: [{ text: "12th", correct: false }, { text: "14th", correct: true }, { text: "16th", correct: false }], highlightTerm: "citizenship" },
-
-        // --- AKS 36.b: Reconstruction Plans ---
-        { question: "What was the main goal of Lincoln's Reconstruction Plan?", reference: "AKS 36.b: Reconstruction Plans", answers: [{ text: "To punish the South severely", correct: false }, { text: "To heal the nation and rejoin the Union quickly", correct: true }, { text: "To keep the South out of the Union", correct: false }], highlightTerm: "heal the nation" },
-        { question: "Lincoln's plan was also known as the...", reference: "AKS 36.b: Reconstruction Plans", answers: [{ text: "10% Plan", correct: true }, { text: "50% Plan", correct: false }, { text: "Total War Plan", correct: false }], highlightTerm: "swear allegiance" },
-        { question: "Why was Lincoln unable to implement his Reconstruction plan?", reference: "AKS 36.b: Reconstruction Plans", answers: [{ text: "He lost the election", correct: false }, { text: "He was assassinated", correct: true }, { text: "Congress impeached him", correct: false }], highlightTerm: "assassinated" },
-        { question: "How did Andrew Johnson's plan differ from the Congressional plan?", reference: "AKS 36.b: Reconstruction Plans", answers: [{ text: "It was much stricter", correct: false }, { text: "It was easier/lenient on the South", correct: true }, { text: "It required military rule", correct: false }], highlightTerm: "Made readmission easy" },
-        { question: "What did Johnson require states to do regarding the Constitution?", reference: "AKS 36.b: Reconstruction Plans", answers: [{ text: "Ratify the 13th Amendment", correct: true }, { text: "Ratify the 15th Amendment", correct: false }, { text: "Pay war debts", correct: false }], highlightTerm: "pass the 13th Amendment" },
-        { question: "Why did Congress (Radical Republicans) take over Reconstruction?", reference: "AKS 36.b: Reconstruction Plans", answers: [{ text: "Lincoln asked them to", correct: false }, { text: "The South refused to ratify the 14th Amendment", correct: true }, { text: "Johnson resigned", correct: false }], highlightTerm: "refusal to ratify the 14th" },
-        { question: "What was the primary goal of the Congressional Reconstruction Plan?", reference: "AKS 36.b: Reconstruction Plans", answers: [{ text: "To punish the South and protect freedmen", correct: true }, { text: "To rebuild Southern factories", correct: false }, { text: "To expand slavery", correct: false }], highlightTerm: "punish the South" },
-
-        // --- AKS 36.c: Freedmen's Bureau & KKK ---
-        { question: "Who did the Freedmen's Bureau aim to help?", reference: "AKS 36.c: Freedmen's Bureau", answers: [{ text: "Only former slaves", correct: false }, { text: "Freedmen and poor whites", correct: true }, { text: "Confederate officers", correct: false }], highlightTerm: "help freedmen adjust" },
-        { question: "In which area did the Freedmen's Bureau have the most lasting success?", reference: "AKS 36.c: Freedmen's Bureau", answers: [{ text: "Land distribution", correct: false }, { text: "Education and schools", correct: true }, { text: "Banking", correct: false }], highlightTerm: "education" },
-        { question: "What was the main goal of the KKK during Reconstruction?", reference: "AKS 36.c: KKK", answers: [{ text: "To assist the Freedmen's Bureau", correct: false }, { text: "To control the social rights and voting of freedmen", correct: true }, { text: "To elect Republicans", correct: false }], highlightTerm: "control the social and civil rights" },
-        { question: "What tactics did the KKK use to achieve their goals?", reference: "AKS 36.c: KKK", answers: [{ text: "Debates and speeches", correct: false }, { text: "Violence and intimidation", correct: true }, { text: "Lawsuits", correct: false }], highlightTerm: "terrorist group" },
-        { question: "Who were 'carpetbaggers'?", reference: "AKS 36.c: KKK", answers: [{ text: "Southerners who voted Republican", correct: false }, { text: "Northerners who moved South to help or profit", correct: true }, { text: "Farmers who grew cotton", correct: false }], highlightTerm: "carpetbaggers" },
-
-        // --- AKS 36.d: Black Legislators ---
-        { question: "Why were Black legislators expelled from the GA General Assembly in 1868?", reference: "AKS 36.d: Black Legislators", answers: [{ text: "They committed crimes", correct: false }, { text: "Democrats claimed the constitution gave the right to vote, not hold office", correct: true }, { text: "They refused to take the oath", correct: false }], highlightTerm: "vote, but not hold office" },
-        { question: "What happened to the political power in Georgia after the removal of Black legislators?", reference: "AKS 36.d: Black Legislators", answers: [{ text: "It became more diverse", correct: false }, { text: "White Democrats regained control", correct: true }, { text: "The military left forever", correct: false }], highlightTerm: "White Democrats regain control" },
-        { question: "What political party did the expelled Black legislators belong to?", reference: "AKS 36.d: Black Legislators", answers: [{ text: "Republican Party", correct: true }, { text: "Democratic Party", correct: false }, { text: "Whig Party", correct: false }], highlightTerm: "Republican" },
-
-        // --- AKS 36.e: Economy ---
-        { question: "What three crops were most commonly produced in GA during Reconstruction?", reference: "AKS 36.e: Economy", answers: [{ text: "Cotton, Corn, Tobacco", correct: true }, { text: "Rice, Indigo, Silk", correct: false }, { text: "Wheat, Soy, Peanuts", correct: false }], highlightTerm: "cotton, corn, and tobacco" },
-        { question: "Which labor system involved the worker owning NO equipment or land?", reference: "AKS 36.e: Economy", answers: [{ text: "Tenant Farming", correct: false }, { text: "Sharecropping", correct: true }, { text: "Small business owner", correct: false }], highlightTerm: "Sharecropping" },
-        { question: "How did Tenant Farming differ from Sharecropping?", reference: "AKS 36.e: Economy", answers: [{ text: "Tenant farmers owned their own tools/animals", correct: true }, { text: "Tenant farmers owned the land", correct: false }, { text: "Tenant farmers made less money", correct: false }], highlightTerm: "Tenant Farming" },
-        { question: "What kept many sharecroppers in a condition of poverty?", reference: "AKS 36.e: Economy", answers: [{ text: "Cycle of debt", correct: true }, { text: "High taxes", correct: false }, { text: "Lack of seeds", correct: false }], highlightTerm: "debt" },
-        { question: "What new industry began to grow in Georgia during Reconstruction?", reference: "AKS 36.e: Economy", answers: [{ text: "Shipbuilding", correct: false }, { text: "Textile Mills", correct: true }, { text: "Coal Mining", correct: false }], highlightTerm: "textile mills" },
-        { question: "Why did Northern investors build textile mills in Georgia?", reference: "AKS 36.e: Economy", answers: [{ text: "To act as charity", correct: false }, { text: "To reduce dependence on agriculture and utilize local cotton", correct: true }, { text: "Because the North ran out of land", correct: false }], highlightTerm: "reduce our dependence on agriculture" },
-        { question: "What did both Sharecroppers and Tenant Farmers usually need from the landowner?", reference: "AKS 36.e: Economy", answers: [{ text: "Housing and land", correct: true }, { text: "Tools", correct: false }, { text: "Seeds", correct: false }], highlightTerm: "needed housing" }
-    ],
-    studyGuideHTML: `
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-blue-100 p-4 rounded-lg space-y-3 text-sm">
-                <h3 class="font-bold text-blue-800 text-lg">AKS 36.a: Amendments</h3>
-                <p class="text-gray-700"><strong>13th:</strong> Officially <strong>Ended slavery</strong> in the US.</p>
-                <p class="text-gray-700"><strong>14th:</strong> Response to Black Codes. Made African Americans citizens. Guaranteed <strong>citizenship</strong> and equal rights.</p>
-                <p class="text-gray-700"><strong>15th:</strong> Guaranteed <strong>voting rights</strong> for African American males. Initially opposed by GA/KKK.</p>
-            </div>
-            <div class="bg-green-100 p-4 rounded-lg space-y-3 text-sm">
-                <h3 class="font-bold text-green-800 text-lg">AKS 36.b: Reconstruction Plans</h3>
-                <p class="text-gray-700"><strong>Lincoln:</strong> Heal the nation. Easy/quick readmission. 10% plan. Failed because he was <strong>assassinated</strong>.</p>
-                <p class="text-gray-700"><strong>Johnson:</strong> Similar to Lincoln. Easy readmission. States must ratify 13th Amendment.</p>
-                <p class="text-gray-700"><strong>Congressional (Radical):</strong> Wanted to <strong>punish the South</strong>. Reacted to Black Codes/KKK. Required ratification of 14th/15th.</p>
-            </div>
-            <div class="bg-yellow-100 p-4 rounded-lg space-y-3 text-sm">
-                <h3 class="font-bold text-yellow-800 text-lg">AKS 36.c & 36.d: Groups & Politics</h3>
-                <p class="text-gray-700"><strong>Freedmen's Bureau:</strong> Help freedmen/poor whites. Success in <strong>education</strong>.</p>
-                <p class="text-gray-700"><strong>KKK:</strong> Terrorist group trying to control social rights and stop blacks from voting.</p>
-                <p class="text-gray-700"><strong>Black Legislators:</strong> Expelled because Democrats argued they had the right to <strong>vote, but not hold office</strong>. Result: White Democrats regained control.</p>
-            </div>
-            <div class="bg-red-100 p-4 rounded-lg space-y-3 text-sm">
-                <h3 class="font-bold text-red-800 text-lg">AKS 36.e: Economy</h3>
-                <p class="text-gray-700"><strong>Sharecropping:</strong> Landlord owns everything. Worker in <strong>debt</strong> cycle.</p>
-                <p class="text-gray-700"><strong>Tenant Farming:</strong> Farmer owns tools/animals, rents land. Less dependent.</p>
-                <p class="text-gray-700"><strong>Textiles:</strong> Northern investors built <strong>textile mills</strong> to reduce dependence on agriculture.</p>
-                <p class="text-gray-700"><strong>Crops:</strong> <strong>Cotton, corn, and tobacco</strong> were the main goods produced.</p>
-            </div>
-        </div>`
-		},
-		unit9: {
-    title: "Unit 9: New South",
-    questions: [
-        // --- AKS 37.a: Shaping the New South ---
-        { question: "What were the two main goals of the Bourbon Triumvirate?", reference: "AKS 37.a: Bourbon Triumvirate", answers: [{ text: "End slavery and expand farming", correct: false }, { text: "Maintain white supremacy and expand industry", correct: true }, { text: "Integrate schools and build forts", correct: false }], highlightTerm: "White supremacy" },
-        { question: "The Bourbon Triumvirate believed the South should rely less on agriculture and more on...", reference: "AKS 37.a: Bourbon Triumvirate", answers: [{ text: "Mining", correct: false }, { text: "Industry", correct: true }, { text: "Shipping", correct: false }], highlightTerm: "industry" },
-        { question: "What transportation system increased significantly under the Bourbon Triumvirate?", reference: "AKS 37.a: Bourbon Triumvirate", answers: [{ text: "Canals", correct: false }, { text: "Railroads", correct: true }, { text: "Highways", correct: false }], highlightTerm: "Railroads" },
-        { question: "Who was the 'Spokesman of the New South' and editor of the Atlanta Constitution?", reference: "AKS 37.a: Henry Grady", answers: [{ text: "Tom Watson", correct: false }, { text: "Henry Grady", correct: true }, { text: "Joseph Brown", correct: false }], highlightTerm: "Henry Grady" },
-        { question: "What did the term 'New South' mean to Henry Grady?", reference: "AKS 37.a: Henry Grady", answers: [{ text: "A return to the Old South plantation system", correct: false }, { text: "Economic competition with the North (Industry)", correct: true }, { text: "A South free of segregation", correct: false }], highlightTerm: "compete with the North" },
-        { question: "What major events did Henry Grady bring to Atlanta to showcase industrial capabilities?", reference: "AKS 37.a: Henry Grady", answers: [{ text: "The Olympics", correct: false }, { text: "International Cotton Expositions", correct: true }, { text: "The World's Fair", correct: false }], highlightTerm: "International Cotton Exposition" },
-        { question: "What was a primary goal of the International Cotton Expositions?", reference: "AKS 37.a: Int. Cotton Expo", answers: [{ text: "To sell cotton to Europe", correct: false }, { text: "To lure Northern investors to the South", correct: true }, { text: "To elect a new governor", correct: false }], highlightTerm: "Lure Northern investors" },
-        { question: "Who gave the famous 'Atlanta Compromise' speech at the 1895 Cotton Expo?", reference: "AKS 37.a: Int. Cotton Expo", answers: [{ text: "W.E.B. DuBois", correct: false }, { text: "Booker T. Washington", correct: true }, { text: "Alonzo Herndon", correct: false }], highlightTerm: "Booker T. Washington" },
-        { question: "Which political party did Tom Watson lead in Georgia?", reference: "AKS 37.a: Tom Watson", answers: [{ text: "Democrat", correct: false }, { text: "Populist Party", correct: true }, { text: "Republican", correct: false }], highlightTerm: "Populist Party" },
-        { question: "Who did Tom Watson and the Populists originally support?", reference: "AKS 37.a: Tom Watson", answers: [{ text: "Rich business owners", correct: false }, { text: "Poor farmers of both races", correct: true }, { text: "Northern bankers", correct: false }], highlightTerm: "poor farmers" },
-        { question: "What was the Rural Free Delivery (RFD) Act?", reference: "AKS 37.a: Tom Watson", answers: [{ text: "Free seeds for farmers", correct: false }, { text: "Free mail delivery to rural farms", correct: true }, { text: "Free land for sharecroppers", correct: false }], highlightTerm: "Rural Free Delivery" },
-        { question: "How did Tom Watson's beliefs change later in his career?", reference: "AKS 37.a: Tom Watson", answers: [{ text: "He became a Civil Rights leader", correct: false }, { text: "He became a white supremacist and anti-Semite", correct: true }, { text: "He joined the Republican party", correct: false }], highlightTerm: "white supremacist" },
-        { question: "What tragic event was fueled by Tom Watson's racist writings in 1906?", reference: "AKS 37.a: Tom Watson", answers: [{ text: "The Civil War", correct: false }, { text: "The 1906 Atlanta Race Riot", correct: true }, { text: "The Great Depression", correct: false }], highlightTerm: "1906 Atlanta Race Riot" },
-
-        // --- AKS 37.b: Rights Denied (Jim Crow, Plessy, Disenfranchisement) ---
-        { question: "What was the purpose of Jim Crow Laws?", reference: "AKS 37.b: Jim Crow", answers: [{ text: "To protect voting rights", correct: false }, { text: "To enforce segregation and deny rights to blacks", correct: true }, { text: "To improve schools", correct: false }], highlightTerm: "Jim Crow Laws" },
-        { question: "What was the Supreme Court's ruling in Plessy v. Ferguson?", reference: "AKS 37.b: Plessy v. Ferguson", answers: [{ text: "Slavery is illegal", correct: false }, { text: "\"Separate but equal\" is constitutional", correct: true }, { text: "Segregation is illegal", correct: false }], highlightTerm: "separate but equal" },
-        { question: "Was the 'separate but equal' doctrine actually equal in reality?", reference: "AKS 37.b: Plessy v. Ferguson", answers: [{ text: "Yes, facilities were identical", correct: false }, { text: "No, black facilities were consistently inferior", correct: true }, { text: "Yes, black facilities were better", correct: false }], highlightTerm: "actually equal? No" },
-        { question: "What is disenfranchisement?", reference: "AKS 37.b: Disenfranchisement", answers: [{ text: "Being granted citizenship", correct: false }, { text: "Being deprived of the right to vote", correct: true }, { text: "Being given land", correct: false }], highlightTerm: "Disenfranchisement" },
-        { question: "Which disenfranchisement method required voters to pay a fee?", reference: "AKS 37.b: Disenfranchisement", answers: [{ text: "Literacy Test", correct: false }, { text: "Poll Tax", correct: true }, { text: "Grandfather Clause", correct: false }], highlightTerm: "Poll Taxes" },
-        { question: "What was the 'White Primary'?", reference: "AKS 37.b: Disenfranchisement", answers: [{ text: "A school for white children", correct: false }, { text: "An election where only whites could vote", correct: true }, { text: "A law about land ownership", correct: false }], highlightTerm: "White Primary" },
-        { question: "How did the Grandfather Clause help poor whites vote?", reference: "AKS 37.b: Disenfranchisement", answers: [{ text: "It gave them money", correct: false }, { text: "It allowed them to vote if their father voted before the Civil War", correct: true }, { text: "It removed the literacy test for everyone", correct: false }], highlightTerm: "Grandfather Clause" },
-        { question: "What triggered the 1906 Atlanta Race Riot?", reference: "AKS 37.b: Racial Violence", answers: [{ text: "A rise in cotton prices", correct: false }, { text: "False newspaper stories of black violence against white women", correct: true }, { text: "The election of a black mayor", correct: false }], highlightTerm: "False stories" },
-        { question: "What is lynching?", reference: "AKS 37.b: Racial Violence", answers: [{ text: "A legal trial", correct: false }, { text: "Illegal hanging/murder by a mob", correct: true }, { text: "A voting tax", correct: false }], highlightTerm: "lynching" },
-
-        // --- AKS 37.c: Civil Rights Leaders ---
-        { question: "What educational institute did Booker T. Washington lead?", reference: "AKS 37.c: Booker T. Washington", answers: [{ text: "Morehouse College", correct: false }, { text: "Tuskegee Institute", correct: true }, { text: "UGA", correct: false }], highlightTerm: "Tuskegee Institute" },
-        { question: "What was Booker T. Washington's approach to equality?", reference: "AKS 37.c: Booker T. Washington", answers: [{ text: "Immediate political action", correct: false }, { text: "Hard work, economic independence, and patience", correct: true }, { text: "Violent protest", correct: false }], highlightTerm: "work hard" },
-        { question: "What concept did W.E.B. DuBois develop for black leadership?", reference: "AKS 37.c: W.E.B. DuBois", answers: [{ text: "The Silent Majority", correct: false }, { text: "The Talented Tenth", correct: true }, { text: "The Tuskegee Airmen", correct: false }], highlightTerm: "Talented Tenth" },
-        { question: "How did DuBois disagree with Booker T. Washington?", reference: "AKS 37.c: W.E.B. DuBois", answers: [{ text: "DuBois wanted immediate social and political equality", correct: true }, { text: "DuBois wanted to wait for rights", correct: false }, { text: "DuBois didn't want education", correct: false }], highlightTerm: "immediate social and political equality" },
-        { question: "What organization did W.E.B. DuBois help found in 1906?", reference: "AKS 37.c: W.E.B. DuBois", answers: [{ text: "KKK", correct: false }, { text: "NAACP", correct: true }, { text: "Populist Party", correct: false }], highlightTerm: "NAACP" },
-        { question: "What was Alonzo Herndon's background before becoming wealthy?", reference: "AKS 37.c: Alonzo Herndon", answers: [{ text: "He was born a free man in New York", correct: false }, { text: "He was a former slave and sharecropper", correct: true }, { text: "He was a politician", correct: false }], highlightTerm: "slave to sharecropping" },
-        { question: "How did Alonzo Herndon become a millionaire?", reference: "AKS 37.c: Alonzo Herndon", answers: [{ text: "Gold mining", correct: false }, { text: "Barber shops and Atlanta Mutual Life Insurance", correct: true }, { text: "Cotton farming", correct: false }], highlightTerm: "Atlanta Mutual Life Insurance" },
-        { question: "Which movement did Herndon join to oppose Booker T. Washington's philosophy?", reference: "AKS 37.c: Alonzo Herndon", answers: [{ text: "The Niagara Movement", correct: true }, { text: "The Populist Movement", correct: false }, { text: "The Bourbon Movement", correct: false }], highlightTerm: "Niagara Movement" },
-
-        // --- AKS 37.d: Anti-Semitism & Leo Frank ---
-        { question: "What is Anti-Semitism?", reference: "AKS 37.d: Anti-Semitism", answers: [{ text: "Hatred of the South", correct: false }, { text: "Hostility or prejudice against Jews", correct: true }, { text: "Hatred of Catholics", correct: false }], highlightTerm: "prejudice against Jews" },
-        { question: "Who was Leo Frank?", reference: "AKS 37.d: Leo Frank Case", answers: [{ text: "A southern farmer", correct: false }, { text: "A Jewish factory manager from New York", correct: true }, { text: "A newspaper editor", correct: false }], highlightTerm: "Jewish man from NY" },
-        { question: "What crime was Leo Frank accused of?", reference: "AKS 37.d: Leo Frank Case", answers: [{ text: "Robbing a bank", correct: false }, { text: "Murdering Mary Phagan", correct: true }, { text: "Starting a riot", correct: false }], highlightTerm: "Mary Phagan" },
-        { question: "What happened to Leo Frank after his death sentence was commuted to life in prison?", reference: "AKS 37.d: Leo Frank Case", answers: [{ text: "He was released", correct: false }, { text: "He was kidnapped from prison and lynched", correct: true }, { text: "He escaped to New York", correct: false }], highlightTerm: "lynched" },
-        { question: "What hate group was reborn as a result of the Leo Frank case?", reference: "AKS 37.d: Leo Frank Case", answers: [{ text: "The Populists", correct: false }, { text: "The KKK (Knights of Mary Phagan)", correct: true }, { text: "The Red Shirts", correct: false }], highlightTerm: "rebirth of the KKK" },
-        { question: "The Leo Frank case highlighted resentment toward which groups?", reference: "AKS 37.d: Leo Frank Case", answers: [{ text: "Farmers and laborers", correct: false }, { text: "Big business, Northerners, and Jews", correct: true }, { text: "Teachers and students", correct: false }], highlightTerm: "Northern interests" }
-    ],
-    studyGuideHTML: `
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-blue-100 p-4 rounded-lg space-y-3 text-sm">
-                <h3 class="font-bold text-blue-800 text-lg">AKS 37.a: Shaping the New South</h3>
-                <p class="text-gray-700"><strong>Bourbon Triumvirate:</strong> Wanted <strong>white supremacy</strong> and industrial growth (Railroads). Less farming.</p>
-                <p class="text-gray-700"><strong>Henry Grady:</strong> Editor of Atlanta Constitution. Promoted "New South" (<strong>industry</strong>). Organized <strong>International Cotton Expositions</strong> to <strong>lure Northern investors</strong>.</p>
-                <p class="text-gray-700"><strong>Tom Watson & Populists:</strong> Supported <strong>poor farmers</strong>. Created <strong>Rural Free Delivery (RFD)</strong>. Later became a <strong>white supremacist</strong> whose writing sparked the 1906 Riot.</p>
-            </div>
-            <div class="bg-green-100 p-4 rounded-lg space-y-3 text-sm">
-                <h3 class="font-bold text-green-800 text-lg">AKS 37.b: Rights Denied</h3>
-                <p class="text-gray-700"><strong>Jim Crow Laws:</strong> Enforced segregation.</p>
-                <p class="text-gray-700"><strong>Plessy v. Ferguson:</strong> Ruled "<strong>separate but equal</strong>" is constitutional. (It was NOT equal).</p>
-                <p class="text-gray-700"><strong>Disenfranchisement:</strong> Taking away voting rights via <strong>Poll Taxes</strong>, <strong>Literacy Tests</strong>, White Primaries, and the <strong>Grandfather Clause</strong>.</p>
-                <p class="text-gray-700"><strong>1906 Atlanta Riot:</strong> Caused by <strong>false newspaper stories</strong> of black violence.</p>
-            </div>
-            <div class="bg-yellow-100 p-4 rounded-lg space-y-3 text-sm">
-                <h3 class="font-bold text-yellow-800 text-lg">AKS 37.c: Civil Rights Leaders</h3>
-                <p class="text-gray-700"><strong>Booker T. Washington:</strong> <strong>Tuskegee Institute</strong>. Believed in <strong>hard work</strong>/economic equality first. "Atlanta Compromise" speech.</p>
-                <p class="text-gray-700"><strong>W.E.B. DuBois:</strong> <strong>Talented Tenth</strong>. Wanted <strong>immediate social and political equality</strong>. Founded <strong>NAACP</strong>.</p>
-                <p class="text-gray-700"><strong>Alonzo Herndon:</strong> Former slave -> Barber -> <strong>Atlanta Mutual Life Insurance</strong> millionaire. Joined Niagara Movement.</p>
-            </div>
-            <div class="bg-red-100 p-4 rounded-lg space-y-3 text-sm">
-                <h3 class="font-bold text-red-800 text-lg">AKS 37.d: Anti-Semitism</h3>
-                <p class="text-gray-700"><strong>Anti-Semitism:</strong> Hostility to Jews.</p>
-                <p class="text-gray-700"><strong>Leo Frank Case:</strong> Jewish manager accused of killing <strong>Mary Phagan</strong>. Sentenced to life, then <strong>lynched</strong>. Resulted in <strong>rebirth of the KKK</strong> and hatred of Northern interests.</p>
-            </div>
-        </div>`
-}
+                    title: "Unit 8: Reconstruction",
+                    questions: [
+                        { question: "What was the primary purpose of the 13th Amendment?", reference: "AKS 36.a: Amendments", answers: [{ text: "To grant citizenship", correct: false }, { text: "To officially end slavery in the US", correct: true }, { text: "To give women the right to vote", correct: false }], highlightTerm: "Ended slavery" },
+                        { question: "Which amendment was created in direct response to the Black Codes?", reference: "AKS 36.a: Amendments", answers: [{ text: "13th Amendment", correct: false }, { text: "14th Amendment", correct: true }, { text: "15th Amendment", correct: false }], highlightTerm: "response to Southern black codes" },
+                        { question: "What does the 14th Amendment guarantee to all persons born in the US?", reference: "AKS 36.a: Amendments", answers: [{ text: "Citizenship and equal protection", correct: true }, { text: "40 acres and a mule", correct: false }, { text: "The right to hold office", correct: false }], highlightTerm: "citizenship" },
+                        { question: "What specific group was granted voting rights by the 15th Amendment?", reference: "AKS 36.a: Amendments", answers: [{ text: "All women", correct: false }, { text: "African American males", correct: true }, { text: "Native Americans", correct: false }], highlightTerm: "voting rights" },
+                        { question: "How did the Georgia legislature initially respond to the 15th Amendment?", reference: "AKS 36.a: Amendments", answers: [{ text: "They ratified it immediately", correct: false }, { text: "They refused to pass/accept it", correct: true }, { text: "They ignored it", correct: false }], highlightTerm: "refused to pass" },
+                        { question: "Which amendment overturned the Dred Scott decision by defining citizenship?", reference: "AKS 36.a: Amendments", answers: [{ text: "12th", correct: false }, { text: "14th", correct: true }, { text: "16th", correct: false }], highlightTerm: "citizenship" },
+                        { question: "What was the main goal of Lincoln's Reconstruction Plan?", reference: "AKS 36.b: Reconstruction Plans", answers: [{ text: "To punish the South severely", correct: false }, { text: "To heal the nation and rejoin the Union quickly", correct: true }, { text: "To keep the South out of the Union", correct: false }], highlightTerm: "heal the nation" },
+                        { question: "Lincoln's plan was also known as the...", reference: "AKS 36.b: Reconstruction Plans", answers: [{ text: "10% Plan", correct: true }, { text: "50% Plan", correct: false }, { text: "Total War Plan", correct: false }], highlightTerm: "swear allegiance" },
+                        { question: "Why was Lincoln unable to implement his Reconstruction plan?", reference: "AKS 36.b: Reconstruction Plans", answers: [{ text: "He lost the election", correct: false }, { text: "He was assassinated", correct: true }, { text: "Congress impeached him", correct: false }], highlightTerm: "assassinated" },
+                        { question: "How did Andrew Johnson's plan differ from the Congressional plan?", reference: "AKS 36.b: Reconstruction Plans", answers: [{ text: "It was much stricter", correct: false }, { text: "It was easier/lenient on the South", correct: true }, { text: "It required military rule", correct: false }], highlightTerm: "Made readmission easy" },
+                        { question: "What did Johnson require states to do regarding the Constitution?", reference: "AKS 36.b: Reconstruction Plans", answers: [{ text: "Ratify the 13th Amendment", correct: true }, { text: "Ratify the 15th Amendment", correct: false }, { text: "Pay war debts", correct: false }], highlightTerm: "pass the 13th Amendment" },
+                        { question: "Why did Congress (Radical Republicans) take over Reconstruction?", reference: "AKS 36.b: Reconstruction Plans", answers: [{ text: "Lincoln asked them to", correct: false }, { text: "The South refused to ratify the 14th Amendment", correct: true }, { text: "Johnson resigned", correct: false }], highlightTerm: "refusal to ratify the 14th" },
+                        { question: "What was the primary goal of the Congressional Reconstruction Plan?", reference: "AKS 36.b: Reconstruction Plans", answers: [{ text: "To punish the South and protect freedmen", correct: true }, { text: "To rebuild Southern factories", correct: false }, { text: "To expand slavery", correct: false }], highlightTerm: "punish the South" },
+                        { question: "Who did the Freedmen's Bureau aim to help?", reference: "AKS 36.c: Freedmen's Bureau", answers: [{ text: "Only former slaves", correct: false }, { text: "Freedmen and poor whites", correct: true }, { text: "Confederate officers", correct: false }], highlightTerm: "help freedmen adjust" },
+                        { question: "In which area did the Freedmen's Bureau have the most lasting success?", reference: "AKS 36.c: Freedmen's Bureau", answers: [{ text: "Land distribution", correct: false }, { text: "Education and schools", correct: true }, { text: "Banking", correct: false }], highlightTerm: "education" },
+                        { question: "What was the main goal of the KKK during Reconstruction?", reference: "AKS 36.c: KKK", answers: [{ text: "To assist the Freedmen's Bureau", correct: false }, { text: "To control the social rights and voting of freedmen", correct: true }, { text: "To elect Republicans", correct: false }], highlightTerm: "control the social and civil rights" },
+                        { question: "What tactics did the KKK use to achieve their goals?", reference: "AKS 36.c: KKK", answers: [{ text: "Debates and speeches", correct: false }, { text: "Violence and intimidation", correct: true }, { text: "Lawsuits", correct: false }], highlightTerm: "terrorist group" },
+                        { question: "Who were 'carpetbaggers'?", reference: "AKS 36.c: KKK", answers: [{ text: "Southerners who voted Republican", correct: false }, { text: "Northerners who moved South to help or profit", correct: true }, { text: "Farmers who grew cotton", correct: false }], highlightTerm: "carpetbaggers" },
+                        { question: "Why were Black legislators expelled from the GA General Assembly in 1868?", reference: "AKS 36.d: Black Legislators", answers: [{ text: "They committed crimes", correct: false }, { text: "Democrats claimed the constitution gave the right to vote, not hold office", correct: true }, { text: "They refused to take the oath", correct: false }], highlightTerm: "vote, but not hold office" },
+                        { question: "What happened to the political power in Georgia after the removal of Black legislators?", reference: "AKS 36.d: Black Legislators", answers: [{ text: "It became more diverse", correct: false }, { text: "White Democrats regained control", correct: true }, { text: "The military left forever", correct: false }], highlightTerm: "White Democrats regain control" },
+                        { question: "What political party did the expelled Black legislators belong to?", reference: "AKS 36.d: Black Legislators", answers: [{ text: "Republican Party", correct: true }, { text: "Democratic Party", correct: false }, { text: "Whig Party", correct: false }], highlightTerm: "Republican" },
+                        { question: "What three crops were most commonly produced in GA during Reconstruction?", reference: "AKS 36.e: Economy", answers: [{ text: "Cotton, Corn, Tobacco", correct: true }, { text: "Rice, Indigo, Silk", correct: false }, { text: "Wheat, Soy, Peanuts", correct: false }], highlightTerm: "cotton, corn, and tobacco" },
+                        { question: "Which labor system involved the worker owning NO equipment or land?", reference: "AKS 36.e: Economy", answers: [{ text: "Tenant Farming", correct: false }, { text: "Sharecropping", correct: true }, { text: "Small business owner", correct: false }], highlightTerm: "Sharecropping" },
+                        { question: "How did Tenant Farming differ from Sharecropping?", reference: "AKS 36.e: Economy", answers: [{ text: "Tenant farmers owned their own tools/animals", correct: true }, { text: "Tenant farmers owned the land", correct: false }, { text: "Tenant farmers made less money", correct: false }], highlightTerm: "Tenant Farming" },
+                        { question: "What kept many sharecroppers in a condition of poverty?", reference: "AKS 36.e: Economy", answers: [{ text: "Cycle of debt", correct: true }, { text: "High taxes", correct: false }, { text: "Lack of seeds", correct: false }], highlightTerm: "debt" },
+                        { question: "What new industry began to grow in Georgia during Reconstruction?", reference: "AKS 36.e: Economy", answers: [{ text: "Shipbuilding", correct: false }, { text: "Textile Mills", correct: true }, { text: "Coal Mining", correct: false }], highlightTerm: "textile mills" },
+                        { question: "Why did Northern investors build textile mills in Georgia?", reference: "AKS 36.e: Economy", answers: [{ text: "To act as charity", correct: false }, { text: "To reduce dependence on agriculture and utilize local cotton", correct: true }, { text: "Because the North ran out of land", correct: false }], highlightTerm: "reduce our dependence on agriculture" },
+                        { question: "What did both Sharecroppers and Tenant Farmers usually need from the landowner?", reference: "AKS 36.e: Economy", answers: [{ text: "Housing and land", correct: true }, { text: "Tools", correct: false }, { text: "Seeds", correct: false }], highlightTerm: "needed housing" }
+                    ],
+                    studyGuideHTML: `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-blue-100 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-blue-800 text-lg">AKS 36.a: Amendments</h3>
+                                <p class="text-gray-700"><strong>13th:</strong> Officially <strong>Ended slavery</strong> in the US.</p>
+                                <p class="text-gray-700"><strong>14th:</strong> Response to Black Codes. Made African Americans citizens. Guaranteed <strong>citizenship</strong> and equal rights.</p>
+                                <p class="text-gray-700"><strong>15th:</strong> Guaranteed <strong>voting rights</strong> for African American males. Initially opposed by GA/KKK.</p>
+                            </div>
+                            <div class="bg-green-100 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-green-800 text-lg">AKS 36.b: Reconstruction Plans</h3>
+                                <p class="text-gray-700"><strong>Lincoln:</strong> Heal the nation. Easy/quick readmission. 10% plan. Failed because he was <strong>assassinated</strong>.</p>
+                                <p class="text-gray-700"><strong>Johnson:</strong> Similar to Lincoln. Easy readmission. States must ratify 13th Amendment.</p>
+                                <p class="text-gray-700"><strong>Congressional (Radical):</strong> Wanted to <strong>punish the South</strong>. Reacted to Black Codes/KKK. Required ratification of 14th/15th.</p>
+                            </div>
+                            <div class="bg-yellow-100 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-yellow-800 text-lg">AKS 36.c & 36.d: Groups & Politics</h3>
+                                <p class="text-gray-700"><strong>Freedmen's Bureau:</strong> Help freedmen/poor whites. Success in <strong>education</strong>.</p>
+                                <p class="text-gray-700"><strong>KKK:</strong> Terrorist group trying to control social rights and stop blacks from voting.</p>
+                                <p class="text-gray-700"><strong>Black Legislators:</strong> Expelled because Democrats argued they had the right to <strong>vote, but not hold office</strong>. Result: White Democrats regained control.</p>
+                            </div>
+                            <div class="bg-red-100 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-red-800 text-lg">AKS 36.e: Economy</h3>
+                                <p class="text-gray-700"><strong>Sharecropping:</strong> Landlord owns everything. Worker in <strong>debt</strong> cycle.</p>
+                                <p class="text-gray-700"><strong>Tenant Farming:</strong> Farmer owns tools/animals, rents land. Less dependent.</p>
+                                <p class="text-gray-700"><strong>Textiles:</strong> Northern investors built <strong>textile mills</strong> to reduce dependence on agriculture.</p>
+                                <p class="text-gray-700"><strong>Crops:</strong> <strong>Cotton, corn, and tobacco</strong> were the main goods produced.</p>
+                            </div>
+                        </div>`
+                },
+                unit9: {
+                    title: "Unit 9: New South",
+                    questions: [
+                        { question: "What were the two main goals of the Bourbon Triumvirate?", reference: "AKS 37.a: Bourbon Triumvirate", answers: [{ text: "End slavery and expand farming", correct: false }, { text: "Maintain white supremacy and expand industry", correct: true }, { text: "Integrate schools and build forts", correct: false }], highlightTerm: "White supremacy" },
+                        { question: "The Bourbon Triumvirate believed the South should rely less on agriculture and more on...", reference: "AKS 37.a: Bourbon Triumvirate", answers: [{ text: "Mining", correct: false }, { text: "Industry", correct: true }, { text: "Shipping", correct: false }], highlightTerm: "industry" },
+                        { question: "What transportation system increased significantly under the Bourbon Triumvirate?", reference: "AKS 37.a: Bourbon Triumvirate", answers: [{ text: "Canals", correct: false }, { text: "Railroads", correct: true }, { text: "Highways", correct: false }], highlightTerm: "Railroads" },
+                        { question: "Who was the 'Spokesman of the New South' and editor of the Atlanta Constitution?", reference: "AKS 37.a: Henry Grady", answers: [{ text: "Tom Watson", correct: false }, { text: "Henry Grady", correct: true }, { text: "Joseph Brown", correct: false }], highlightTerm: "Henry Grady" },
+                        { question: "What did the term 'New South' mean to Henry Grady?", reference: "AKS 37.a: Henry Grady", answers: [{ text: "A return to the Old South plantation system", correct: false }, { text: "Economic competition with the North (Industry)", correct: true }, { text: "A South free of segregation", correct: false }], highlightTerm: "compete with the North" },
+                        { question: "What major events did Henry Grady bring to Atlanta to showcase industrial capabilities?", reference: "AKS 37.a: Henry Grady", answers: [{ text: "The Olympics", correct: false }, { text: "International Cotton Expositions", correct: true }, { text: "The World's Fair", correct: false }], highlightTerm: "International Cotton Exposition" },
+                        { question: "What was a primary goal of the International Cotton Expositions?", reference: "AKS 37.a: Int. Cotton Expo", answers: [{ text: "To sell cotton to Europe", correct: false }, { text: "To lure Northern investors to the South", correct: true }, { text: "To elect a new governor", correct: false }], highlightTerm: "Lure Northern investors" },
+                        { question: "Who gave the famous 'Atlanta Compromise' speech at the 1895 Cotton Expo?", reference: "AKS 37.a: Int. Cotton Expo", answers: [{ text: "W.E.B. DuBois", correct: false }, { text: "Booker T. Washington", correct: true }, { text: "Alonzo Herndon", correct: false }], highlightTerm: "Booker T. Washington" },
+                        { question: "Which political party did Tom Watson lead in Georgia?", reference: "AKS 37.a: Tom Watson", answers: [{ text: "Democrat", correct: false }, { text: "Populist Party", correct: true }, { text: "Republican", correct: false }], highlightTerm: "Populist Party" },
+                        { question: "Who did Tom Watson and the Populists originally support?", reference: "AKS 37.a: Tom Watson", answers: [{ text: "Rich business owners", correct: false }, { text: "Poor farmers of both races", correct: true }, { text: "Northern bankers", correct: false }], highlightTerm: "poor farmers" },
+                        { question: "What was the Rural Free Delivery (RFD) Act?", reference: "AKS 37.a: Tom Watson", answers: [{ text: "Free seeds for farmers", correct: false }, { text: "Free mail delivery to rural farms", correct: true }, { text: "Free land for sharecroppers", correct: false }], highlightTerm: "Rural Free Delivery" },
+                        { question: "How did Tom Watson's beliefs change later in his career?", reference: "AKS 37.a: Tom Watson", answers: [{ text: "He became a Civil Rights leader", correct: false }, { text: "He became a white supremacist and anti-Semite", correct: true }, { text: "He joined the Republican party", correct: false }], highlightTerm: "white supremacist" },
+                        { question: "What tragic event was fueled by Tom Watson's racist writings in 1906?", reference: "AKS 37.a: Tom Watson", answers: [{ text: "The Civil War", correct: false }, { text: "The 1906 Atlanta Race Riot", correct: true }, { text: "The Great Depression", correct: false }], highlightTerm: "1906 Atlanta Race Riot" },
+                        { question: "What was the purpose of Jim Crow Laws?", reference: "AKS 37.b: Jim Crow", answers: [{ text: "To protect voting rights", correct: false }, { text: "To enforce segregation and deny rights to blacks", correct: true }, { text: "To improve schools", correct: false }], highlightTerm: "Jim Crow Laws" },
+                        { question: "What was the Supreme Court's ruling in Plessy v. Ferguson?", reference: "AKS 37.b: Plessy v. Ferguson", answers: [{ text: "Slavery is illegal", correct: false }, { text: "\"Separate but equal\" is constitutional", correct: true }, { text: "Segregation is illegal", correct: false }], highlightTerm: "separate but equal" },
+                        { question: "Was the 'separate but equal' doctrine actually equal in reality?", reference: "AKS 37.b: Plessy v. Ferguson", answers: [{ text: "Yes, facilities were identical", correct: false }, { text: "No, black facilities were consistently inferior", correct: true }, { text: "Yes, black facilities were better", correct: false }], highlightTerm: "actually equal? No" },
+                        { question: "What is disenfranchisement?", reference: "AKS 37.b: Disenfranchisement", answers: [{ text: "Being granted citizenship", correct: false }, { text: "Being deprived of the right to vote", correct: true }, { text: "Being given land", correct: false }], highlightTerm: "Disenfranchisement" },
+                        { question: "Which disenfranchisement method required voters to pay a fee?", reference: "AKS 37.b: Disenfranchisement", answers: [{ text: "Literacy Test", correct: false }, { text: "Poll Tax", correct: true }, { text: "Grandfather Clause", correct: false }], highlightTerm: "Poll Taxes" },
+                        { question: "What was the 'White Primary'?", reference: "AKS 37.b: Disenfranchisement", answers: [{ text: "A school for white children", correct: false }, { text: "An election where only whites could vote", correct: true }, { text: "A law about land ownership", correct: false }], highlightTerm: "White Primary" },
+                        { question: "How did the Grandfather Clause help poor whites vote?", reference: "AKS 37.b: Disenfranchisement", answers: [{ text: "It gave them money", correct: false }, { text: "It allowed them to vote if their father voted before the Civil War", correct: true }, { text: "It removed the literacy test for everyone", correct: false }], highlightTerm: "Grandfather Clause" },
+                        { question: "What triggered the 1906 Atlanta Race Riot?", reference: "AKS 37.b: Racial Violence", answers: [{ text: "A rise in cotton prices", correct: false }, { text: "False newspaper stories of black violence against white women", correct: true }, { text: "The election of a black mayor", correct: false }], highlightTerm: "False stories" },
+                        { question: "What is lynching?", reference: "AKS 37.b: Racial Violence", answers: [{ text: "A legal trial", correct: false }, { text: "Illegal hanging/murder by a mob", correct: true }, { text: "A voting tax", correct: false }], highlightTerm: "lynching" },
+                        { question: "What educational institute did Booker T. Washington lead?", reference: "AKS 37.c: Booker T. Washington", answers: [{ text: "Morehouse College", correct: false }, { text: "Tuskegee Institute", correct: true }, { text: "UGA", correct: false }], highlightTerm: "Tuskegee Institute" },
+                        { question: "What was Booker T. Washington's approach to equality?", reference: "AKS 37.c: Booker T. Washington", answers: [{ text: "Immediate political action", correct: false }, { text: "Hard work, economic independence, and patience", correct: true }, { text: "Violent protest", correct: false }], highlightTerm: "work hard" },
+                        { question: "What concept did W.E.B. DuBois develop for black leadership?", reference: "AKS 37.c: W.E.B. DuBois", answers: [{ text: "The Silent Majority", correct: false }, { text: "The Talented Tenth", correct: true }, { text: "The Tuskegee Airmen", correct: false }], highlightTerm: "Talented Tenth" },
+                        { question: "How did DuBois disagree with Booker T. Washington?", reference: "AKS 37.c: W.E.B. DuBois", answers: [{ text: "DuBois wanted immediate social and political equality", correct: true }, { text: "DuBois wanted to wait for rights", correct: false }, { text: "DuBois didn't want education", correct: false }], highlightTerm: "immediate social and political equality" },
+                        { question: "What organization did W.E.B. DuBois help found in 1906?", reference: "AKS 37.c: W.E.B. DuBois", answers: [{ text: "KKK", correct: false }, { text: "NAACP", correct: true }, { text: "Populist Party", correct: false }], highlightTerm: "NAACP" },
+                        { question: "What was Alonzo Herndon's background before becoming wealthy?", reference: "AKS 37.c: Alonzo Herndon", answers: [{ text: "He was born a free man in New York", correct: false }, { text: "He was a former slave and sharecropper", correct: true }, { text: "He was a politician", correct: false }], highlightTerm: "slave to sharecropping" },
+                        { question: "How did Alonzo Herndon become a millionaire?", reference: "AKS 37.c: Alonzo Herndon", answers: [{ text: "Gold mining", correct: false }, { text: "Barber shops and Atlanta Mutual Life Insurance", correct: true }, { text: "Cotton farming", correct: false }], highlightTerm: "Atlanta Mutual Life Insurance" },
+                        { question: "Which movement did Herndon join to oppose Booker T. Washington's philosophy?", reference: "AKS 37.c: Alonzo Herndon", answers: [{ text: "The Niagara Movement", correct: true }, { text: "The Populist Movement", correct: false }, { text: "The Bourbon Movement", correct: false }], highlightTerm: "Niagara Movement" },
+                        { question: "What is Anti-Semitism?", reference: "AKS 37.d: Anti-Semitism", answers: [{ text: "Hatred of the South", correct: false }, { text: "Hostility or prejudice against Jews", correct: true }, { text: "Hatred of Catholics", correct: false }], highlightTerm: "prejudice against Jews" },
+                        { question: "Who was Leo Frank?", reference: "AKS 37.d: Leo Frank Case", answers: [{ text: "A southern farmer", correct: false }, { text: "A Jewish factory manager from New York", correct: true }, { text: "A newspaper editor", correct: false }], highlightTerm: "Jewish man from NY" },
+                        { question: "What crime was Leo Frank accused of?", reference: "AKS 37.d: Leo Frank Case", answers: [{ text: "Robbing a bank", correct: false }, { text: "Murdering Mary Phagan", correct: true }, { text: "Starting a riot", correct: false }], highlightTerm: "Mary Phagan" },
+                        { question: "What happened to Leo Frank after his death sentence was commuted to life in prison?", reference: "AKS 37.d: Leo Frank Case", answers: [{ text: "He was released", correct: false }, { text: "He was kidnapped from prison and lynched", correct: true }, { text: "He escaped to New York", correct: false }], highlightTerm: "lynched" },
+                        { question: "What hate group was reborn as a result of the Leo Frank case?", reference: "AKS 37.d: Leo Frank Case", answers: [{ text: "The Populists", correct: false }, { text: "The KKK (Knights of Mary Phagan)", correct: true }, { text: "The Red Shirts", correct: false }], highlightTerm: "rebirth of the KKK" },
+                        { question: "The Leo Frank case highlighted resentment toward which groups?", reference: "AKS 37.d: Leo Frank Case", answers: [{ text: "Farmers and laborers", correct: false }, { text: "Big business, Northerners, and Jews", correct: true }, { text: "Teachers and students", correct: false }], highlightTerm: "Northern interests" }
+                    ],
+                    studyGuideHTML: `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-blue-100 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-blue-800 text-lg">AKS 37.a: Shaping the New South</h3>
+                                <p class="text-gray-700"><strong>Bourbon Triumvirate:</strong> Wanted <strong>white supremacy</strong> and industrial growth (Railroads). Less farming.</p>
+                                <p class="text-gray-700"><strong>Henry Grady:</strong> Editor of Atlanta Constitution. Promoted "New South" (<strong>industry</strong>). Organized <strong>International Cotton Expositions</strong> to <strong>lure Northern investors</strong>.</p>
+                                <p class="text-gray-700"><strong>Tom Watson & Populists:</strong> Supported <strong>poor farmers</strong>. Created <strong>Rural Free Delivery (RFD)</strong>. Later became a <strong>white supremacist</strong> whose writing sparked the 1906 Riot.</p>
+                            </div>
+                            <div class="bg-green-100 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-green-800 text-lg">AKS 37.b: Rights Denied</h3>
+                                <p class="text-gray-700"><strong>Jim Crow Laws:</strong> Enforced segregation.</p>
+                                <p class="text-gray-700"><strong>Plessy v. Ferguson:</strong> Ruled "<strong>separate but equal</strong>" is constitutional. (It was NOT equal).</p>
+                                <p class="text-gray-700"><strong>Disenfranchisement:</strong> Taking away voting rights via <strong>Poll Taxes</strong>, <strong>Literacy Tests</strong>, White Primaries, and the <strong>Grandfather Clause</strong>.</p>
+                                <p class="text-gray-700"><strong>1906 Atlanta Riot:</strong> Caused by <strong>false newspaper stories</strong> of black violence.</p>
+                            </div>
+                            <div class="bg-yellow-100 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-yellow-800 text-lg">AKS 37.c: Civil Rights Leaders</h3>
+                                <p class="text-gray-700"><strong>Booker T. Washington:</strong> <strong>Tuskegee Institute</strong>. Believed in <strong>hard work</strong>/economic equality first. "Atlanta Compromise" speech.</p>
+                                <p class="text-gray-700"><strong>W.E.B. DuBois:</strong> <strong>Talented Tenth</strong>. Wanted <strong>immediate social and political equality</strong>. Founded <strong>NAACP</strong>.</p>
+                                <p class="text-gray-700"><strong>Alonzo Herndon:</strong> Former slave -> Barber -> <strong>Atlanta Mutual Life Insurance</strong> millionaire. Joined Niagara Movement.</p>
+                            </div>
+                            <div class="bg-red-100 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-red-800 text-lg">AKS 37.d: Anti-Semitism</h3>
+                                <p class="text-gray-700"><strong>Anti-Semitism:</strong> Hostility to Jews.</p>
+                                <p class="text-gray-700"><strong>Leo Frank Case:</strong> Jewish manager accused of killing <strong>Mary Phagan</strong>. Sentenced to life, then <strong>lynched</strong>. Resulted in <strong>rebirth of the KKK</strong> and hatred of Northern interests.</p>
+                            </div>
+                        </div>`
+                }
             };
             
             // --- DOM Element Selection ---
@@ -1067,14 +1048,18 @@
                     const button = document.createElement('button');
                     button.classList.add('bg-white', 'hover:bg-blue-100', 'text-gray-800', 'font-semibold', 'py-3', 'px-5', 'rounded-lg', 'border', 'border-gray-300', 'transition', 'duration-200', 'w-full', 'flex', 'items-center', 'justify-between');
 
+                    const answerWrapper = document.createElement('div');
+                    answerWrapper.classList.add('flex', 'items-center', 'justify-between', 'w-full', 'gap-2');
+                    
                     const answerTextSpan = document.createElement('span');
                     answerTextSpan.innerText = answer.text;
                     answerTextSpan.classList.add('text-left');
 
                     const answerSpeakerBtn = createSpeakerButton(answer.text);
                     
-                    button.appendChild(answerTextSpan);
-                    button.appendChild(answerSpeakerBtn);
+                    answerWrapper.appendChild(answerTextSpan);
+                    answerWrapper.appendChild(answerSpeakerBtn);
+                    button.appendChild(answerWrapper);
 
                     if (answer.correct) {
                         button.dataset.correct = answer.correct;
@@ -1225,6 +1210,10 @@
             }
             
             function showArtBreak() {
+                // Important fix: Cancel any existing break intervals/animations BEFORE starting a new one
+                if(breakTimerInterval) clearInterval(breakTimerInterval);
+                if(animationFrameId) cancelAnimationFrame(animationFrameId);
+
                 quizScreen.classList.add('hidden');
                 brainBreakScreen.classList.remove('hidden');
                 
