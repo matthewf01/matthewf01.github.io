@@ -119,13 +119,24 @@
                 </div>
             </div>
              <div class="mt-8 pt-4 border-t-2 border-gray-200">
+                <h2 class="font-title text-2xl md:text-3xl font-bold text-purple-600 mb-4">Final Exam Review Games</h2>
                 <button id="resume-exam-btn" class="hidden w-full text-white font-bold py-3 px-6 rounded-lg text-lg transform hover:scale-105 bg-gradient-to-r from-blue-500 to-indigo-600 mb-4 shadow-lg border-2 border-indigo-300">
                     Resume Final Exam
                 </button>
-                <button id="final-exam-btn" class="w-full text-white font-bold py-3 px-6 rounded-lg text-lg transform hover:scale-105 rainbow-btn">
-                    Start New Final Exam (All Units)
-                </button>
-                <p id="final-exam-high-score" class="text-sm text-gray-500 mt-2 hidden">High Score: <span></span></p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <button id="semester-1-btn" class="w-full text-white font-bold py-3 px-6 rounded-lg text-lg transform hover:scale-105 rainbow-btn">
+                            1st Semester (Units 1-6)
+                        </button>
+                        <p id="sem-1-high-score" class="text-sm text-gray-500 mt-2 hidden">High Score: <span></span></p>
+                    </div>
+                    <div>
+                        <button id="semester-2-btn" class="w-full text-white font-bold py-3 px-6 rounded-lg text-lg transform hover:scale-105 rainbow-btn">
+                            2nd Semester (Units 7-12)
+                        </button>
+                        <p id="sem-2-high-score" class="text-sm text-gray-500 mt-2 hidden">High Score: <span></span></p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -224,7 +235,7 @@
             <svg id="sound-on-icon" class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
             <svg id="sound-off-icon" class="w-5 h-5 text-gray-700 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2 2m2-2l2 2"></path></svg>
         </button>
-        <span>MF Build: 260329.02</span>
+        <span>MF Build: 20240420.1</span>
     </footer>
 
     <!-- Audio Elements -->
@@ -840,18 +851,13 @@
                 unit11: {
                     title: "Unit 11: Post WWII & Civil Rights",
                     questions: [
-                        // AKS 40.a: Technology & Agriculture
                         { question: "How did the introduction of new farm machines (technology) transform agriculture in Georgia?", reference: "AKS 40.a: Technology", answers: [{ text: "It created more farming jobs", correct: false }, { text: "It displaced farm workers as machines did the work", correct: true }, { text: "It caused crops to fail", correct: false }], highlightTerm: "displaced farm workers" },
                         { question: "What major population shift occurred in Georgia because of agricultural technology post-WWII?", reference: "AKS 40.a: Technology", answers: [{ text: "Fewer people were needed on farms, so they moved to cities for work", correct: true }, { text: "People left the state entirely", correct: false }, { text: "City dwellers moved to rural areas to farm", correct: false }], highlightTerm: "moved to cities" },
-
-                        // AKS 40.b: Atlanta Mayors
                         { question: "Which longest-serving Atlanta mayor worked with civil rights leaders to integrate the police department and lunch counters?", reference: "AKS 40.b: Atlanta Leaders", answers: [{ text: "Ivan Allen, Jr.", correct: false }, { text: "William B. Hartsfield", correct: true }, { text: "Eugene Talmadge", correct: false }], highlightTerm: "integrated Atlanta's police department" },
                         { question: "Why is William B. Hartsfield known as the 'father of aviation' in Georgia?", reference: "AKS 40.b: Atlanta Leaders", answers: [{ text: "He invented the airplane", correct: false }, { text: "He brought Delta Airlines to Atlanta and built up the international airport", correct: true }, { text: "He was a pilot in WWII", correct: false }], highlightTerm: "Delta Airlines" },
                         { question: "Which Atlanta mayor integrated City Hall and the Fire Department on his very first day in office?", reference: "AKS 40.b: Atlanta Leaders", answers: [{ text: "William B. Hartsfield", correct: false }, { text: "Ivan Allen, Jr.", correct: true }, { text: "Ellis Arnall", correct: false }], highlightTerm: "integrated Atlanta City Hall" },
                         { question: "Which of the following professional sports franchises did Ivan Allen, Jr. bring to Atlanta?", reference: "AKS 40.b: Atlanta Leaders", answers: [{ text: "Braves, Falcons, and Hawks", correct: true }, { text: "Braves, United, and Dream", correct: false }, { text: "Falcons, Thrashers, and Swarm", correct: false }], highlightTerm: "Braves" },
                         { question: "What was the goal of the 'Forward Atlanta' program created by Mayor Ivan Allen, Jr.?", reference: "AKS 40.b: Atlanta Leaders", answers: [{ text: "To build a new capital building", correct: false }, { text: "To develop infrastructure and transportation improvements like I-285 and MARTA", correct: true }, { text: "To expand farming in the city", correct: false }], highlightTerm: "MARTA" },
-
-                        // AKS 40.c & 40.d: White Primary & Governor's Race
                         { question: "What was the original purpose of a primary election?", reference: "AKS 40.c: White Primary", answers: [{ text: "To elect the President", correct: false }, { text: "To narrow down to one candidate per political party", correct: true }, { text: "To decide on local taxes", correct: false }], highlightTerm: "narrow down to one candidate" },
                         { question: "How did the 'white primary' system exclude African Americans from the political process?", reference: "AKS 40.c: White Primary", answers: [{ text: "They couldn't vote in general elections", correct: false }, { text: "They couldn't vote in the primary where decisions were actually made", correct: true }, { text: "They were charged a poll tax", correct: false }], highlightTerm: "couldn't vote in the primary" },
                         { question: "Why did the white primary system finally end in Georgia?", reference: "AKS 40.c: White Primary", answers: [{ text: "The state voted to end it", correct: false }, { text: "It was declared unconstitutional by the Federal government", correct: true }, { text: "No one voted in it", correct: false }], highlightTerm: "declared unconstitutional" },
@@ -861,8 +867,6 @@
                         { question: "In the 1946 Governor's Race, who was the exiting governor who set up an office in the information booth?", reference: "AKS 40.d: 1946 Governor's Race", answers: [{ text: "Eugene Talmadge", correct: false }, { text: "Ellis Arnall", correct: true }, { text: "Melvin Thompson", correct: false }], highlightTerm: "Ellis Arnall" },
                         { question: "In the 1946 Governor's Race, who was the newly-elected Lt. Governor who ruled as Governor until a special election could be held?", reference: "AKS 40.d: 1946 Governor's Race", answers: [{ text: "Herman Talmadge", correct: false }, { text: "Melvin Thompson", correct: true }, { text: "Ellis Arnall", correct: false }], highlightTerm: "Melvin Thompson" },
                         { question: "In the 1946 Governor's Race, who came in second in votes but eventually won the special election 2 years later?", reference: "AKS 40.d: 1946 Governor's Race", answers: [{ text: "Melvin Thompson", correct: false }, { text: "Herman Talmadge", correct: true }, { text: "Eugene Talmadge", correct: false }], highlightTerm: "Herman Talmadge" },
-
-                        // AKS 41.a: Brown v. Board, 1956 Flag, Sibley Commission
                         { question: "What was the landmark ruling of the Supreme Court case Brown v. Board of Education (1954)?", reference: "AKS 41.a: Brown v. Board", answers: [{ text: "Segregation is legal if equal", correct: false }, { text: "State laws establishing racial segregation in public schools are unconstitutional", correct: true }, { text: "Schools must be private", correct: false }], highlightTerm: "unconstitutional" },
                         { question: "Which famous Supreme Court case was overturned by Brown v. Board of Education?", reference: "AKS 41.a: Brown v. Board", answers: [{ text: "Dred Scott v. Sandford", correct: false }, { text: "Plessy v. Ferguson (separate but equal)", correct: true }, { text: "Worcester v. Georgia", correct: false }], highlightTerm: "Plessy v. Ferguson" },
                         { question: "What was the purpose of the Sibley Commission?", reference: "AKS 41.a: Sibley Commission", answers: [{ text: "To fund new schools", correct: false }, { text: "To research issues involving integrating Georgia's public schools", correct: true }, { text: "To build a new state flag", correct: false }], highlightTerm: "research issues involving integrating" },
@@ -870,8 +874,6 @@
                         { question: "What did the Sibley Commission ultimately recommend regarding school integration?", reference: "AKS 41.a: Sibley Commission", answers: [{ text: "Close all public schools", correct: false }, { text: "Desegregate on a limited basis, letting local school districts decide", correct: true }, { text: "Immediate statewide integration", correct: false }], highlightTerm: "local school districts should be allowed to decide" },
                         { question: "Why did the Georgia General Assembly approve a change to the state flag in 1956?", reference: "AKS 41.a: 1956 State Flag", answers: [{ text: "To celebrate the Olympics", correct: false }, { text: "To show resistance to federal government integration laws like Brown v. Board", correct: true }, { text: "To honor WWII veterans", correct: false }], highlightTerm: "show their resistance to federal government integration" },
                         { question: "Why was the 1956 Georgia state flag so controversial?", reference: "AKS 41.a: 1956 State Flag", answers: [{ text: "It was too expensive to make", correct: false }, { text: "It contained the Confederate battle flag, a symbol of racism and white supremacy", correct: true }, { text: "It removed the state seal", correct: false }], highlightTerm: "Confederate battle flag" },
-
-                        // AKS 41.b: MLK Jr., John Lewis, SNCC, SCLC, Albany Movement, March on Washington
                         { question: "Who was the most prominent American Civil Rights leader, an Atlanta native, and winner of the Nobel Peace Prize?", reference: "AKS 41.b: MLK Jr.", answers: [{ text: "John Lewis", correct: false }, { text: "Martin Luther King, Jr.", correct: true }, { text: "Booker T. Washington", correct: false }], highlightTerm: "Martin Luther King, Jr." },
                         { question: "What was Dr. Martin Luther King, Jr.'s primary strategy to bring about social change?", reference: "AKS 41.b: MLK Jr.", answers: [{ text: "Violent revolution", correct: false }, { text: "Non-violent social change", correct: true }, { text: "Political lobbying only", correct: false }], highlightTerm: "non-violent" },
                         { question: "What civil rights organization did Dr. MLK, Jr. form to coordinate anti-discrimination marches across the South?", reference: "AKS 41.b: SCLC", answers: [{ text: "SNCC", correct: false }, { text: "Southern Christian Leadership Conference (SCLC)", correct: true }, { text: "NAACP", correct: false }], highlightTerm: "SCLC" },
@@ -887,8 +889,6 @@
                         { question: "What major protest event helped push Congress to establish the Civil Rights Act of 1964?", reference: "AKS 41.b: March on Washington", answers: [{ text: "The Albany Movement", correct: false }, { text: "March on Washington for Jobs and Freedom", correct: true }, { text: "The Three Governors Controversy", correct: false }], highlightTerm: "March on Washington" },
                         { question: "What famous speech did Dr. Martin Luther King, Jr. deliver at the March on Washington?", reference: "AKS 41.b: March on Washington", answers: [{ text: "The Atlanta Compromise", correct: false }, { text: "The 'I Have a Dream' speech", correct: true }, { text: "The Gettysburg Address", correct: false }], highlightTerm: "I Have a Dream" },
                         { question: "Which civil rights leader was a major organizer of the March on Washington and later served as a US Representative for 33 years?", reference: "AKS 41.b: John Lewis", answers: [{ text: "Alonzo Herndon", correct: false }, { text: "John Lewis", correct: true }, { text: "Ellis Arnall", correct: false }], highlightTerm: "John Lewis" },
-
-                        // AKS 41.c: Civil Rights Act Resistance & Lester Maddox
                         { question: "Who was Lester Maddox?", reference: "AKS 41.c: Lester Maddox", answers: [{ text: "The first African American governor of GA", correct: false }, { text: "The last segregationist governor in Georgia", correct: true }, { text: "The mayor of Atlanta", correct: false }], highlightTerm: "last segregationist governor" },
                         { question: "What specific federal law and concepts did Lester Maddox strongly oppose?", reference: "AKS 41.c: Lester Maddox", answers: [{ text: "The New Deal", correct: false }, { text: "The Civil Rights Act of 1964 and the integration of schools and restaurants", correct: true }, { text: "The 14th Amendment", correct: false }], highlightTerm: "integration of schools, restaurants" },
                         { question: "As Governor, what act by Lester Maddox surprised people the most, given his segregationist background?", reference: "AKS 41.c: Lester Maddox", answers: [{ text: "He supported MLK, Jr.", correct: false }, { text: "He appointed more African Americans to state-level positions than all prior governors combined", correct: true }, { text: "He changed the state flag", correct: false }], highlightTerm: "appointed more African Americans" },
@@ -929,6 +929,71 @@
                                 <p class="text-gray-700"><strong>Lester Maddox:</strong> The <strong>last segregationist governor</strong> in GA. Opposed the Civil Rights Act and <strong>integration of schools, restaurants</strong>. Surprisingly, he <strong>appointed more African Americans</strong> to state positions than prior governors. Later became <strong>Lieutenant Governor</strong>.</p>
                             </div>
                         </div>`
+                },
+                unit12: {
+                    title: "Unit 12: Modern Georgia",
+                    questions: [
+                        // AKS 42.a: Maynard Jackson & Andrew Young
+                        { question: "Who was the first African American mayor of Atlanta, paving the way for future minority leaders in major southern cities?", reference: "AKS 42.a: Maynard Jackson", answers: [{ text: "Andrew Young", correct: false }, { text: "Maynard Jackson", correct: true }, { text: "John Lewis", correct: false }], highlightTerm: "first African American mayor of Atlanta" },
+                        { question: "What major transportation hub did Mayor Maynard Jackson significantly expand during his time in office?", reference: "AKS 42.a: Maynard Jackson", answers: [{ text: "The MARTA rail lines", correct: false }, { text: "Hartsfield International Airport", correct: true }, { text: "The Port of Savannah", correct: false }], highlightTerm: "expanded Hartsfield International Airport" },
+                        { question: "How was Maynard Jackson permanently honored for his contributions to the city's transportation infrastructure?", reference: "AKS 42.a: Maynard Jackson", answers: [{ text: "A highway was named after him", correct: false }, { text: "Atlanta's airport was renamed Hartsfield-Jackson International Airport", correct: true }, { text: "A new sports stadium was built in his name", correct: false }], highlightTerm: "renamed Hartsfield-Jackson" },
+                        { question: "Which civil rights leader and close associate of MLK Jr. went on to serve as Mayor of Atlanta?", reference: "AKS 42.a: Andrew Young", answers: [{ text: "Alonzo Herndon", correct: false }, { text: "Andrew Young", correct: true }, { text: "Maynard Jackson", correct: false }], highlightTerm: "Andrew Young" },
+                        { question: "Andrew Young holds the historical distinction of being Georgia's first Black ______ since Reconstruction.", reference: "AKS 42.a: Andrew Young", answers: [{ text: "Governor", correct: false }, { text: "US Congressman", correct: true }, { text: "Senator", correct: false }], highlightTerm: "US Congressman since Reconstruction" },
+                        { question: "What prestigious international position did President Jimmy Carter appoint Andrew Young to?", reference: "AKS 42.a: Andrew Young", answers: [{ text: "Secretary of State", correct: false }, { text: "Ambassador to the United Nations", correct: true }, { text: "Vice President", correct: false }], highlightTerm: "ambassador to the United Nations" },
+                        { question: "Which Atlanta mayor was highly instrumental in bringing the 1996 Olympic Games to the city?", reference: "AKS 42.a: Andrew Young", answers: [{ text: "Ivan Allen, Jr.", correct: false }, { text: "Andrew Young", correct: true }, { text: "William B. Hartsfield", correct: false }], highlightTerm: "getting the 1996 Olympics brought to Atlanta" },
+                        { question: "Which two Atlanta mayors are highly credited for continuing the rapid development of the city in the late 20th century?", reference: "AKS 42.a: Atlanta Mayors", answers: [{ text: "Eugene Talmadge & Ellis Arnall", correct: false }, { text: "Maynard Jackson & Andrew Young", correct: true }, { text: "Carl Vinson & Richard Russell", correct: false }], highlightTerm: "Maynard Jackson and Andrew Young" },
+
+                        // AKS 42.b: Jimmy Carter
+                        { question: "Before getting involved in state and national politics, what was Jimmy Carter's primary occupation in Plains, Georgia?", reference: "AKS 42.b: Jimmy Carter", answers: [{ text: "Textile mill owner", correct: false }, { text: "Peanut farmer", correct: true }, { text: "Lawyer", correct: false }], highlightTerm: "peanut farmer from Plains" },
+                        { question: "In addition to his political career and farming, Jimmy Carter also served in which conflict?", reference: "AKS 42.b: Jimmy Carter", answers: [{ text: "WWI", correct: false }, { text: "WWII", correct: true }, { text: "Vietnam War", correct: false }], highlightTerm: "served in WW II" },
+                        { question: "Jimmy Carter holds what unique political distinction in the state's history?", reference: "AKS 42.b: Jimmy Carter", answers: [{ text: "He was the longest-serving governor", correct: false }, { text: "He is the only Georgian to become President of the U.S.", correct: true }, { text: "He was the first Republican governor", correct: false }], highlightTerm: "Only Georgian to become President" },
+                        { question: "As Governor of Georgia, what did Jimmy Carter actively do regarding state government and civil rights?", reference: "AKS 42.b: Jimmy Carter", answers: [{ text: "Fought against integration laws", correct: false }, { text: "Encouraged integration and appointed larger numbers of women and minorities to government positions", correct: true }, { text: "Increased the size and spending of the state government", correct: false }], highlightTerm: "encouraged school integration" },
+                        { question: "Jimmy Carter's time as Governor was notable for what social change within the state?", reference: "AKS 42.b: Jimmy Carter", answers: [{ text: "Creating the white primary", correct: false }, { text: "Putting larger numbers of women/minority groups in government positions", correct: true }, { text: "Resisting Brown v. Board of Education", correct: false }], highlightTerm: "women/minority groups in government" },
+                        { question: "What is widely considered one of Jimmy Carter's greatest accomplishments as President regarding the Middle East?", reference: "AKS 42.b: Jimmy Carter", answers: [{ text: "The Lend-Lease Act", correct: false }, { text: "The Camp David Peace Accord", correct: true }, { text: "The Forward Atlanta program", correct: false }], highlightTerm: "Camp David Peace Accord" },
+                        { question: "Which two countries signed a historic peace agreement at the Camp David Accords brokered by Jimmy Carter?", reference: "AKS 42.b: Jimmy Carter", answers: [{ text: "Iran and Iraq", correct: false }, { text: "Egypt and Israel", correct: true }, { text: "Britain and Germany", correct: false }], highlightTerm: "Egypt and Israel" },
+                        { question: "What major foreign policy crisis contributed heavily to Jimmy Carter losing the 1980 presidential election?", reference: "AKS 42.b: Jimmy Carter", answers: [{ text: "The Cuban Missile Crisis", correct: false }, { text: "The Iranian Hostage Crisis", correct: true }, { text: "The bombing of Pearl Harbor", correct: false }], highlightTerm: "Iranian Hostage Crisis" },
+                        { question: "Which domestic issue was considered a major disappointment during Jimmy Carter's presidency?", reference: "AKS 42.b: Jimmy Carter", answers: [{ text: "He didn't build enough military bases", correct: false }, { text: "He did not do enough to help the crippled American economy", correct: true }, { text: "He failed to integrate the military", correct: false }], highlightTerm: "crippled American economy" },
+
+                        // AKS 42.c: 1996 Olympics
+                        { question: "What major international sporting event gave Atlanta immense global exposure and spurred major urban revitalization?", reference: "AKS 42.c: 1996 Olympics", answers: [{ text: "The International Cotton Exposition", correct: false }, { text: "The 1996 Centennial Olympic Games", correct: true }, { text: "The World Cup", correct: false }], highlightTerm: "1996 Centennial Olympic Games" },
+                        { question: "How did the 1996 Olympics primarily impact Georgia's population and business growth?", reference: "AKS 42.c: 1996 Olympics", answers: [{ text: "It caused residents to move away due to traffic", correct: false }, { text: "Many businesses relocated to GA to take advantage of the international city", correct: true }, { text: "It only brought temporary tourists, with no permanent business growth", correct: false }], highlightTerm: "business relocated to Georgia" },
+                        { question: "How did the state financially benefit from the tax revenue generated by the 1996 Olympics?", reference: "AKS 42.c: 1996 Olympics", answers: [{ text: "Taxes were lowered to zero", correct: false }, { text: "Increased revenue was spent on providing new services and programs", correct: true }, { text: "The money was all given back to the Olympic committee", correct: false }], highlightTerm: "providing services and programs" },
+                        { question: "What was a significant infrastructure improvement resulting from the 1996 Olympics?", reference: "AKS 42.c: 1996 Olympics", answers: [{ text: "The tearing down of the airport", correct: false }, { text: "Downtown Atlanta was revamped with Centennial Park, new sidewalks, and expanded sports venues", correct: true }, { text: "The creation of the interstate highway system", correct: false }], highlightTerm: "downtown Atlanta was revamped" },
+                        { question: "What was a long-term economic impact of the 1996 Olympics on Atlanta?", reference: "AKS 42.c: 1996 Olympics", answers: [{ text: "It Bankrupted the state", correct: false }, { text: "It established Atlanta's reputation as an excellent place for tourism, commerce, and sports", correct: true }, { text: "It forced the city to rely only on agriculture again", correct: false }], highlightTerm: "reputation as an excellent place for tourism" },
+
+                        // AKS 42.d: Immigrant Communities
+                        { question: "How do new immigrant communities primarily contribute to the growth of Georgia's economy?", reference: "AKS 42.d: Immigrant Communities", answers: [{ text: "They only work in the film industry", correct: false }, { text: "They provide low-cost labor helping businesses grow and providing cheaper goods/services", correct: true }, { text: "They exclusively start large international corporations", correct: false }], highlightTerm: "low-cost labor helping business grow" },
+                        { question: "Why are immigrant communities vital to consumers in Georgia?", reference: "AKS 42.d: Immigrant Communities", answers: [{ text: "They pay all the state taxes", correct: false }, { text: "They help provide cheaper goods and services", correct: true }, { text: "They run the airport", correct: false }], highlightTerm: "providing cheaper goods and services" },
+
+                        // AKS 42.e: 21st Century Economy (Tourism, Savannah Port, Film)
+                        { question: "What combination of factors contributes heavily to Georgia's booming $3 billion tourism industry?", reference: "AKS 42.e: Tourism", answers: [{ text: "Snowy mountains and small towns", correct: false }, { text: "Moderate climate, the international airport, and geographic diversity", correct: true }, { text: "Only the film industry", correct: false }], highlightTerm: "moderate climate, international airport, and geographic diversity" },
+                        { question: "What was the primary purpose of the Savannah Harbor Expansion Project?", reference: "AKS 42.e: Savannah Port", answers: [{ text: "To build a new naval base", correct: false }, { text: "To allow larger shipping vessels to enter the port", correct: true }, { text: "To create a giant swimming pool for tourists", correct: false }], highlightTerm: "allow for larger vessels to enter" },
+                        { question: "What were the economic results of the Savannah Port Expansion?", reference: "AKS 42.e: Savannah Port", answers: [{ text: "It cost the state billions with no return", correct: false }, { text: "It generated over $67 billion in revenue and provided many job opportunities", correct: true }, { text: "It forced the port to close down", correct: false }], highlightTerm: "generated over $67 billion in revenue" },
+                        { question: "Georgia currently has the largest industry of this type in the United States, providing many well-paying jobs and economic development.", reference: "AKS 42.e: Film Industry", answers: [{ text: "Coal Mining", correct: false }, { text: "The Film Industry", correct: true }, { text: "Automobile Manufacturing", correct: false }], highlightTerm: "largest film industry in the U.S." },
+                        { question: "What existing infrastructure is cited as a major support allowing Georgia's booming film industry to thrive?", reference: "AKS 42.e: Film Industry", answers: [{ text: "The Savannah Port", correct: false }, { text: "Atlanta Hartsfield-Jackson International Airport", correct: true }, { text: "The MARTA train system", correct: false }], highlightTerm: "Hartsfield-Jackson International Airport" }
+                    ],
+                    studyGuideHTML: `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-blue-100 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-blue-800 text-lg">AKS 42.a & b: Modern Leaders</h3>
+                                <p class="text-gray-700"><strong>Maynard Jackson:</strong> First African American mayor of a major southern city. He <strong>expanded Hartsfield International Airport</strong> (later <strong>renamed Hartsfield-Jackson</strong> in his honor).</p>
+                                <p class="text-gray-700"><strong>Andrew Young:</strong> GA's first Black <strong>US Congressman since Reconstruction</strong>. Appointed <strong>ambassador to the United Nations</strong> by Carter. Mayor instrumental in <strong>getting the 1996 Olympics brought to Atlanta</strong>.</p>
+                                <p class="text-gray-700"><strong>Jimmy Carter:</strong> Former <strong>peanut farmer from Plains</strong>. The <strong>Only Georgian to become President</strong>. As Governor, he <strong>encouraged school integration</strong> and put <strong>women/minority groups in government</strong>. As President, his biggest success was the <strong>Camp David Peace Accord</strong> (peace between <strong>Egypt and Israel</strong>). His biggest failures were the <strong>crippled American economy</strong> and the <strong>Iranian Hostage Crisis</strong>.</p>
+                            </div>
+                            <div class="bg-green-100 p-4 rounded-lg space-y-3 text-sm">
+                                <h3 class="font-bold text-green-800 text-lg">AKS 42.c & d: Growth & Demographics</h3>
+                                <p class="text-gray-700"><strong>1996 Centennial Olympic Games:</strong> Brought massive global exposure. <strong>Downtown Atlanta was revamped</strong> (Centennial Park). It established Atlanta's <strong>reputation as an excellent place for tourism</strong> and sports. Tax revenue was used for <strong>providing services and programs</strong>. Long-term, many <strong>business relocated to Georgia</strong>.</p>
+                                <p class="text-gray-700"><strong>Immigrant Communities:</strong> Provide <strong>low-cost labor helping business grow</strong> and <strong>providing cheaper goods and services</strong> for consumers.</p>
+                            </div>
+                            <div class="bg-yellow-100 p-4 rounded-lg space-y-3 text-sm md:col-span-2">
+                                <h3 class="font-bold text-yellow-800 text-lg">AKS 42.e: 21st Century Economy</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-gray-700">
+                                    <div><strong class="font-semibold text-yellow-700">Tourism:</strong> Georgia's <strong>moderate climate, international airport, and geographic diversity</strong> make it a top tourist destination, bringing in billions.</div>
+                                    <div><strong class="font-semibold text-yellow-700">Savannah Port Expansion:</strong> Expanded to <strong>allow for larger vessels to enter</strong>. It <strong>generated over $67 billion in revenue</strong> and created jobs.</div>
+                                    <div><strong class="font-semibold text-yellow-700">Film Industry:</strong> GA now has the <strong>largest film industry in the U.S.</strong>, supported heavily by the <strong>Hartsfield-Jackson International Airport</strong> infrastructure.</div>
+                                </div>
+                            </div>
+                        </div>`
                 }
             };
             
@@ -961,9 +1026,7 @@
             const correctSound = document.getElementById('correct-sound');
             const incorrectSound = document.getElementById('incorrect-sound');
             const unitSelectionContainer = document.getElementById('unit-selection');
-            const finalExamBtn = document.getElementById('final-exam-btn');
             const resumeExamBtn = document.getElementById('resume-exam-btn');
-            const finalExamHighScore = document.getElementById('final-exam-high-score');
             const floatingTitle = document.getElementById('floating-title');
             const unitTitleText = document.getElementById('unit-title-text');
             const studyGuideModal = document.getElementById('study-guide-modal');
@@ -998,7 +1061,7 @@
             
             function saveExamProgress() {
                 const state = {
-                    currentUnitId: 'final_exam',
+                    currentUnitId: currentUnitId,
                     questions: shuffledQuestions,
                     index: currentQuestionIndex,
                     score: score,
@@ -1023,9 +1086,11 @@
                 
                 // Check for saved exam state
                 const savedState = loadExamProgress();
-                if (savedState) {
+                if (savedState && (savedState.currentUnitId === 'semester_1' || savedState.currentUnitId === 'semester_2')) {
                     resumeExamBtn.classList.remove('hidden');
-                    resumeExamBtn.innerHTML = `Resume Final Exam (Question ${savedState.index + 1})`;
+                    let examName = savedState.currentUnitId === 'semester_1' ? "1st Semester" : "2nd Semester";
+                    resumeExamBtn.innerHTML = `Resume ${examName} Exam (Question ${savedState.index + 1})`;
+                    resumeExamBtn.onclick = () => startGame(savedState.currentUnitId, true);
                 } else {
                     resumeExamBtn.classList.add('hidden');
                 }
@@ -1067,10 +1132,17 @@
 
                     unitSelectionContainer.appendChild(unitContainer);
                 }
-                const finalExamScore = getCookie('highScore_final_exam');
-                if (finalExamScore) {
-                    finalExamHighScore.classList.remove('hidden');
-                    finalExamHighScore.querySelector('span').textContent = `${finalExamScore}%`;
+
+                // Show Semester High Scores
+                const sem1Score = getCookie('highScore_semester_1');
+                if (sem1Score) {
+                    document.getElementById('sem-1-high-score').classList.remove('hidden');
+                    document.getElementById('sem-1-high-score').querySelector('span').textContent = `${sem1Score}%`;
+                }
+                const sem2Score = getCookie('highScore_semester_2');
+                if (sem2Score) {
+                    document.getElementById('sem-2-high-score').classList.remove('hidden');
+                    document.getElementById('sem-2-high-score').querySelector('span').textContent = `${sem2Score}%`;
                 }
             }
 
@@ -1111,10 +1183,22 @@
                         totalOriginalQuestions = savedState.total;
                         questionsAnsweredFirstTry = savedState.answeredFirstTry || 0;
                         questionsSinceBreak = 0;
-                        unitTitleText.textContent = "Final Exam (Resumed)";
                         
-                        // Populate study guide for all units in resume mode
-                        studyGuideHTML = Object.values(gameData).map(unit => `<div><h2 class="text-2xl font-bold mt-4">${unit.title}</h2>${unit.studyGuideHTML}</div>`).join('');
+                        let examName = savedState.currentUnitId === 'semester_1' ? "1st Semester" : "2nd Semester";
+                        unitTitleText.textContent = `${examName} Final Exam (Resumed)`;
+                        
+                        // Populate study guide for all target units in resume mode
+                        let targetUnits = savedState.currentUnitId === 'semester_1' ? 
+                            ['unit1', 'unit2', 'unit3', 'unit4', 'unit5', 'unit6'] : 
+                            ['unit7', 'unit8', 'unit9', 'unit10', 'unit11', 'unit12'];
+                        
+                        let studyGuideParts = [];
+                        targetUnits.forEach(key => {
+                            if (gameData[key]) {
+                                studyGuideParts.push(`<div><h2 class="text-2xl font-bold mt-4">${gameData[key].title}</h2>${gameData[key].studyGuideHTML}</div>`);
+                            }
+                        });
+                        studyGuideHTML = studyGuideParts.join('');
                         document.getElementById('study-guide-content').innerHTML = studyGuideHTML;
                         
                         scoreEl.innerText = score;
@@ -1123,20 +1207,30 @@
                      }
                 }
 
-                if (unitId === 'final_exam') {
+                if (unitId === 'semester_1' || unitId === 'semester_2') {
                     // Flatten questions and tag them with their Unit title
                     questions = [];
-                    Object.values(gameData).forEach(unit => {
-                        const unitLabel = unit.title.split(':')[0]; // e.g. "Unit 1"
-                        unit.questions.forEach(q => {
-                            questions.push({
-                                ...q,
-                                unitLabel: unitLabel
+                    let targetUnits = unitId === 'semester_1' ? 
+                        ['unit1', 'unit2', 'unit3', 'unit4', 'unit5', 'unit6'] : 
+                        ['unit7', 'unit8', 'unit9', 'unit10', 'unit11', 'unit12'];
+                    
+                    let studyGuideParts = [];
+
+                    targetUnits.forEach(key => {
+                        if (gameData[key]) {
+                            const unit = gameData[key];
+                            const unitLabel = unit.title.split(':')[0]; // e.g. "Unit 1"
+                            unit.questions.forEach(q => {
+                                questions.push({
+                                    ...q,
+                                    unitLabel: unitLabel
+                                });
                             });
-                        });
+                            studyGuideParts.push(`<div><h2 class="text-2xl font-bold mt-4">${unit.title}</h2>${unit.studyGuideHTML}</div>`);
+                        }
                     });
-                    studyGuideHTML = Object.values(gameData).map(unit => `<div><h2 class="text-2xl font-bold mt-4">${unit.title}</h2>${unit.studyGuideHTML}</div>`).join('');
-                    unitTitleText.textContent = "Final Exam (All Units)";
+                    studyGuideHTML = studyGuideParts.join('');
+                    unitTitleText.textContent = unitId === 'semester_1' ? "1st Semester Final Exam (Units 1-6)" : "2nd Semester Final Exam (Units 7-12)";
                     
                     // Clear any old progress when starting new
                     clearExamProgress();
@@ -1163,7 +1257,7 @@
                 resetState();
                 
                 // Final Exam Batch Check
-                if (currentUnitId === 'final_exam' && currentQuestionIndex > 0 && currentQuestionIndex % BATCH_SIZE === 0 && !advanceTimeout) {
+                if ((currentUnitId === 'semester_1' || currentUnitId === 'semester_2') && currentQuestionIndex > 0 && currentQuestionIndex % BATCH_SIZE === 0 && !advanceTimeout) {
                     showRoundSummary();
                     return;
                 }
@@ -1171,7 +1265,7 @@
                 if (currentQuestionIndex < shuffledQuestions.length) {
                     showQuestion(shuffledQuestions[currentQuestionIndex]);
                 } else {
-                    if (currentUnitId === 'final_exam') clearExamProgress();
+                    if (currentUnitId === 'semester_1' || currentUnitId === 'semester_2') clearExamProgress();
                     showEndScreen();
                 }
             }
@@ -1287,7 +1381,7 @@
                         currentQuestionIndex++;
                         
                         // Save Progress if in Final Exam Mode
-                        if (currentUnitId === 'final_exam') {
+                        if (currentUnitId === 'semester_1' || currentUnitId === 'semester_2') {
                             saveExamProgress();
                         }
 
@@ -1305,7 +1399,7 @@
                     nextBtn.classList.remove('hidden'); 
                     
                     // On incorrect, we don't advance index yet, but save score update
-                    if (currentUnitId === 'final_exam') {
+                    if (currentUnitId === 'semester_1' || currentUnitId === 'semester_2') {
                         saveExamProgress();
                     }
                 }
@@ -1342,7 +1436,7 @@
                 // But we need to increment for incorrect manually if they hit "Next"
                 nextBtn.onclick = () => {
                      currentQuestionIndex++;
-                     if (currentUnitId === 'final_exam') saveExamProgress();
+                     if (currentUnitId === 'semester_1' || currentUnitId === 'semester_2') saveExamProgress();
                      prepareNextStep();
                 };
             }
@@ -1375,7 +1469,7 @@
 
             // --- Brain Breaks & Batches ---
              function prepareNextStep() {
-                if (currentUnitId !== 'final_exam' && questionsSinceBreak > 0 && questionsSinceBreak % 6 === 0 && currentQuestionIndex < shuffledQuestions.length) {
+                if (currentUnitId !== 'semester_1' && currentUnitId !== 'semester_2' && questionsSinceBreak > 0 && questionsSinceBreak % 6 === 0 && currentQuestionIndex < shuffledQuestions.length) {
                     showArtBreak();
                 } else {
                     setNextQuestion();
@@ -1700,7 +1794,8 @@
             // --- Initialization ---
             function initialize() {
                 populateMainMenu();
-                finalExamBtn.addEventListener('click', () => startGame('final_exam'));
+                document.getElementById('semester-1-btn').addEventListener('click', () => startGame('semester_1'));
+                document.getElementById('semester-2-btn').addEventListener('click', () => startGame('semester_2'));
                 backToMenuBtn.addEventListener('click', showMainMenu);
                 backToMenuBtnQuiz.addEventListener('click', showMainMenu);
                 saveQuitBtn.addEventListener('click', showMainMenu);
