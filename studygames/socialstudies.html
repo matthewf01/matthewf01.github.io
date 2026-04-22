@@ -1274,9 +1274,13 @@
                 quizScreen.classList.add('hidden');
                 roundSummaryScreen.classList.remove('hidden');
                 
-                const percentage = Math.round((score / currentQuestionIndex) * 100) || 0;
+                lastSummaryIndex = currentQuestionIndex;
                 
-                document.getElementById('round-progress-text').innerText = `${currentQuestionIndex} / ${totalOriginalQuestions}`;
+                const percentage = Math.round((score / currentQuestionIndex) * 100) || 0;
+                let roundNum = Math.floor(currentQuestionIndex / BATCH_SIZE);
+                let questionsCompletedInRound = currentQuestionIndex % BATCH_SIZE === 0 ? BATCH_SIZE : currentQuestionIndex % BATCH_SIZE;
+                
+                document.getElementById('round-progress-text').innerText = `${questionsCompletedInRound} / ${questionsCompletedInRound} (Round ${roundNum})`;
                 document.getElementById('round-score-text').innerText = `${percentage}%`;
                 
                 // It's already saved by selectAnswer, but safe to save here too
@@ -1284,10 +1288,22 @@
             }
             
             function showQuestion(question) {
+                let displayQuestionNum = questionsAnsweredFirstTry + 1;
+                let displayTotal = totalOriginalQuestions;
+                let roundText = '';
+
+                if (currentUnitId === 'semester_1' || currentUnitId === 'semester_2') {
+                    displayQuestionNum = (questionsAnsweredFirstTry % BATCH_SIZE) + 1;
+                    let currentRoundStartIndex = questionsAnsweredFirstTry - (questionsAnsweredFirstTry % BATCH_SIZE);
+                    displayTotal = Math.min(BATCH_SIZE, totalOriginalQuestions - currentRoundStartIndex);
+                    let roundNum = Math.floor(questionsAnsweredFirstTry / BATCH_SIZE) + 1;
+                    roundText = ` <span class="font-bold text-indigo-500">| Round ${roundNum}</span>`;
+                }
+
                 if(question.isRetry){
-                    questionCounterDisplay.innerHTML = `Question <span id="question-number">${questionsAnsweredFirstTry + 1}</span> of <span id="total-questions">${totalOriginalQuestions}</span> (Repeat)`;
+                    questionCounterDisplay.innerHTML = `Question <span id="question-number">${displayQuestionNum}</span> of <span id="total-questions">${displayTotal}</span>${roundText} (Repeat)`;
                 } else {
-                    questionCounterDisplay.innerHTML = `Question <span id="question-number">${questionsAnsweredFirstTry + 1}</span> of <span id="total-questions">${totalOriginalQuestions}</span>`;
+                    questionCounterDisplay.innerHTML = `Question <span id="question-number">${displayQuestionNum}</span> of <span id="total-questions">${displayTotal}</span>${roundText}`;
                 }
 
                 // Add Unit Label if it exists (Final Exam mode)
